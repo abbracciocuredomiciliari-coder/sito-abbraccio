@@ -91,8 +91,8 @@ h1, h2, h3, h4 { font-family: 'Sora', sans-serif; color: var(--text-dark); }
     justify-content: space-between;
 }
 .nav-logo { display: flex; align-items: center; text-decoration: none; }
-.logo { height: 52px; width: auto; transition: var(--transition); }
-.header.scrolled .logo { height: 44px; }
+.logo { height: 80px; width: auto; transition: var(--transition); }
+.header.scrolled .logo { height: 64px; }
 
 .nav-menu { display: flex; list-style: none; gap: 2rem; }
 .nav-link {
