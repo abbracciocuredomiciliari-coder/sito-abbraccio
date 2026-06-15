@@ -1,333 +1,155 @@
-// DOM Elements
-const hamburger = document.querySelector('.hamburger');
-const navMenu = document.querySelector('.nav-menu');
+// ===== Mobile Navigation =====
+const hamburger = document.getElementById('hamburger');
+const navMenu = document.getElementById('navMenu');
 const navLinks = document.querySelectorAll('.nav-link');
-const overlay = document.createElement('div');
-overlay.className = 'overlay';
-document.body.appendChild(overlay);
 
-// Mobile Navigation
 hamburger.addEventListener('click', () => {
     hamburger.classList.toggle('active');
-    overlay.classList.toggle('active');
+    navMenu.classList.toggle('active');
+    document.body.style.overflow = navMenu.classList.contains('active') ? 'hidden' : '';
 });
 
-// Close mobile menu when clicking on a link
 navLinks.forEach(link => {
     link.addEventListener('click', () => {
         hamburger.classList.remove('active');
-        overlay.classList.remove('active');
+        navMenu.classList.remove('active');
+        document.body.style.overflow = '';
     });
 });
 
-// Close mobile menu when clicking on overlay
-overlay.addEventListener('click', () => {
-    hamburger.classList.remove('active');
-    overlay.classList.remove('active');
+// ===== Header scroll effect =====
+const header = document.getElementById('header');
+window.addEventListener('scroll', () => {
+    if (window.scrollY > 40) header.classList.add('scrolled');
+    else header.classList.remove('scrolled');
 });
 
-// Smooth scrolling for navigation links
+// ===== Smooth scroll for anchor links =====
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
-        e.preventDefault();
         const target = document.querySelector(this.getAttribute('href'));
         if (target) {
-            target.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
+            e.preventDefault();
+            const offset = 80;
+            const top = target.getBoundingClientRect().top + window.scrollY - offset;
+            window.scrollTo({ top, behavior: 'smooth' });
         }
     });
 });
 
-// Header scroll effect
-const header = document.querySelector('.header');
-let lastScroll = 0;
+// ===== Scroll reveal animations =====
+const revealEls = document.querySelectorAll('.service-card, .exam-card, .figure-card, .trust-item, .contact-item, .benefit-item, .section-header');
+revealEls.forEach(el => el.classList.add('reveal'));
 
-window.addEventListener('scroll', () => {
-    const currentScroll = window.pageYOffset;
-    
-    if (currentScroll <= 0) {
-        header.classList.remove('scroll-up');
-        return;
-    }
-    
-    if (currentScroll > lastScroll && !header.classList.contains('scroll-down')) {
-        header.classList.remove('scroll-up');
-        header.classList.add('scroll-down');
-    } else if (currentScroll < lastScroll && header.classList.contains('scroll-down')) {
-        header.classList.remove('scroll-down');
-        header.classList.add('scroll-up');
-    }
-    lastScroll = currentScroll;
-});
+const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+            setTimeout(() => entry.target.classList.add('visible'), (i % 4) * 80);
+            revealObserver.unobserve(entry.target);
+        }
+    });
+}, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
 
-// Form submission
+revealEls.forEach(el => revealObserver.observe(el));
+
+// ===== Animated counters =====
+function animateCounter(el, target, duration = 1800) {
+    let start = 0;
+    const stepTime = 16;
+    const increment = target / (duration / stepTime);
+    function update() {
+        start += increment;
+        if (start < target) {
+            el.textContent = Math.floor(start);
+            requestAnimationFrame(update);
+        } else {
+            el.textContent = target;
+        }
+    }
+    update();
+}
+
+const counters = document.querySelectorAll('.stat-number');
+const counterObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            const target = parseInt(entry.target.dataset.target, 10);
+            animateCounter(entry.target, target);
+            counterObserver.unobserve(entry.target);
+        }
+    });
+}, { threshold: 0.5 });
+
+counters.forEach(c => counterObserver.observe(c));
+
+// ===== Form submission =====
 const form = document.querySelector('.form');
 if (form) {
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
-        
         const submitBtn = form.querySelector('button[type="submit"]');
-        const originalText = submitBtn.innerHTML;
-        
-        // Show loading state
+        const originalHTML = submitBtn.innerHTML;
         submitBtn.innerHTML = '<span class="loading"></span> Invio in corso...';
         submitBtn.disabled = true;
-        
-        // Get form data
-        const formData = new FormData(form);
-        const data = Object.fromEntries(formData);
-        
+
         try {
-            // Simulate form submission (replace with actual endpoint)
-            await new Promise(resolve => setTimeout(resolve, 2000));
-            
-            // Show success message
+            await new Promise(resolve => setTimeout(resolve, 1500));
             showMessage('Richiesta inviata con successo! Ti contatteremo presto.', 'success');
             form.reset();
-            
-        } catch (error) {
-            // Show error message
+        } catch (err) {
             showMessage('Errore durante l\'invio. Riprova più tardi.', 'error');
         } finally {
-            // Reset button state
-            submitBtn.innerHTML = originalText;
+            submitBtn.innerHTML = originalHTML;
             submitBtn.disabled = false;
         }
     });
 }
 
-// Show message function
 function showMessage(message, type) {
-    const messageDiv = document.createElement('div');
-    messageDiv.className = `${type}-message`;
-    messageDiv.textContent = message;
-    
-    form.parentNode.insertBefore(messageDiv, form);
-    
-    setTimeout(() => {
-        messageDiv.remove();
-    }, 5000);
+    const existing = form.parentNode.querySelector('.success-message, .error-message');
+    if (existing) existing.remove();
+    const div = document.createElement('div');
+    div.className = `${type}-message`;
+    div.textContent = message;
+    form.parentNode.insertBefore(div, form);
+    setTimeout(() => div.remove(), 5000);
 }
 
-// Intersection Observer for animations
-const observerOptions = {
-    threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px'
-};
-
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.style.animation = 'fadeInUp 0.6s ease forwards';
-            observer.unobserve(entry.target);
-        }
-    });
-}, observerOptions);
-
-// Observe elements for animation
-document.querySelectorAll('.service-card, .trust-item, .value-item, .benefit-item').forEach(el => {
-    observer.observe(el);
-});
-
-// Counter animation for statistics
-function animateCounter(element, target, duration = 2000) {
-    let start = 0;
-    const increment = target / (duration / 16);
-    
-    function updateCounter() {
-        start += increment;
-        if (start < target) {
-            element.textContent = Math.floor(start);
-            requestAnimationFrame(updateCounter);
-        } else {
-            element.textContent = target;
-        }
-    }
-    
-    updateCounter();
-}
-
-// Initialize counters when in viewport
-const counters = document.querySelectorAll('.counter');
-const counterObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            const target = parseInt(entry.target.getAttribute('data-target'));
-            animateCounter(entry.target, target);
-            counterObserver.unobserve(entry.target);
-        }
-    });
-}, observerOptions);
-
-counters.forEach(counter => {
-    counterObserver.observe(counter);
-});
-
-// Lazy loading for images
-const images = document.querySelectorAll('img[data-src]');
-const imageObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            const img = entry.target;
-            img.src = img.dataset.src;
-            img.classList.remove('lazy');
-            imageObserver.unobserve(img);
-        }
-    });
-});
-
-images.forEach(img => imageObserver.observe(img));
-
-// Add hover effects to service cards
-document.querySelectorAll('.service-card').forEach(card => {
-    card.addEventListener('mouseenter', () => {
-        card.style.transform = 'translateY(-8px) scale(1.02)';
-    });
-    
-    card.addEventListener('mouseleave', () => {
-        card.style.transform = 'translateY(0) scale(1)';
-    });
-});
-
-// Phone number formatting
+// ===== Phone formatting =====
 const phoneInput = document.getElementById('phone');
 if (phoneInput) {
     phoneInput.addEventListener('input', (e) => {
-        let value = e.target.value.replace(/\D/g, '');
-        if (value.length > 0) {
-            if (value.length <= 3) {
-                value = value;
-            } else if (value.length <= 6) {
-                value = `${value.slice(0, 3)} ${value.slice(3)}`;
-            } else {
-                value = `${value.slice(0, 3)} ${value.slice(3, 6)} ${value.slice(6, 10)}`;
-            }
-        }
-        e.target.value = value;
+        let v = e.target.value.replace(/\D/g, '');
+        if (v.length > 3 && v.length <= 6) v = `${v.slice(0,3)} ${v.slice(3)}`;
+        else if (v.length > 6) v = `${v.slice(0,3)} ${v.slice(3,6)} ${v.slice(6,10)}`;
+        e.target.value = v;
     });
 }
 
-// Email validation
-function validateEmail(email) {
-    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return re.test(email);
-}
-
-const emailInput = document.getElementById('email');
-if (emailInput) {
-    emailInput.addEventListener('blur', (e) => {
-        if (e.target.value && !validateEmail(e.target.value)) {
-            e.target.setCustomValidity('Inserisci un\'email valida');
-        } else {
-            e.target.setCustomValidity('');
-        }
+// ===== Select label color =====
+const serviceSelect = document.getElementById('service');
+if (serviceSelect) {
+    serviceSelect.addEventListener('change', () => {
+        serviceSelect.style.color = serviceSelect.value ? 'var(--text-dark)' : 'var(--text-light)';
     });
 }
 
-// Add current year to footer
-const currentYear = new Date().getFullYear();
+// ===== Current year in footer =====
+const year = new Date().getFullYear();
 document.querySelectorAll('.footer-bottom p').forEach(p => {
-    if (p.textContent.includes('2024')) {
-        p.textContent = p.textContent.replace('2024', currentYear);
-    }
+    p.textContent = p.textContent.replace('2024', year);
 });
 
-// Print button functionality
-function addPrintButton() {
-    const printBtn = document.createElement('button');
-    printBtn.innerHTML = '<i class="fas fa-print"></i> Stampa';
-    printBtn.className = 'btn btn-secondary';
-    printBtn.style.position = 'fixed';
-    printBtn.style.bottom = '20px';
-    printBtn.style.right = '20px';
-    printBtn.style.zIndex = '1000';
-    printBtn.onclick = () => window.print();
-    document.body.appendChild(printBtn);
-}
-
-// Add print button for desktop users
-if (window.innerWidth > 768) {
-    addPrintButton();
-}
-
-// Accessibility improvements
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'Tab') {
-        document.body.classList.add('keyboard-navigation');
-    }
-});
-
-document.addEventListener('mousedown', () => {
-    document.body.classList.remove('keyboard-navigation');
-});
-
-// Focus management for mobile menu
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && hamburger.classList.contains('active')) {
-        hamburger.classList.remove('active');
-        overlay.classList.remove('active');
-    }
-});
-
-// Performance optimization - Debounce scroll events
-function debounce(func, wait) {
-    let timeout;
-    return function executedFunction(...args) {
-        const later = () => {
-            clearTimeout(timeout);
-            func(...args);
-        };
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-    };
-}
-
-const debouncedScroll = debounce(() => {
-    // Scroll-based animations can go here
-}, 100);
-
-window.addEventListener('scroll', debouncedScroll);
-
-// Service worker registration for PWA (optional)
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js')
-            .then(registration => {
-                console.log('SW registered: ', registration);
-            })
-            .catch(registrationError => {
-                console.log('SW registration failed: ', registrationError);
-            });
+// ===== Hero parallax on mouse move (desktop) =====
+const heroVisual = document.querySelector('.hero-visual');
+if (heroVisual && window.innerWidth > 992) {
+    document.querySelector('.hero').addEventListener('mousemove', (e) => {
+        const { innerWidth, innerHeight } = window;
+        const x = (e.clientX - innerWidth / 2) / 50;
+        const y = (e.clientY - innerHeight / 2) / 50;
+        heroVisual.style.transform = `translate(${x}px, ${y}px)`;
     });
 }
 
-// Analytics placeholder (replace with actual analytics code)
-function trackEvent(eventName, properties) {
-    console.log('Event tracked:', eventName, properties);
-    // Replace with actual analytics implementation
-}
-
-// Track button clicks
-document.querySelectorAll('.btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-        trackEvent('button_click', {
-            button_text: btn.textContent.trim(),
-            button_type: btn.classList.contains('btn-primary') ? 'primary' : 'secondary'
-        });
-    });
-});
-
-// Track form interactions
-if (form) {
-    form.addEventListener('focus', (e) => {
-        trackEvent('form_focus', {
-            field_name: e.target.name || e.target.id
-        });
-    }, true);
-}
-
-// Console welcome message
-console.log('%c🏥 Abbraccio Cure Domiciliari', 'color: #1e4d8c; font-size: 20px; font-weight: bold;');
-console.log('%cCure professionali a domicilio', 'color: #10b981; font-size: 14px;');
+console.log('%c🏥 Abbraccio Cure Domiciliari', 'color:#2563eb;font-size:20px;font-weight:bold;');
+console.log('%cAssistenza e diagnostica a domicilio', 'color:#06b6d4;font-size:13px;');
