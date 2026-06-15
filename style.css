@@ -552,6 +552,8 @@ h1, h2, h3, h4 { font-family: 'Sora', sans-serif; color: var(--text-dark); }
 .footer-section ul li a { color: #94a3b8; text-decoration: none; transition: var(--transition); }
 .footer-section ul li a:hover { color: var(--primary-light); }
 .footer-section ul li i { margin-right: 8px; color: var(--primary-light); width: 16px; }
+.footer-section ul li strong { color: #fff; font-weight: 700; }
+.footer-section ul li { color: #e2e8f0; }
 .social-links { display: flex; gap: 12px; }
 .social-links a {
     width: 42px; height: 42px;
