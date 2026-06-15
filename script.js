@@ -38,7 +38,7 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 });
 
 // ===== Scroll reveal animations =====
-const revealEls = document.querySelectorAll('.service-card, .exam-card, .figure-card, .trust-item, .contact-item, .benefit-item, .section-header');
+const revealEls = document.querySelectorAll('.service-card, .exam-card, .figure-card, .trust-item, .contact-item, .benefit-item, .section-header, .howit-step, .review-card');
 revealEls.forEach(el => el.classList.add('reveal'));
 
 const revealObserver = new IntersectionObserver((entries) => {
@@ -82,26 +82,34 @@ const counterObserver = new IntersectionObserver((entries) => {
 
 counters.forEach(c => counterObserver.observe(c));
 
-// ===== Form submission =====
+// ===== Form submission via WhatsApp =====
+const WHATSAPP_NUMBER = '393514175117';
 const form = document.querySelector('.form');
 if (form) {
-    form.addEventListener('submit', async (e) => {
+    form.addEventListener('submit', (e) => {
         e.preventDefault();
-        const submitBtn = form.querySelector('button[type="submit"]');
-        const originalHTML = submitBtn.innerHTML;
-        submitBtn.innerHTML = '<span class="loading"></span> Invio in corso...';
-        submitBtn.disabled = true;
 
-        try {
-            await new Promise(resolve => setTimeout(resolve, 1500));
-            showMessage('Richiesta inviata con successo! Ti contatteremo presto.', 'success');
-            form.reset();
-        } catch (err) {
-            showMessage('Errore durante l\'invio. Riprova più tardi.', 'error');
-        } finally {
-            submitBtn.innerHTML = originalHTML;
-            submitBtn.disabled = false;
-        }
+        const nome = document.getElementById('name').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const telefono = document.getElementById('phone').value.trim();
+        const select = document.getElementById('service');
+        const servizio = select.options[select.selectedIndex]?.text || '';
+        const messaggio = document.getElementById('message').value.trim();
+
+        const testo =
+            `*Nuova richiesta dal sito Abbraccio*%0A%0A` +
+            `*Nome:* ${nome}%0A` +
+            `*Email:* ${email}%0A` +
+            `*Telefono:* ${telefono}%0A` +
+            `*Servizio:* ${servizio}%0A` +
+            `*Messaggio:* ${messaggio}`;
+
+        const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${testo}`;
+        window.open(url, '_blank');
+
+        showMessage('Ti stiamo reindirizzando su WhatsApp per inviare la richiesta!', 'success');
+        form.reset();
+        if (serviceSelect) serviceSelect.style.color = 'var(--text-light)';
     });
 }
 
@@ -148,6 +156,31 @@ if (heroVisual && window.innerWidth > 992) {
         const x = (e.clientX - innerWidth / 2) / 50;
         const y = (e.clientY - innerHeight / 2) / 50;
         heroVisual.style.transform = `translate(${x}px, ${y}px)`;
+    });
+}
+
+// ===== Scroll to top button =====
+const scrollTopBtn = document.getElementById('scrollTop');
+if (scrollTopBtn) {
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 500) scrollTopBtn.classList.add('visible');
+        else scrollTopBtn.classList.remove('visible');
+    });
+    scrollTopBtn.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+}
+
+// ===== Cookie banner =====
+const cookieBanner = document.getElementById('cookieBanner');
+const cookieAccept = document.getElementById('cookieAccept');
+if (cookieBanner && cookieAccept) {
+    if (!localStorage.getItem('cookieAccepted')) {
+        setTimeout(() => cookieBanner.classList.add('visible'), 1200);
+    }
+    cookieAccept.addEventListener('click', () => {
+        localStorage.setItem('cookieAccepted', 'true');
+        cookieBanner.classList.remove('visible');
     });
 }
 
