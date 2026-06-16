@@ -744,7 +744,7 @@ h1, h2, h3, h4 { font-family: 'Sora', sans-serif; color: var(--text-dark); }
     .stat-number { font-size: 1.4rem; }
     .stat-suffix { font-size: 1.4rem; }
     .stat-label { font-size: 0.62rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; }
-    .floating-card-1, .floating-card-2 { display: none; }
+    .floating-card-1, .floating-card-2, .floating-card-3 { display: none; }
     .hero-image-wrap img { height: 300px; object-fit: cover; }
     .blob { display: none; }
 
