@@ -738,11 +738,12 @@ h1, h2, h3, h4 { font-family: 'Sora', sans-serif; color: var(--text-dark); }
     .hero-subtitle { font-size: 1rem; }
     .hero-cta { flex-direction: column; gap: 12px; }
     .hero-cta .btn { width: 100%; justify-content: center; }
-    .hero-stats { display: flex; flex-direction: row; justify-content: space-around; align-items: center; width: 100%; gap: 0; }
+    .hero-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; width: 100%; overflow: hidden; }
     .stat-divider { display: none; }
-    .stat { text-align: center; flex: 1; }
-    .stat-number, .stat-suffix { font-size: 1.4rem; }
-    .stat-label { font-size: 0.68rem; white-space: nowrap; }
+    .stat { text-align: center; padding: 0 4px; overflow: hidden; }
+    .stat-number { font-size: 1.4rem; }
+    .stat-suffix { font-size: 1.4rem; }
+    .stat-label { font-size: 0.62rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; }
     .floating-card-1, .floating-card-2 { display: none; }
     .hero-image-wrap img { height: 300px; object-fit: cover; }
     .blob { display: none; }
@@ -791,9 +792,10 @@ h1, h2, h3, h4 { font-family: 'Sora', sans-serif; color: var(--text-dark); }
     /* Hero */
     .hero-title { font-size: 1.9rem; }
     .hero-badge { font-size: 0.78rem; }
-    .hero-stats { justify-content: space-around; }
-    .stat-number, .stat-suffix { font-size: 1.2rem; }
-    .stat-label { font-size: 0.62rem; }
+    .hero-stats { grid-template-columns: repeat(3, 1fr); }
+    .stat-number { font-size: 1.2rem; }
+    .stat-suffix { font-size: 1.2rem; }
+    .stat-label { font-size: 0.6rem; }
     .hero-image-wrap { display: none; }
 
     /* Trust */
@@ -814,8 +816,11 @@ h1, h2, h3, h4 { font-family: 'Sora', sans-serif; color: var(--text-dark); }
     .howit-step { padding: 36px 20px 22px; }
 
     /* Contact */
-    .contact-item { flex-direction: row; gap: 14px; }
+    .contact-item { flex-direction: row; gap: 14px; overflow: hidden; }
     .contact-icon { width: 44px; height: 44px; font-size: 1.1rem; flex-shrink: 0; }
+    .contact-details { overflow: hidden; min-width: 0; }
+    .contact-details h4 { font-size: 0.95rem; }
+    .contact-details p, .contact-details span { font-size: 0.82rem; word-break: break-word; }
 
     /* Footer */
     .footer-content { grid-template-columns: 1fr; text-align: center; }
@@ -823,9 +828,13 @@ h1, h2, h3, h4 { font-family: 'Sora', sans-serif; color: var(--text-dark); }
     .footer-section ul li { font-size: 0.82rem; }
 
     /* Form */
-    .contact-form { padding: 20px 14px; width: 100%; box-sizing: border-box; }
+    .contact-section .container { padding: 0 14px; }
+    .contact-form { padding: 20px 14px; width: 100%; box-sizing: border-box; overflow: hidden; }
+    .contact-form form { width: 100%; box-sizing: border-box; }
+    .form-group { width: 100%; box-sizing: border-box; }
     .form-group input, .form-group textarea, .form-group select { padding: 13px 10px; font-size: 0.9rem; width: 100%; box-sizing: border-box; }
-    .btn-full { width: 100%; box-sizing: border-box; padding: 14px 10px; font-size: 0.9rem; white-space: normal; text-align: center; }
+    .btn-full { width: 100% !important; box-sizing: border-box !important; padding: 14px 8px; font-size: 0.85rem; white-space: normal; text-align: center; display: flex; justify-content: center; }
+    .contact-form p { font-size: 0.78rem; padding: 0 4px; word-break: break-word; }
     .careers { padding: 60px 0; }
     .careers-inner { border-radius: 16px; }
 
