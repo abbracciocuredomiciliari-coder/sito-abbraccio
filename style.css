@@ -738,11 +738,11 @@ h1, h2, h3, h4 { font-family: 'Sora', sans-serif; color: var(--text-dark); }
     .hero-subtitle { font-size: 1rem; }
     .hero-cta { flex-direction: column; gap: 12px; }
     .hero-cta .btn { width: 100%; justify-content: center; }
-    .hero-stats { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; width: 100%; }
+    .hero-stats { display: flex; flex-direction: row; justify-content: space-around; align-items: center; width: 100%; gap: 0; }
     .stat-divider { display: none; }
-    .stat { text-align: center; }
-    .stat-number, .stat-suffix { font-size: 1.5rem; }
-    .stat-label { font-size: 0.7rem; }
+    .stat { text-align: center; flex: 1; }
+    .stat-number, .stat-suffix { font-size: 1.4rem; }
+    .stat-label { font-size: 0.68rem; white-space: nowrap; }
     .floating-card-1, .floating-card-2 { display: none; }
     .hero-image-wrap img { height: 300px; object-fit: cover; }
     .blob { display: none; }
@@ -791,9 +791,9 @@ h1, h2, h3, h4 { font-family: 'Sora', sans-serif; color: var(--text-dark); }
     /* Hero */
     .hero-title { font-size: 1.9rem; }
     .hero-badge { font-size: 0.78rem; }
-    .hero-stats { grid-template-columns: 1fr 1fr 1fr; gap: 4px; }
-    .stat-number, .stat-suffix { font-size: 1.3rem; }
-    .stat-label { font-size: 0.65rem; }
+    .hero-stats { justify-content: space-around; }
+    .stat-number, .stat-suffix { font-size: 1.2rem; }
+    .stat-label { font-size: 0.62rem; }
     .hero-image-wrap { display: none; }
 
     /* Trust */
@@ -803,11 +803,14 @@ h1, h2, h3, h4 { font-family: 'Sora', sans-serif; color: var(--text-dark); }
     /* Sections */
     .section-header h2 { font-size: 1.6rem; }
     .section-header p { font-size: 0.9rem; }
-    .figures-grid { grid-template-columns: 1fr; }
+    .figures-grid { grid-template-columns: 1fr 1fr; gap: 16px; }
     .exams-grid { grid-template-columns: 1fr; }
     .service-card, .exam-card, .review-card { border-radius: 16px; }
-    .figure-card { flex-direction: row; gap: 16px; }
-    .figure-img { width: 80px; height: 80px; flex-shrink: 0; }
+    .figure-card { display: block; }
+    .figure-img { height: 200px; width: 100%; }
+    .figure-info { padding: 18px 14px 14px; }
+    .figure-info h3 { font-size: 1.1rem; }
+    .figure-info p { font-size: 0.85rem; color: rgba(255,255,255,0.9); }
     .howit-step { padding: 36px 20px 22px; }
 
     /* Contact */
@@ -820,8 +823,9 @@ h1, h2, h3, h4 { font-family: 'Sora', sans-serif; color: var(--text-dark); }
     .footer-section ul li { font-size: 0.82rem; }
 
     /* Form */
-    .contact-form { padding: 22px 16px; }
-    .form-group input, .form-group textarea, .form-group select { padding: 14px 12px; font-size: 0.95rem; }
+    .contact-form { padding: 20px 14px; width: 100%; box-sizing: border-box; }
+    .form-group input, .form-group textarea, .form-group select { padding: 13px 10px; font-size: 0.9rem; width: 100%; box-sizing: border-box; }
+    .btn-full { width: 100%; box-sizing: border-box; padding: 14px 10px; font-size: 0.9rem; white-space: normal; text-align: center; }
     .careers { padding: 60px 0; }
     .careers-inner { border-radius: 16px; }
 
