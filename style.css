@@ -234,7 +234,7 @@ h1, h2, h3, h4 { font-family: 'Sora', sans-serif; color: var(--text-dark); }
     position: absolute; inset: 0;
     background: linear-gradient(180deg, transparent 60%, rgba(26,46,90,0.20));
 }
-.hero-image-wrap img { width: 100%; height: 540px; object-fit: cover; object-position: top center; display: block; }
+.hero-image-wrap img { width: 100%; height: 540px; object-fit: cover; object-position: center 5%; display: block; }
 
 .floating-card {
     position: absolute;
@@ -324,7 +324,7 @@ h1, h2, h3, h4 { font-family: 'Sora', sans-serif; color: var(--text-dark); }
 }
 .service-card:hover { transform: translateY(-10px); box-shadow: var(--shadow-lg); }
 .service-image { position: relative; height: 280px; overflow: hidden; }
-.service-image img { width: 100%; height: 100%; object-fit: cover; object-position: center 20%; transition: var(--transition); }
+.service-image img { width: 100%; height: 100%; object-fit: cover; object-position: center 5%; transition: var(--transition); }
 .service-card:hover .service-image img { transform: scale(1.08); }
 .service-badge {
     position: absolute; top: 16px; right: 16px;
@@ -410,7 +410,7 @@ h1, h2, h3, h4 { font-family: 'Sora', sans-serif; color: var(--text-dark); }
 }
 .figure-card:hover { transform: translateY(-8px); box-shadow: var(--shadow-lg); }
 .figure-img { height: 380px; overflow: hidden; }
-.figure-img img { width: 100%; height: 100%; object-fit: cover; object-position: center 20%; transition: var(--transition); }
+.figure-img img { width: 100%; height: 100%; object-fit: cover; object-position: center 5%; transition: var(--transition); }
 .figure-card:hover .figure-img img { transform: scale(1.08); }
 .figure-info {
     position: absolute; bottom: 0; left: 0; right: 0;
