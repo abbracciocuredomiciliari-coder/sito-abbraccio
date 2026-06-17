@@ -184,5 +184,68 @@ if (cookieBanner && cookieAccept) {
     });
 }
 
-console.log('%c🏥 Abbraccio Cure Domiciliari', 'color:#2563eb;font-size:20px;font-weight:bold;');
-console.log('%cAssistenza e diagnostica a domicilio', 'color:#06b6d4;font-size:13px;');
+// ===== Floating cards carosello hero =====
+const heroItems = [
+    { icon: 'fas fa-user-nurse',       color: 'fc-icon-green',  title: 'Infermiere',          sub: 'In arrivo a casa' },
+    { icon: 'fas fa-heart-pulse',      color: '',               title: 'Holter Pressorio',    sub: 'Monitoraggio 24h' },
+    { icon: 'fas fa-moon',             color: 'fc-icon-purple', title: 'Apnee del Sonno',     sub: 'Screening notturno' },
+    { icon: 'fas fa-wave-square',      color: '',               title: 'Holter ECG',          sub: 'ECG dinamico 48h' },
+    { icon: 'fas fa-hand-holding-heart', color: 'fc-icon-green', title: 'Assistenza OSS',     sub: 'Supporto quotidiano' },
+    { icon: 'fas fa-droplet',          color: '',               title: 'Prelievi Ematici',    sub: 'A domicilio' },
+    { icon: 'fas fa-x-ray',            color: 'fc-icon-purple', title: 'RX Domiciliare',      sub: 'Radiografia portatile' },
+    { icon: 'fas fa-stethoscope',      color: 'fc-icon-green',  title: 'Medico Specialista',  sub: 'Visita a domicilio' },
+    { icon: 'fas fa-lungs',            color: '',               title: 'Spirometria',         sub: 'Funzione respiratoria' },
+    { icon: 'fas fa-ambulance',        color: 'fc-icon-purple', title: 'Servizio Ambulanza',  sub: 'Trasporto sanitario' },
+    { icon: 'fas fa-brain',            color: 'fc-icon-green',  title: 'Assistenza Anziani',  sub: 'Cura personalizzata' },
+    { icon: 'fas fa-syringe',          color: '',               title: 'Terapie Infusionali', sub: 'A casa tua' },
+];
+
+function updateCard(cardEl, iconEl, titleEl, subEl, item) {
+    cardEl.style.opacity = '0';
+    cardEl.style.transform = cardEl.id === 'heroCard1'
+        ? 'translateY(8px)' : 'translateY(8px)';
+    setTimeout(() => {
+        iconEl.className = 'fc-icon' + (item.color ? ' ' + item.color : '');
+        iconEl.innerHTML = `<i class="${item.icon}"></i>`;
+        titleEl.textContent = item.title;
+        subEl.textContent = item.sub;
+        cardEl.style.opacity = '1';
+        cardEl.style.transform = 'translateY(0)';
+    }, 350);
+}
+
+const card1 = document.getElementById('heroCard1');
+const card2 = document.getElementById('heroCard2');
+if (card1 && card2) {
+    [card1, card2].forEach(c => {
+        c.style.transition = 'opacity 0.35s ease, transform 0.35s ease';
+    });
+
+    let idx1 = 0;
+    let idx2 = Math.floor(heroItems.length / 2);
+
+    setInterval(() => {
+        idx1 = (idx1 + 1) % heroItems.length;
+        updateCard(
+            card1,
+            document.getElementById('heroCard1Icon'),
+            document.getElementById('heroCard1Title'),
+            document.getElementById('heroCard1Sub'),
+            heroItems[idx1]
+        );
+    }, 3000);
+
+    setInterval(() => {
+        idx2 = (idx2 + 1) % heroItems.length;
+        updateCard(
+            card2,
+            document.getElementById('heroCard2Icon'),
+            document.getElementById('heroCard2Title'),
+            document.getElementById('heroCard2Sub'),
+            heroItems[idx2]
+        );
+    }, 4200);
+}
+
+console.log('%c🏥 Abbraccio Cure Domiciliari', 'color:#1a2e5a;font-size:20px;font-weight:bold;');
+console.log('%cAssistenza e diagnostica a domicilio', 'color:#c9a227;font-size:13px;');
