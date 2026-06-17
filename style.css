@@ -234,7 +234,7 @@ h1, h2, h3, h4 { font-family: 'Sora', sans-serif; color: var(--text-dark); }
     position: absolute; inset: 0;
     background: linear-gradient(180deg, transparent 60%, rgba(26,46,90,0.20));
 }
-.hero-image-wrap img { width: 100%; height: 540px; object-fit: cover; display: block; }
+.hero-image-wrap img { width: 100%; height: 540px; object-fit: cover; object-position: top center; display: block; }
 
 .floating-card {
     position: absolute;
@@ -323,8 +323,8 @@ h1, h2, h3, h4 { font-family: 'Sora', sans-serif; color: var(--text-dark); }
     transition: var(--transition);
 }
 .service-card:hover { transform: translateY(-10px); box-shadow: var(--shadow-lg); }
-.service-image { position: relative; height: 210px; overflow: hidden; }
-.service-image img { width: 100%; height: 100%; object-fit: cover; transition: var(--transition); }
+.service-image { position: relative; height: 280px; overflow: hidden; }
+.service-image img { width: 100%; height: 100%; object-fit: cover; object-position: center 20%; transition: var(--transition); }
 .service-card:hover .service-image img { transform: scale(1.08); }
 .service-badge {
     position: absolute; top: 16px; right: 16px;
@@ -409,8 +409,8 @@ h1, h2, h3, h4 { font-family: 'Sora', sans-serif; color: var(--text-dark); }
     cursor: default;
 }
 .figure-card:hover { transform: translateY(-8px); box-shadow: var(--shadow-lg); }
-.figure-img { height: 320px; overflow: hidden; }
-.figure-img img { width: 100%; height: 100%; object-fit: cover; transition: var(--transition); }
+.figure-img { height: 380px; overflow: hidden; }
+.figure-img img { width: 100%; height: 100%; object-fit: cover; object-position: center 20%; transition: var(--transition); }
 .figure-card:hover .figure-img img { transform: scale(1.08); }
 .figure-info {
     position: absolute; bottom: 0; left: 0; right: 0;
@@ -584,15 +584,16 @@ h1, h2, h3, h4 { font-family: 'Sora', sans-serif; color: var(--text-dark); }
     overflow: hidden;
     box-shadow: var(--shadow);
     transition: var(--transition);
-    aspect-ratio: 4/3;
+    height: 320px;
 }
 .gallery-item.gallery-wide {
     grid-column: span 2;
-    aspect-ratio: 16/7;
+    height: 320px;
 }
 .gallery-item img {
     width: 100%; height: 100%;
-    object-fit: cover;
+    object-fit: contain;
+    background: #f0f2f7;
     display: block;
     transition: transform 0.5s ease;
 }
