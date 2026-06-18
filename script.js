@@ -38,7 +38,7 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 });
 
 // ===== Scroll reveal animations =====
-const revealEls = document.querySelectorAll('.service-card, .exam-card, .figure-card, .trust-item, .contact-item, .benefit-item, .section-header, .howit-step, .review-card');
+const revealEls = document.querySelectorAll('.service-card, .exam-card, .figure-card, .trust-item, .contact-item, .benefit-item, .section-header, .howit-step, .review-card, .faq-item, .rating-summary');
 revealEls.forEach(el => el.classList.add('reveal'));
 
 const revealObserver = new IntersectionObserver((entries) => {
@@ -246,6 +246,16 @@ if (card1 && card2) {
         );
     }, 4200);
 }
+
+// ===== FAQ Accordion =====
+document.querySelectorAll('.faq-q').forEach(btn => {
+    btn.addEventListener('click', () => {
+        const item = btn.closest('.faq-item');
+        const isOpen = item.classList.contains('open');
+        document.querySelectorAll('.faq-item.open').forEach(el => el.classList.remove('open'));
+        if (!isOpen) item.classList.add('open');
+    });
+});
 
 console.log('%c🏥 Abbraccio Cure Domiciliari', 'color:#1a2e5a;font-size:20px;font-weight:bold;');
 console.log('%cAssistenza e diagnostica a domicilio', 'color:#c9a227;font-size:13px;');
