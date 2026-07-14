@@ -411,6 +411,23 @@ h1, h2, h3, h4 { font-family: 'Sora', sans-serif; color: var(--text-dark); }
 }
 .exams .section-header h2 { color: #fff; }
 .exams .section-header p { color: rgba(255,255,255,0.8); }
+.exams-feature-image {
+    position: relative;
+    max-width: 920px;
+    margin: 0 auto 34px;
+    border: 1px solid rgba(255,255,255,0.24);
+    border-radius: 24px;
+    overflow: hidden;
+    background: #f8fafc;
+    box-shadow: 0 18px 50px rgba(5,18,55,0.28);
+}
+.exams-feature-image img {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: 620px;
+    object-fit: contain;
+}
 .exams-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; position: relative; }
 .exam-card {
     padding: 32px;
@@ -990,6 +1007,7 @@ h1, h2, h3, h4 { font-family: 'Sora', sans-serif; color: var(--text-dark); }
     /* Sections */
     .section-header h2 { font-size: 1.8rem; }
     .services-grid, .exams-grid { grid-template-columns: 1fr; }
+    .exams-feature-image { margin-bottom: 24px; border-radius: 18px; }
     .figures-grid { grid-template-columns: 1fr 1fr; }
     .howit-grid { grid-template-columns: 1fr; gap: 32px; }
     .reviews-grid { grid-template-columns: 1fr; }
