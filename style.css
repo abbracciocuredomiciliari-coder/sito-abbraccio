@@ -142,6 +142,24 @@ h1, h2, h3, h4 { font-family: 'Sora', sans-serif; color: var(--text-dark); }
 }
 .btn-primary { background: var(--grad-primary); color: #fff; box-shadow: var(--shadow-glow); }
 .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 15px 45px rgba(26,46,90,0.4); }
+.hero-call-btn, .exams-cta .btn, .contact-form .btn, .careers-text .btn, .cta-buttons .btn {
+    animation: actionGlow 2.8s ease-in-out infinite;
+}
+.hero-call-btn i, .exams-cta .btn i, .contact-form .btn i, .careers-text .btn i, .cta-buttons .btn i {
+    animation: actionIcon 1.8s ease-in-out infinite;
+}
+.hero-call-btn:hover, .exams-cta .btn:hover, .contact-form .btn:hover, .careers-text .btn:hover, .cta-buttons .btn:hover,
+.hero-call-btn:focus-visible, .exams-cta .btn:focus-visible, .contact-form .btn:focus-visible, .careers-text .btn:focus-visible, .cta-buttons .btn:focus-visible {
+    animation-play-state: paused;
+}
+@keyframes actionGlow {
+    0%, 100% { box-shadow: 0 8px 24px rgba(26,46,90,0.22); transform: translateY(0); }
+    50% { box-shadow: 0 12px 32px rgba(201,162,39,0.42); transform: translateY(-3px); }
+}
+@keyframes actionIcon {
+    0%, 100% { transform: translateX(0); }
+    50% { transform: translateX(4px); }
+}
 .btn-glass {
     background: rgba(255,255,255,0.15);
     color: #fff;
@@ -366,7 +384,17 @@ h1, h2, h3, h4 { font-family: 'Sora', sans-serif; color: var(--text-dark); }
     color: var(--primary); font-weight: 700; text-decoration: none;
     font-size: 0.95rem; transition: var(--transition);
 }
-.service-link:hover { gap: 14px; }
+.service-link {
+    position: relative;
+    animation: serviceNudge 2.6s ease-in-out infinite;
+}
+.service-link:hover { gap: 14px; animation-play-state: paused; }
+.service-link i { transition: transform 0.3s ease; }
+.service-link:hover i { transform: translateX(5px); }
+@keyframes serviceNudge {
+    0%, 72%, 100% { transform: translateX(0); }
+    78%, 86% { transform: translateX(5px); }
+}
 
 /* ===== Esami Strumentali ===== */
 .exams {
@@ -793,6 +821,12 @@ h1, h2, h3, h4 { font-family: 'Sora', sans-serif; color: var(--text-dark); }
 
 .success-message, .error-message { padding: 14px; border-radius: 12px; margin-bottom: 18px; text-align: center; font-weight: 600; animation: fadeInUp 0.4s ease; }
 .success-message { background: rgba(16,185,129,0.12); color: var(--green); }
+
+@media (prefers-reduced-motion: reduce) {
+    .hero-call-btn, .exams-cta .btn, .contact-form .btn, .careers-text .btn, .cta-buttons .btn,
+    .hero-call-btn i, .exams-cta .btn i, .contact-form .btn i, .careers-text .btn i, .cta-buttons .btn i,
+    .service-link { animation: none; }
+}
 .error-message { background: rgba(239,68,68,0.12); color: #dc2626; }
 
 /* ===== FAQ ===== */
