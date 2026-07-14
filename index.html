@@ -123,7 +123,7 @@
                 </div>
                 <div class="hero-visual">
                     <div class="hero-image-wrap">
-                        <img src="images/IMG-20260617-WA0020.jpg" alt="Assistenza domiciliare professionale" style="object-fit:contain; background:#f8f9fa;">
+                        <img src="images/IMG-20260617-WA0020.jpg" alt="Assistenza domiciliare professionale" width="900" height="700" fetchpriority="high" decoding="async">
                     </div>
                     <div class="floating-card floating-card-2" id="heroCard1">
                         <div class="fc-icon fc-icon-green" id="heroCard1Icon"><i class="fas fa-user-nurse"></i></div>
@@ -441,21 +441,21 @@
                     <p>Immagini reali del nostro lavoro quotidiano a Roma e Provincia</p>
                 </div>
                 <div class="gallery-grid">
-                    <div class="gallery-item gallery-wide">
-                        <img src="images/IMG-20260616-WA0033.jpg" alt="Cure domiciliari Abbraccio" loading="lazy">
-                    </div>
-                    <div class="gallery-item">
-                        <img src="images/IMG-20260616-WA0032.jpg" alt="Monitoraggio clinico a domicilio" loading="lazy">
-                    </div>
-                    <div class="gallery-item">
-                        <img src="images/IMG-20260616-WA0049.jpg" alt="Esami strumentali a domicilio" loading="lazy">
-                    </div>
-                    <div class="gallery-item">
-                        <img src="images/IMG-20260616-WA0038.jpg" alt="Assistenza non autosufficienza" loading="lazy">
-                    </div>
-                    <div class="gallery-item gallery-wide">
-                        <img src="images/IMG-20260616-WA0043.jpg" alt="Cure che abbracciano ogni giorno" loading="lazy">
-                    </div>
+                    <button class="gallery-item gallery-wide" type="button" aria-label="Apri foto: Cure domiciliari Abbraccio">
+                        <img src="images/IMG-20260616-WA0033.jpg" alt="Cure domiciliari Abbraccio" loading="lazy" decoding="async">
+                    </button>
+                    <button class="gallery-item" type="button" aria-label="Apri foto: Monitoraggio clinico a domicilio">
+                        <img src="images/IMG-20260616-WA0032.jpg" alt="Monitoraggio clinico a domicilio" loading="lazy" decoding="async">
+                    </button>
+                    <button class="gallery-item" type="button" aria-label="Apri foto: Esami strumentali a domicilio">
+                        <img src="images/IMG-20260616-WA0049.jpg" alt="Esami strumentali a domicilio" loading="lazy" decoding="async">
+                    </button>
+                    <button class="gallery-item" type="button" aria-label="Apri foto: Assistenza non autosufficienza">
+                        <img src="images/IMG-20260616-WA0038.jpg" alt="Assistenza non autosufficienza" loading="lazy" decoding="async">
+                    </button>
+                    <button class="gallery-item gallery-wide" type="button" aria-label="Apri foto: Cure che abbracciano ogni giorno">
+                        <img src="images/IMG-20260616-WA0043.jpg" alt="Cure che abbracciano ogni giorno" loading="lazy" decoding="async">
+                    </button>
                 </div>
             </div>
         </section>
@@ -870,6 +870,14 @@
             <p>Questo sito utilizza cookie tecnici per migliorare la tua esperienza di navigazione. Continuando accetti la nostra <a href="#">Privacy Policy</a>.</p>
             <button class="btn btn-primary" id="cookieAccept">Accetto</button>
         </div>
+    </div>
+
+    <!-- Gallery lightbox -->
+    <div class="gallery-lightbox" id="galleryLightbox" role="dialog" aria-modal="true" aria-label="Visualizzatore foto" hidden>
+        <button class="gallery-lightbox-close" id="galleryLightboxClose" type="button" aria-label="Chiudi foto">
+            <i class="fas fa-xmark"></i>
+        </button>
+        <img id="galleryLightboxImage" src="" alt="">
     </div>
 
     <script src="script.js"></script>

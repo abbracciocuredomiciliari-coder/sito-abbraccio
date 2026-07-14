@@ -247,6 +247,38 @@ if (card1 && card2) {
     }, 4200);
 }
 
+// ===== Gallery lightbox =====
+const galleryLightbox = document.getElementById('galleryLightbox');
+const galleryLightboxImage = document.getElementById('galleryLightboxImage');
+const galleryLightboxClose = document.getElementById('galleryLightboxClose');
+
+function closeGalleryLightbox() {
+    if (!galleryLightbox) return;
+    galleryLightbox.hidden = true;
+    document.body.style.overflow = '';
+    galleryLightboxImage.src = '';
+}
+
+document.querySelectorAll('.gallery-item').forEach(item => {
+    item.addEventListener('click', () => {
+        const image = item.querySelector('img');
+        if (!image || !galleryLightbox || !galleryLightboxImage) return;
+        galleryLightboxImage.src = image.src;
+        galleryLightboxImage.alt = image.alt;
+        galleryLightbox.hidden = false;
+        document.body.style.overflow = 'hidden';
+        galleryLightboxClose?.focus();
+    });
+});
+
+galleryLightboxClose?.addEventListener('click', closeGalleryLightbox);
+galleryLightbox?.addEventListener('click', (event) => {
+    if (event.target === galleryLightbox) closeGalleryLightbox();
+});
+document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && galleryLightbox && !galleryLightbox.hidden) closeGalleryLightbox();
+});
+
 // ===== FAQ Accordion =====
 document.querySelectorAll('.faq-q').forEach(btn => {
     btn.addEventListener('click', () => {

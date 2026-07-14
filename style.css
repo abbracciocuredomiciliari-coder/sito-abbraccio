@@ -234,7 +234,7 @@ h1, h2, h3, h4 { font-family: 'Sora', sans-serif; color: var(--text-dark); }
     position: absolute; inset: 0;
     background: linear-gradient(180deg, transparent 60%, rgba(26,46,90,0.20));
 }
-.hero-image-wrap img { width: 100%; height: 540px; object-fit: cover; object-position: center 5%; display: block; }
+.hero-image-wrap img { width: 100%; height: 540px; object-fit: cover; object-position: center center; display: block; }
 
 .floating-card {
     position: absolute;
@@ -323,8 +323,8 @@ h1, h2, h3, h4 { font-family: 'Sora', sans-serif; color: var(--text-dark); }
     transition: var(--transition);
 }
 .service-card:hover { transform: translateY(-10px); box-shadow: var(--shadow-lg); }
-.service-image { position: relative; height: 280px; overflow: hidden; }
-.service-image img { width: 100%; height: 100%; object-fit: cover; object-position: center 5%; transition: var(--transition); }
+.service-image { position: relative; aspect-ratio: 4 / 3; min-height: 220px; overflow: hidden; background: #eef3f7; }
+.service-image img { width: 100%; height: 100%; object-fit: cover; object-position: center center; transition: transform 0.5s ease; }
 .service-card:hover .service-image img { transform: scale(1.08); }
 .service-badge {
     position: absolute; top: 16px; right: 16px;
@@ -409,8 +409,8 @@ h1, h2, h3, h4 { font-family: 'Sora', sans-serif; color: var(--text-dark); }
     cursor: default;
 }
 .figure-card:hover { transform: translateY(-8px); box-shadow: var(--shadow-lg); }
-.figure-img { height: 380px; overflow: hidden; }
-.figure-img img { width: 100%; height: 100%; object-fit: cover; object-position: center 5%; transition: var(--transition); }
+.figure-img { aspect-ratio: 4 / 5; min-height: 280px; overflow: hidden; background: #eef3f7; }
+.figure-img img { width: 100%; height: 100%; object-fit: cover; object-position: center center; transition: transform 0.5s ease; }
 .figure-card:hover .figure-img img { transform: scale(1.08); }
 .figure-info {
     position: absolute; bottom: 0; left: 0; right: 0;
@@ -580,9 +580,16 @@ h1, h2, h3, h4 { font-family: 'Sora', sans-serif; color: var(--text-dark); }
     gap: 16px;
 }
 .gallery-item {
+    appearance: none;
+    border: 0;
+    padding: 0;
+    display: block;
+    width: 100%;
     border-radius: var(--radius-sm);
     overflow: hidden;
     box-shadow: var(--shadow);
+    background: #dce8ee;
+    cursor: zoom-in;
     transition: var(--transition);
     height: 420px;
 }
@@ -593,12 +600,51 @@ h1, h2, h3, h4 { font-family: 'Sora', sans-serif; color: var(--text-dark); }
 .gallery-item img {
     width: 100%; height: 100%;
     object-fit: cover;
-    object-position: center 8%;
+    object-position: center center;
     display: block;
     transition: transform 0.5s ease;
 }
-.gallery-item:hover { box-shadow: var(--shadow-lg); }
+.gallery-item:hover { box-shadow: var(--shadow-lg); transform: translateY(-4px); }
 .gallery-item:hover img { transform: scale(1.04); }
+.gallery-item:focus-visible { outline: 3px solid var(--accent); outline-offset: 4px; }
+
+.gallery-lightbox[hidden] { display: none; }
+.gallery-lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 28px;
+    background: rgba(8, 18, 38, 0.92);
+    backdrop-filter: blur(12px);
+}
+.gallery-lightbox img {
+    max-width: min(1100px, 94vw);
+    max-height: 88vh;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    border-radius: 18px;
+    box-shadow: 0 24px 70px rgba(0,0,0,0.45);
+}
+.gallery-lightbox-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 48px;
+    height: 48px;
+    display: grid;
+    place-items: center;
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 50%;
+    background: rgba(255,255,255,0.14);
+    color: #fff;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+.gallery-lightbox-close:hover { background: var(--primary); }
 
 /* ===== Come Funziona ===== */
 .howit { padding: 100px 0; background: var(--bg-soft); }
@@ -877,7 +923,8 @@ h1, h2, h3, h4 { font-family: 'Sora', sans-serif; color: var(--text-dark); }
     .stat-suffix { font-size: 1.4rem; }
     .stat-label { font-size: 0.62rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; }
     .floating-card-1, .floating-card-2, .floating-card-3 { display: none; }
-    .hero-image-wrap img { height: 300px; object-fit: cover; }
+    .hero-image-wrap img { height: clamp(280px, 58vw, 420px); object-fit: cover; }
+    .hero-image-wrap { border-radius: 22px; }
     .blob { display: none; }
 
     /* Trust */
@@ -892,8 +939,12 @@ h1, h2, h3, h4 { font-family: 'Sora', sans-serif; color: var(--text-dark); }
     .howit-grid { grid-template-columns: 1fr; gap: 32px; }
     .reviews-grid { grid-template-columns: 1fr; }
     .exams-grid { grid-template-columns: 1fr 1fr; }
-    .gallery-grid { grid-template-columns: 1fr 1fr; }
-    .gallery-item.gallery-wide { grid-column: span 2; aspect-ratio: 16/9; }
+    .gallery-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+    .gallery-item, .gallery-item.gallery-wide { height: auto; aspect-ratio: 1 / 1; }
+    .gallery-item.gallery-wide { grid-column: span 2; aspect-ratio: 16 / 9; }
+    .gallery-lightbox { padding: 16px; }
+    .gallery-lightbox img { max-width: 96vw; max-height: 82vh; border-radius: 12px; }
+    .gallery-lightbox-close { top: 12px; right: 12px; width: 42px; height: 42px; }
 
     /* Careers */
     .careers-inner { padding: 28px 16px; overflow: hidden; }
@@ -936,7 +987,8 @@ h1, h2, h3, h4 { font-family: 'Sora', sans-serif; color: var(--text-dark); }
     .stat-number { font-size: 1.2rem; }
     .stat-suffix { font-size: 1.2rem; }
     .stat-label { font-size: 0.6rem; }
-    .hero-image-wrap { display: none; }
+    .hero-image-wrap { display: block; }
+    .hero-visual { width: 100%; }
 
     /* Trust */
     .trust-grid { grid-template-columns: 1fr; }
@@ -949,7 +1001,7 @@ h1, h2, h3, h4 { font-family: 'Sora', sans-serif; color: var(--text-dark); }
     .exams-grid { grid-template-columns: 1fr; }
     .service-card, .exam-card, .review-card { border-radius: 16px; }
     .figure-card { display: block; }
-    .figure-img { height: 200px; width: 100%; }
+    .figure-img { aspect-ratio: 4 / 5; min-height: 0; width: 100%; }
     .figure-info { padding: 18px 14px 14px; }
     .figure-info h3 { font-size: 1.1rem; }
     .figure-info p { font-size: 0.85rem; color: rgba(255,255,255,0.9); }
