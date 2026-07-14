@@ -338,6 +338,44 @@ h1, h2, h3, h4 { font-family: 'Sora', sans-serif; color: var(--text-dark); }
 
 }
 
+.hero-locality {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    flex-wrap: wrap;
+
+    width: fit-content;
+
+    max-width: 100%;
+
+    margin-bottom: 22px;
+
+    padding: 11px 16px;
+
+    border: 1px solid rgba(184,134,11,0.35);
+
+    border-radius: 14px;
+
+    background: linear-gradient(135deg, rgba(255,248,225,0.96), rgba(255,255,255,0.92));
+
+    color: var(--primary);
+
+    box-shadow: 0 8px 22px rgba(26,46,90,0.08);
+
+    animation: fadeInUp 0.6s ease 0.05s both;
+
+}
+
+.hero-locality i { color: #b8860b; font-size: 1.15rem; }
+
+.hero-locality strong { font-size: 0.96rem; }
+
+.hero-locality span { color: #52627d; font-size: 0.82rem; }
+
 .hero-badge {
 
     display: inline-flex;
@@ -414,7 +452,19 @@ h1, h2, h3, h4 { font-family: 'Sora', sans-serif; color: var(--text-dark); }
 
 }
 
-.hero-cta { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 48px; animation: fadeInUp 0.6s ease 0.3s both; }
+.hero-cta { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 48px; animation: fadeInUp 0.6s ease 0.3s both; }
+
+.hero-call-action { font-weight: 800; letter-spacing: 0.01em; }
+
+.hero-call-action i { animation: phonePulse 1.8s ease-in-out infinite; }
+
+@keyframes phonePulse {
+
+    0%, 100% { transform: scale(1); }
+
+    50% { transform: scale(1.16); }
+
+}
 
 
 
