@@ -639,9 +639,9 @@ h1, h2, h3, h4 { font-family: 'Sora', sans-serif; color: var(--text-dark); }
 .gallery-section { padding: 100px 0; background: var(--bg-soft); }
 .gallery-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: auto auto;
-    gap: 16px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+    align-items: stretch;
 }
 .gallery-item {
     appearance: none;
@@ -649,17 +649,17 @@ h1, h2, h3, h4 { font-family: 'Sora', sans-serif; color: var(--text-dark); }
     padding: 0;
     display: block;
     width: 100%;
+    aspect-ratio: 4 / 5;
     border-radius: var(--radius-sm);
     overflow: hidden;
     box-shadow: var(--shadow);
-    background: #dce8ee;
+    background: #f8fafc;
     cursor: zoom-in;
     transition: var(--transition);
-    height: 420px;
 }
 .gallery-item.gallery-wide {
-    grid-column: span 2;
-    height: 420px;
+    grid-column: auto;
+    height: auto;
 }
 .gallery-item img {
     width: 100%; height: 100%;
@@ -1012,9 +1012,9 @@ h1, h2, h3, h4 { font-family: 'Sora', sans-serif; color: var(--text-dark); }
     .howit-grid { grid-template-columns: 1fr; gap: 32px; }
     .reviews-grid { grid-template-columns: 1fr; }
     .exams-grid { grid-template-columns: 1fr 1fr; }
-    .gallery-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
-    .gallery-item, .gallery-item.gallery-wide { height: auto; aspect-ratio: 1 / 1; }
-    .gallery-item.gallery-wide { grid-column: span 2; aspect-ratio: 16 / 9; }
+    .gallery-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+    .gallery-item, .gallery-item.gallery-wide { height: auto; aspect-ratio: 4 / 5; }
+    .gallery-item.gallery-wide { grid-column: auto; }
     .gallery-lightbox { padding: 16px; }
     .gallery-lightbox img { max-width: 96vw; max-height: 82vh; border-radius: 12px; }
     .gallery-lightbox-close { top: 12px; right: 12px; width: 42px; height: 42px; }
@@ -1072,6 +1072,8 @@ h1, h2, h3, h4 { font-family: 'Sora', sans-serif; color: var(--text-dark); }
     .section-header h2 { font-size: 1.6rem; }
     .section-header p { font-size: 0.9rem; }
     .figures-grid { grid-template-columns: 1fr 1fr; gap: 16px; }
+    .gallery-grid { grid-template-columns: 1fr; gap: 14px; }
+    .gallery-item, .gallery-item.gallery-wide { aspect-ratio: 4 / 5; }
     .exams-grid { grid-template-columns: 1fr; }
     .service-card, .exam-card, .review-card { border-radius: 16px; }
     .figure-card { display: block; }
