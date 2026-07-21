@@ -1132,7 +1132,7 @@
 
                 </div>
 
-                <div class="reviews-grid">
+                <div class="reviews-grid" id="approvedReviews">
 
                     <article class="review-card">
 
@@ -1199,6 +1199,36 @@
                         </div>
 
                     </article>
+
+                </div>
+
+                <div class="review-form-wrap">
+
+                    <div>
+
+                        <span class="section-tag">Lascia una recensione</span>
+
+                        <h3>La tua esperienza è importante</h3>
+
+                        <p>La recensione sarà pubblicata solo dopo la verifica da parte del nostro staff.</p>
+
+                    </div>
+
+                    <form class="review-form" id="reviewForm">
+
+                        <label>Nome o iniziali<input type="text" name="reviewer_name" minlength="2" maxlength="80" required></label>
+
+                        <label>Città<input type="text" name="location" minlength="2" maxlength="80" value="Roma" required></label>
+
+                        <label>Valutazione<select name="rating" required><option value="5">5 stelle</option><option value="4">4 stelle</option><option value="3">3 stelle</option><option value="2">2 stelle</option><option value="1">1 stella</option></select></label>
+
+                        <label class="review-message-field">La tua recensione<textarea name="review_text" minlength="10" maxlength="1000" required></textarea></label>
+
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-paper-plane"></i> Invia recensione</button>
+
+                        <p class="review-form-message" id="reviewFormMessage" aria-live="polite"></p>
+
+                    </form>
 
                 </div>
 
@@ -1773,6 +1803,8 @@
     <script src="supabase-config.js"></script>
 
     <script src="content.js"></script>
+
+    <script src="reviews.js"></script>
 
     <script src="script.js"></script>
 

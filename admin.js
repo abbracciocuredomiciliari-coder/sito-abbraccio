@@ -139,7 +139,82 @@
         return wrapper;
     }
 
+    async function renderReviews() {
+        editorPanel.replaceChildren();
+        const loading = document.createElement('p');
+        loading.className = 'empty-state';
+        loading.textContent = 'Caricamento recensioni...';
+        editorPanel.append(loading);
+        const { data, error } = await client
+            .from('reviews')
+            .select('id, reviewer_name, location, rating, review_text, status, created_at')
+            .order('created_at', { ascending: false });
+        if (error) {
+            loading.textContent = 'Non è stato possibile caricare le recensioni.';
+            return;
+        }
+        if (!data?.length) {
+            loading.textContent = 'Non ci sono recensioni da moderare.';
+            return;
+        }
+        const grid = document.createElement('div');
+        grid.className = 'editor-grid';
+        data.forEach(review => {
+            const card = document.createElement('article');
+            card.className = 'editor-card review-moderation-card';
+            const heading = document.createElement('h2');
+            heading.textContent = review.reviewer_name;
+            const meta = document.createElement('p');
+            meta.className = 'review-admin-meta';
+            meta.textContent = `${review.location} · ${review.rating}/5 stelle · ${new Date(review.created_at).toLocaleDateString('it-IT')}`;
+            const text = document.createElement('p');
+            text.className = 'review-admin-text';
+            text.textContent = review.review_text;
+            const status = document.createElement('span');
+            status.className = `review-status ${review.status}`;
+            status.textContent = review.status === 'approved' ? 'Pubblicata' : 'In attesa';
+            const actions = document.createElement('div');
+            actions.className = 'review-admin-actions';
+            if (review.status === 'pending') {
+                const approve = document.createElement('button');
+                approve.type = 'button';
+                approve.className = 'approve-review-button';
+                approve.innerHTML = '<i class="fas fa-check"></i> Approva e pubblica';
+                approve.addEventListener('click', () => moderateReview(review.id, 'approved'));
+                actions.append(approve);
+            }
+            const remove = document.createElement('button');
+            remove.type = 'button';
+            remove.className = 'delete-review-button';
+            remove.innerHTML = '<i class="fas fa-trash"></i> Elimina';
+            remove.addEventListener('click', () => deleteReview(review.id));
+            actions.append(remove);
+            card.append(heading, meta, text, status, actions);
+            grid.append(card);
+        });
+        editorPanel.replaceChildren(grid);
+    }
+
+    async function moderateReview(id, status) {
+        const { error } = await client.from('reviews').update({ status }).eq('id', id);
+        if (error) return setMessage(saveMessage, 'Non è stato possibile approvare la recensione.', true);
+        setMessage(saveMessage, 'Recensione approvata e pubblicata.');
+        renderReviews();
+    }
+
+    async function deleteReview(id) {
+        if (!window.confirm('Eliminare definitivamente questa recensione?')) return;
+        const { error } = await client.from('reviews').delete().eq('id', id);
+        if (error) return setMessage(saveMessage, 'Non è stato possibile eliminare la recensione.', true);
+        setMessage(saveMessage, 'Recensione eliminata.');
+        renderReviews();
+    }
+
     function renderEditor() {
+        if (activeSection === 'reviews') {
+            renderReviews();
+            return;
+        }
         const section = sections[activeSection];
         editorPanel.replaceChildren();
         const grid = document.createElement('div');

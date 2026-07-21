@@ -79,4 +79,37 @@ on storage.objects for delete
 to authenticated
 using (bucket_id = 'site-images' and public.is_admin());
 
+create table if not exists public.reviews (
+    id bigint generated always as identity primary key,
+    reviewer_name text not null check (char_length(reviewer_name) between 2 and 80),
+    location text not null check (char_length(location) between 2 and 80),
+    rating smallint not null check (rating between 1 and 5),
+    review_text text not null check (char_length(review_text) between 10 and 1000),
+    status text not null default 'pending' check (status in ('pending', 'approved')),
+    created_at timestamptz not null default now()
+);
+
+alter table public.reviews enable row level security;
+grant select, insert on public.reviews to anon, authenticated;
+grant update, delete on public.reviews to authenticated;
+
+drop policy if exists "Public can view approved reviews" on public.reviews;
+create policy "Public can view approved reviews"
+on public.reviews for select
+to anon, authenticated
+using (status = 'approved' or public.is_admin());
+
+drop policy if exists "Visitors can submit pending reviews" on public.reviews;
+create policy "Visitors can submit pending reviews"
+on public.reviews for insert
+to anon, authenticated
+with check (status = 'pending');
+
+drop policy if exists "Admins manage reviews" on public.reviews;
+create policy "Admins manage reviews"
+on public.reviews for all
+to authenticated
+using (public.is_admin())
+with check (public.is_admin());
+
 notify pgrst, 'reload schema';
