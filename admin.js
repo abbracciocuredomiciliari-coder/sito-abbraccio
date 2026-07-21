@@ -24,14 +24,18 @@
         exams_subtitle: { selector: '#esami .section-header p', type: 'text', label: 'Sottotitolo sezione esami' },
         exams_image: { selector: '.exams-feature-image img', type: 'image', label: 'Immagine principale esami' },
         figures_title: { selector: '#figure .section-header h2', type: 'text', label: 'Titolo figure assistenziali' },
-        figures_subtitle: { selector: '#figure .section-header p', type: 'text', label: 'Sottotitolo figure assistenziali' }
+        figures_subtitle: { selector: '#figure .section-header p', type: 'text', label: 'Sottotitolo figure assistenziali' },
+        gallery_tag: { selector: '.gallery-section .section-tag', type: 'text', label: 'Etichetta sezione' },
+        gallery_title: { selector: '.gallery-section .section-header h2', type: 'text', label: 'Titolo sezione' },
+        gallery_subtitle: { selector: '.gallery-section .section-header p', type: 'text', label: 'Sottotitolo sezione' }
     };
 
     const sections = {
         hero: { title: 'In evidenza', keys: ['hero_badge', 'hero_location_title', 'hero_location_subtitle', 'hero_title', 'hero_subtitle', 'hero_call_label'] },
         services: { title: 'Servizi', keys: ['services_title', 'services_subtitle'] },
         figures: { title: 'Figure assistenziali', keys: ['figures_title', 'figures_subtitle'] },
-        exams: { title: 'Esami strumentali', keys: ['exams_title', 'exams_subtitle', 'exams_image'] }
+        exams: { title: 'Esami strumentali', keys: ['exams_title', 'exams_subtitle', 'exams_image'] },
+        gallery: { title: 'Galleria', keys: ['gallery_tag', 'gallery_title', 'gallery_subtitle'] }
     };
 
     for (let index = 0; index < 7; index += 1) {
@@ -39,6 +43,11 @@
         targetMap[`service_${index + 1}_description`] = { selector: `.service-card:nth-child(${index + 1}) .service-content > p`, type: 'text', label: 'Descrizione' };
         targetMap[`service_${index + 1}_image`] = { selector: `.service-card:nth-child(${index + 1}) .service-image img`, type: 'image', label: 'Foto' };
         sections.services.keys.push(`service_${index + 1}_title`, `service_${index + 1}_description`, `service_${index + 1}_image`);
+    }
+
+    for (let index = 0; index < 5; index += 1) {
+        targetMap[`gallery_${index + 1}_image`] = { selector: `.gallery-item:nth-child(${index + 1}) img`, type: 'image', label: 'Foto galleria' };
+        sections.gallery.keys.push(`gallery_${index + 1}_image`);
     }
 
     for (let index = 0; index < 4; index += 1) {

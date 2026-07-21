@@ -17,6 +17,9 @@
         exams_image: { selector: '.exams-feature-image img', type: 'image' },
         figures_title: { selector: '#figure .section-header h2', type: 'text' },
         figures_subtitle: { selector: '#figure .section-header p', type: 'text' },
+        gallery_tag: { selector: '.gallery-section .section-tag', type: 'text' },
+        gallery_title: { selector: '.gallery-section .section-header h2', type: 'text' },
+        gallery_subtitle: { selector: '.gallery-section .section-header p', type: 'text' },
         contact_phone: { selector: '.contact-details a[href^="tel:"]', type: 'text' }
     };
 
@@ -24,6 +27,10 @@
         targets[`service_${index + 1}_title`] = { selector: `.service-card:nth-child(${index + 1}) h3`, type: 'text' };
         targets[`service_${index + 1}_description`] = { selector: `.service-card:nth-child(${index + 1}) .service-content > p`, type: 'text' };
         targets[`service_${index + 1}_image`] = { selector: `.service-card:nth-child(${index + 1}) .service-image img`, type: 'image' };
+    }
+
+    for (let index = 0; index < 5; index += 1) {
+        targets[`gallery_${index + 1}_image`] = { selector: `.gallery-item:nth-child(${index + 1}) img`, type: 'image' };
     }
 
     for (let index = 0; index < 4; index += 1) {
