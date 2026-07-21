@@ -112,4 +112,62 @@ to authenticated
 using (public.is_admin())
 with check (public.is_admin());
 
+create table if not exists public.events (
+    id bigint generated always as identity primary key,
+    title text not null check (char_length(title) between 3 and 120),
+    description text not null check (char_length(description) between 10 and 2000),
+    event_date timestamptz not null,
+    location text not null check (char_length(location) between 2 and 160),
+    image_url text,
+    is_published boolean not null default false,
+    popup_enabled boolean not null default true,
+    created_at timestamptz not null default now()
+);
+
+create table if not exists public.event_registrations (
+    id bigint generated always as identity primary key,
+    event_id bigint not null references public.events(id) on delete cascade,
+    full_name text not null check (char_length(full_name) between 2 and 120),
+    phone text not null check (char_length(phone) between 5 and 40),
+    email text not null check (char_length(email) between 5 and 254),
+    privacy_consent boolean not null check (privacy_consent),
+    created_at timestamptz not null default now()
+);
+
+alter table public.events enable row level security;
+alter table public.event_registrations enable row level security;
+grant select on public.events to anon, authenticated;
+grant insert on public.event_registrations to anon, authenticated;
+grant select, insert, update, delete on public.events, public.event_registrations to authenticated;
+grant usage, select on all sequences in schema public to anon, authenticated;
+
+drop policy if exists "Public can view published events" on public.events;
+create policy "Public can view published events"
+on public.events for select
+to anon, authenticated
+using (is_published or public.is_admin());
+
+drop policy if exists "Visitors can register for published events" on public.event_registrations;
+create policy "Visitors can register for published events"
+on public.event_registrations for insert
+to anon, authenticated
+with check (
+    privacy_consent
+    and exists (select 1 from public.events where id = event_id and is_published)
+);
+
+drop policy if exists "Admins manage events" on public.events;
+create policy "Admins manage events"
+on public.events for all
+to authenticated
+using (public.is_admin())
+with check (public.is_admin());
+
+drop policy if exists "Admins manage event registrations" on public.event_registrations;
+create policy "Admins manage event registrations"
+on public.event_registrations for all
+to authenticated
+using (public.is_admin())
+with check (public.is_admin());
+
 notify pgrst, 'reload schema';

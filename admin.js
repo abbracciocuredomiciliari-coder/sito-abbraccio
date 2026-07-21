@@ -39,7 +39,8 @@
         figures: { title: 'Figure assistenziali', keys: ['figures_title', 'figures_subtitle'] },
         exams: { title: 'Esami strumentali', keys: ['exams_title', 'exams_subtitle', 'exams_image'] },
         gallery: { title: 'Galleria', keys: ['gallery_tag', 'gallery_title', 'gallery_subtitle'] },
-        faq: { title: 'Domande frequenti', keys: ['faq_tag', 'faq_title', 'faq_subtitle'] }
+        faq: { title: 'Domande frequenti', keys: ['faq_tag', 'faq_title', 'faq_subtitle'] },
+        events: { title: 'Eventi', keys: [] }
     };
 
     for (let index = 0; index < 7; index += 1) {

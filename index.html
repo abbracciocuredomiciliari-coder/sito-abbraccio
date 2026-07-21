@@ -102,6 +102,8 @@
 
                     <li><a href="#faq" class="nav-link">FAQ</a></li>
 
+                    <li><a href="#events" class="nav-link">Eventi</a></li>
+
                     <li><a href="#lavora-con-noi" class="nav-link">Lavora con Noi</a></li>
 
                     <li><a href="#contatti" class="nav-link">Contatti</a></li>
@@ -375,6 +377,44 @@
         </section>
 
 
+
+        <!-- Eventi -->
+
+        <section id="events" class="events" hidden>
+
+            <div class="container">
+
+                <div class="section-header">
+
+                    <span class="section-tag">Iniziative e eventi</span>
+
+                    <h2>Incontriamoci sul territorio</h2>
+
+                    <p id="privacy">Scopri le iniziative di Abbraccio e iscriviti. I dati inseriti sono usati esclusivamente per gestire la partecipazione e il relativo contatto.</p>
+
+                </div>
+
+                <div class="events-grid" id="eventsGrid"></div>
+
+                <p class="events-empty" id="eventsEmpty">Al momento non ci sono eventi programmati.</p>
+
+            </div>
+
+        </section>
+
+        <div class="event-popup" id="eventPopup" hidden role="dialog" aria-modal="true" aria-labelledby="eventPopupTitle">
+
+            <div class="event-popup-card">
+
+                <button class="event-popup-close" type="button" data-close-event-popup aria-label="Chiudi avviso"><i class="fas fa-xmark"></i></button>
+
+                <span class="event-badge">Nuova iniziativa</span>
+
+                <div id="eventPopupContent"></div>
+
+            </div>
+
+        </div>
 
         <!-- Servizi -->
 
@@ -1805,6 +1845,8 @@
     <script src="content.js"></script>
 
     <script src="reviews.js"></script>
+
+    <script src="events.js"></script>
 
     <script src="script.js"></script>
 
