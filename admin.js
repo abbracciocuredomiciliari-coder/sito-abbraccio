@@ -1,0 +1,234 @@
+(() => {
+    const { url, publishableKey } = window.SUPABASE_CONFIG || {};
+    if (!url || !publishableKey || !window.supabase) return;
+
+    const client = window.supabase.createClient(url, publishableKey);
+    const loginView = document.getElementById('loginView');
+    const dashboardView = document.getElementById('dashboardView');
+    const loginForm = document.getElementById('loginForm');
+    const loginMessage = document.getElementById('loginMessage');
+    const saveMessage = document.getElementById('saveMessage');
+    const editorPanel = document.getElementById('editorPanel');
+    const tabs = document.getElementById('editorTabs');
+
+    const targetMap = {
+        hero_badge: { selector: '.hero-badge span', type: 'text', label: 'Etichetta superiore' },
+        hero_location_title: { selector: '.hero-locality strong', type: 'text', label: 'Zona operativa' },
+        hero_location_subtitle: { selector: '.hero-locality span', type: 'text', label: 'Sottotitolo zona' },
+        hero_title: { selector: '.hero-title', type: 'html', label: 'Titolo principale' },
+        hero_subtitle: { selector: '.hero-subtitle', type: 'html', label: 'Descrizione principale' },
+        hero_call_label: { selector: '.hero-call-action', type: 'text', label: 'Testo pulsante chiama' },
+        services_title: { selector: '#servizi .section-header h2', type: 'text', label: 'Titolo sezione servizi' },
+        services_subtitle: { selector: '#servizi .section-header p', type: 'text', label: 'Sottotitolo sezione servizi' },
+        exams_title: { selector: '#esami .section-header h2', type: 'text', label: 'Titolo sezione esami' },
+        exams_subtitle: { selector: '#esami .section-header p', type: 'text', label: 'Sottotitolo sezione esami' },
+        exams_image: { selector: '.exams-feature-image img', type: 'image', label: 'Immagine principale esami' },
+        figures_title: { selector: '#figure .section-header h2', type: 'text', label: 'Titolo figure assistenziali' },
+        figures_subtitle: { selector: '#figure .section-header p', type: 'text', label: 'Sottotitolo figure assistenziali' }
+    };
+
+    const sections = {
+        hero: { title: 'In evidenza', keys: ['hero_badge', 'hero_location_title', 'hero_location_subtitle', 'hero_title', 'hero_subtitle', 'hero_call_label'] },
+        services: { title: 'Servizi', keys: ['services_title', 'services_subtitle'] },
+        figures: { title: 'Figure assistenziali', keys: ['figures_title', 'figures_subtitle'] },
+        exams: { title: 'Esami strumentali', keys: ['exams_title', 'exams_subtitle', 'exams_image'] }
+    };
+
+    for (let index = 0; index < 7; index += 1) {
+        targetMap[`service_${index + 1}_title`] = { selector: `.service-card:nth-child(${index + 1}) h3`, type: 'text', label: 'Titolo' };
+        targetMap[`service_${index + 1}_description`] = { selector: `.service-card:nth-child(${index + 1}) .service-content > p`, type: 'text', label: 'Descrizione' };
+        targetMap[`service_${index + 1}_image`] = { selector: `.service-card:nth-child(${index + 1}) .service-image img`, type: 'image', label: 'Foto' };
+        sections.services.keys.push(`service_${index + 1}_title`, `service_${index + 1}_description`, `service_${index + 1}_image`);
+    }
+
+    for (let index = 0; index < 4; index += 1) {
+        targetMap[`figure_${index + 1}_title`] = { selector: `.figure-card:nth-child(${index + 1}) h3`, type: 'text', label: 'Titolo' };
+        targetMap[`figure_${index + 1}_description`] = { selector: `.figure-card:nth-child(${index + 1}) .figure-info p`, type: 'text', label: 'Descrizione' };
+        targetMap[`figure_${index + 1}_image`] = { selector: `.figure-card:nth-child(${index + 1}) .figure-img img`, type: 'image', label: 'Foto' };
+        sections.figures.keys.push(`figure_${index + 1}_title`, `figure_${index + 1}_description`, `figure_${index + 1}_image`);
+    }
+
+    let defaults = {};
+    let savedContent = {};
+    let activeSection = 'hero';
+
+    function setMessage(element, message, error = false) {
+        element.textContent = message;
+        element.style.color = error ? '#b42318' : '#15803d';
+    }
+
+    async function loadDefaults() {
+        const response = await fetch('index.html', { cache: 'no-store' });
+        const html = await response.text();
+        const documentFromSite = new DOMParser().parseFromString(html, 'text/html');
+        Object.entries(targetMap).forEach(([key, target]) => {
+            const element = documentFromSite.querySelector(target.selector);
+            if (!element) return;
+            defaults[key] = target.type === 'image' ? element.getAttribute('src') : target.type === 'html' ? element.innerHTML.trim() : element.textContent.trim();
+        });
+    }
+
+    async function loadSavedContent() {
+        const { data, error } = await client.from('site_content').select('content_key, content_value');
+        if (error) throw error;
+        savedContent = Object.fromEntries((data || []).map(item => [item.content_key, item.content_value]));
+    }
+
+    function fieldValue(key) {
+        return savedContent[key] || defaults[key] || '';
+    }
+
+    function cardName(key) {
+        const match = key.match(/^(service|figure)_(\d+)_/);
+        if (!match) return sections[activeSection].title;
+        const titleKey = `${match[1]}_${match[2]}_title`;
+        return fieldValue(titleKey) || `${match[1] === 'service' ? 'Servizio' : 'Figura'} ${match[2]}`;
+    }
+
+    function createField(key) {
+        const target = targetMap[key];
+        const wrapper = document.createElement('div');
+        wrapper.className = 'editor-field';
+        const label = document.createElement('label');
+        label.textContent = target.label;
+        wrapper.append(label);
+
+        if (target.type === 'image') {
+            const preview = document.createElement('img');
+            preview.className = 'image-preview';
+            preview.src = fieldValue(key);
+            preview.alt = 'Anteprima foto';
+            const upload = document.createElement('div');
+            upload.className = 'upload-row';
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'image/jpeg,image/png,image/webp';
+            input.dataset.key = key;
+            input.addEventListener('change', () => {
+                if (input.files[0]) preview.src = URL.createObjectURL(input.files[0]);
+            });
+            upload.append(input);
+            wrapper.append(preview, upload);
+        } else {
+            const input = target.type === 'html' || target.label === 'Descrizione' || key.includes('subtitle') ? document.createElement('textarea') : document.createElement('input');
+            if (input.tagName === 'INPUT') input.type = 'text';
+            input.value = fieldValue(key);
+            input.dataset.key = key;
+            wrapper.append(input);
+        }
+        return wrapper;
+    }
+
+    function renderEditor() {
+        const section = sections[activeSection];
+        editorPanel.replaceChildren();
+        const grid = document.createElement('div');
+        grid.className = 'editor-grid';
+        const groups = new Map();
+        section.keys.forEach(key => {
+            const group = activeSection === 'services' || activeSection === 'figures' ? cardName(key) : section.title;
+            if (!groups.has(group)) groups.set(group, []);
+            groups.get(group).push(key);
+        });
+        groups.forEach((keys, title) => {
+            const card = document.createElement('article');
+            card.className = 'editor-card';
+            const heading = document.createElement('h2');
+            heading.textContent = title;
+            card.append(heading);
+            keys.forEach(key => card.append(createField(key)));
+            const save = document.createElement('button');
+            save.className = 'save-button';
+            save.type = 'button';
+            save.innerHTML = '<i class="fas fa-floppy-disk"></i> Salva modifiche';
+            save.addEventListener('click', () => saveCard(card, keys, save));
+            card.append(save);
+            grid.append(card);
+        });
+        editorPanel.append(grid);
+    }
+
+    async function uploadImage(key, file) {
+        const extension = file.name.split('.').pop().toLowerCase();
+        const safeName = `${key}-${Date.now()}.${extension}`;
+        const { error } = await client.storage.from('site-images').upload(safeName, file, { upsert: true, contentType: file.type, cacheControl: '3600' });
+        if (error) throw error;
+        return client.storage.from('site-images').getPublicUrl(safeName).data.publicUrl;
+    }
+
+    async function saveCard(card, keys, button) {
+        button.disabled = true;
+        button.textContent = 'Salvataggio...';
+        setMessage(saveMessage, '');
+        try {
+            const entries = [];
+            for (const key of keys) {
+                const target = targetMap[key];
+                let value;
+                if (target.type === 'image') {
+                    const input = card.querySelector(`input[type="file"][data-key="${key}"]`);
+                    value = input.files[0] ? await uploadImage(key, input.files[0]) : fieldValue(key);
+                } else {
+                    value = card.querySelector(`[data-key="${key}"]`).value.trim();
+                }
+                entries.push({ content_key: key, content_value: value });
+                savedContent[key] = value;
+            }
+            const { error } = await client.from('site_content').upsert(entries, { onConflict: 'content_key' });
+            if (error) throw error;
+            setMessage(saveMessage, 'Modifiche salvate e pubblicate.');
+            renderEditor();
+        } catch (error) {
+            setMessage(saveMessage, error.message || 'Non è stato possibile salvare.', true);
+        } finally {
+            button.disabled = false;
+            button.innerHTML = '<i class="fas fa-floppy-disk"></i> Salva modifiche';
+        }
+    }
+
+    async function showDashboard() {
+        const { data: { session } } = await client.auth.getSession();
+        if (!session) return;
+        const { data: admin, error } = await client.from('admin_users').select('id').eq('id', session.user.id).maybeSingle();
+        if (error || !admin) {
+            await client.auth.signOut();
+            setMessage(loginMessage, 'Questo account non è autorizzato.', true);
+            return;
+        }
+        try {
+            await Promise.all([loadDefaults(), loadSavedContent()]);
+            loginView.hidden = true;
+            dashboardView.hidden = false;
+            renderEditor();
+        } catch (error) {
+            setMessage(loginMessage, 'Configurazione incompleta: esegui prima lo script SQL in Supabase.', true);
+        }
+    }
+
+    loginForm.addEventListener('submit', async event => {
+        event.preventDefault();
+        setMessage(loginMessage, 'Accesso in corso...');
+        const email = document.getElementById('loginEmail').value.trim();
+        const password = document.getElementById('loginPassword').value;
+        const { error } = await client.auth.signInWithPassword({ email, password });
+        if (error) return setMessage(loginMessage, error.message, true);
+        await showDashboard();
+    });
+
+    document.getElementById('logoutButton').addEventListener('click', async () => {
+        await client.auth.signOut();
+        dashboardView.hidden = true;
+        loginView.hidden = false;
+        loginForm.reset();
+    });
+
+    tabs.addEventListener('click', event => {
+        const button = event.target.closest('button[data-section]');
+        if (!button) return;
+        activeSection = button.dataset.section;
+        tabs.querySelectorAll('button').forEach(item => item.classList.toggle('active', item === button));
+        renderEditor();
+    });
+
+    showDashboard();
+})();
