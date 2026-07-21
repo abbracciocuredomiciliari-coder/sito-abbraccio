@@ -189,8 +189,8 @@
     async function showDashboard() {
         const { data: { session } } = await client.auth.getSession();
         if (!session) return;
-        const { data: admin, error } = await client.from('admin_users').select('id').eq('id', session.user.id).maybeSingle();
-        if (error || !admin) {
+        const { data: isAdmin, error } = await client.rpc('is_admin');
+        if (error || !isAdmin) {
             await client.auth.signOut();
             setMessage(loginMessage, 'Questo account non è autorizzato.', true);
             return;
