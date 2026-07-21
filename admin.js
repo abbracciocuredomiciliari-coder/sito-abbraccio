@@ -27,7 +27,10 @@
         figures_subtitle: { selector: '#figure .section-header p', type: 'text', label: 'Sottotitolo figure assistenziali' },
         gallery_tag: { selector: '.gallery-section .section-tag', type: 'text', label: 'Etichetta sezione' },
         gallery_title: { selector: '.gallery-section .section-header h2', type: 'text', label: 'Titolo sezione' },
-        gallery_subtitle: { selector: '.gallery-section .section-header p', type: 'text', label: 'Sottotitolo sezione' }
+        gallery_subtitle: { selector: '.gallery-section .section-header p', type: 'text', label: 'Sottotitolo sezione' },
+        faq_tag: { selector: '#faq .section-tag', type: 'text', label: 'Etichetta sezione' },
+        faq_title: { selector: '#faq .section-header h2', type: 'text', label: 'Titolo sezione' },
+        faq_subtitle: { selector: '#faq .section-header p', type: 'text', label: 'Sottotitolo sezione' }
     };
 
     const sections = {
@@ -35,7 +38,8 @@
         services: { title: 'Servizi', keys: ['services_title', 'services_subtitle'] },
         figures: { title: 'Figure assistenziali', keys: ['figures_title', 'figures_subtitle'] },
         exams: { title: 'Esami strumentali', keys: ['exams_title', 'exams_subtitle', 'exams_image'] },
-        gallery: { title: 'Galleria', keys: ['gallery_tag', 'gallery_title', 'gallery_subtitle'] }
+        gallery: { title: 'Galleria', keys: ['gallery_tag', 'gallery_title', 'gallery_subtitle'] },
+        faq: { title: 'Domande frequenti', keys: ['faq_tag', 'faq_title', 'faq_subtitle'] }
     };
 
     for (let index = 0; index < 7; index += 1) {
@@ -48,6 +52,12 @@
     for (let index = 0; index < 5; index += 1) {
         targetMap[`gallery_${index + 1}_image`] = { selector: `.gallery-item:nth-child(${index + 1}) img`, type: 'image', label: 'Foto galleria' };
         sections.gallery.keys.push(`gallery_${index + 1}_image`);
+    }
+
+    for (let index = 0; index < 7; index += 1) {
+        targetMap[`faq_${index + 1}_question`] = { selector: `.faq-item:nth-child(${index + 1}) .faq-q`, type: 'question', label: 'Domanda' };
+        targetMap[`faq_${index + 1}_answer`] = { selector: `.faq-item:nth-child(${index + 1}) .faq-a p`, type: 'text', label: 'Risposta' };
+        sections.faq.keys.push(`faq_${index + 1}_question`, `faq_${index + 1}_answer`);
     }
 
     for (let index = 0; index < 4; index += 1) {
@@ -73,7 +83,7 @@
         Object.entries(targetMap).forEach(([key, target]) => {
             const element = documentFromSite.querySelector(target.selector);
             if (!element) return;
-            defaults[key] = target.type === 'image' ? element.getAttribute('src') : target.type === 'html' ? element.innerHTML.trim() : element.textContent.trim();
+            defaults[key] = target.type === 'image' ? element.getAttribute('src') : target.type === 'html' ? element.innerHTML.trim() : target.type === 'question' ? element.childNodes[0]?.textContent.trim() || '' : element.textContent.trim();
         });
     }
 
@@ -88,8 +98,9 @@
     }
 
     function cardName(key) {
-        const match = key.match(/^(service|figure)_(\d+)_/);
+        const match = key.match(/^(service|figure|faq)_(\d+)_/);
         if (!match) return sections[activeSection].title;
+        if (match[1] === 'faq') return `Domanda ${match[2]}`;
         const titleKey = `${match[1]}_${match[2]}_title`;
         return fieldValue(titleKey) || `${match[1] === 'service' ? 'Servizio' : 'Figura'} ${match[2]}`;
     }
@@ -119,7 +130,7 @@
             upload.append(input);
             wrapper.append(preview, upload);
         } else {
-            const input = target.type === 'html' || target.label === 'Descrizione' || key.includes('subtitle') ? document.createElement('textarea') : document.createElement('input');
+            const input = target.type === 'html' || target.type === 'question' || target.label === 'Descrizione' || target.label === 'Risposta' || key.includes('subtitle') ? document.createElement('textarea') : document.createElement('input');
             if (input.tagName === 'INPUT') input.type = 'text';
             input.value = fieldValue(key);
             input.dataset.key = key;

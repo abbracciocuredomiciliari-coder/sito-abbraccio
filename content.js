@@ -20,6 +20,9 @@
         gallery_tag: { selector: '.gallery-section .section-tag', type: 'text' },
         gallery_title: { selector: '.gallery-section .section-header h2', type: 'text' },
         gallery_subtitle: { selector: '.gallery-section .section-header p', type: 'text' },
+        faq_tag: { selector: '#faq .section-tag', type: 'text' },
+        faq_title: { selector: '#faq .section-header h2', type: 'text' },
+        faq_subtitle: { selector: '#faq .section-header p', type: 'text' },
         contact_phone: { selector: '.contact-details a[href^="tel:"]', type: 'text' }
     };
 
@@ -31,6 +34,11 @@
 
     for (let index = 0; index < 5; index += 1) {
         targets[`gallery_${index + 1}_image`] = { selector: `.gallery-item:nth-child(${index + 1}) img`, type: 'image' };
+    }
+
+    for (let index = 0; index < 7; index += 1) {
+        targets[`faq_${index + 1}_question`] = { selector: `.faq-item:nth-child(${index + 1}) .faq-q`, type: 'question' };
+        targets[`faq_${index + 1}_answer`] = { selector: `.faq-item:nth-child(${index + 1}) .faq-a p`, type: 'text' };
     }
 
     for (let index = 0; index < 4; index += 1) {
@@ -52,6 +60,10 @@
                 element.src = value;
             } else if (target.type === 'html') {
                 element.innerHTML = value;
+            } else if (target.type === 'question') {
+                const icon = document.createElement('i');
+                icon.className = 'fas fa-chevron-down';
+                element.replaceChildren(document.createTextNode(`${value} `), icon);
             } else {
                 element.textContent = value;
             }
