@@ -23,6 +23,12 @@
                 <label>Password<input id="loginPassword" type="password" autocomplete="current-password" required></label>
                 <button type="submit"><i class="fas fa-right-to-bracket"></i> Accedi</button>
             </form>
+            <button id="forgotPasswordButton" type="button" class="back-link">Password dimenticata?</button>
+            <form id="resetPasswordForm" class="stack-form" hidden>
+                <label>Nuova password<input id="resetPassword" type="password" autocomplete="new-password" minlength="8" required></label>
+                <label>Conferma nuova password<input id="confirmResetPassword" type="password" autocomplete="new-password" minlength="8" required></label>
+                <button type="submit"><i class="fas fa-key"></i> Salva nuova password</button>
+            </form>
             <p class="form-message" id="loginMessage" aria-live="polite"></p>
             <a class="back-link" href="index.html"><i class="fas fa-arrow-left"></i> Torna al sito</a>
         </section>

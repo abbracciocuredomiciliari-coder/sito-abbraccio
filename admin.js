@@ -10,6 +10,8 @@
     const saveMessage = document.getElementById('saveMessage');
     const editorPanel = document.getElementById('editorPanel');
     const tabs = document.getElementById('editorTabs');
+    const forgotPasswordButton = document.getElementById('forgotPasswordButton');
+    const resetPasswordForm = document.getElementById('resetPasswordForm');
 
     const targetMap = {
         hero_badge: { selector: '.hero-badge span', type: 'text', label: 'Etichetta superiore' },
@@ -43,7 +45,7 @@
         events: { title: 'Eventi', keys: [] }
     };
 
-    for (let index = 0; index < 7; index += 1) {
+    for (let index = 0; index < 8; index += 1) {
         targetMap[`service_${index + 1}_title`] = { selector: `.service-card:nth-child(${index + 1}) h3`, type: 'text', label: 'Titolo' };
         targetMap[`service_${index + 1}_description`] = { selector: `.service-card:nth-child(${index + 1}) .service-content > p`, type: 'text', label: 'Descrizione' };
         targetMap[`service_${index + 1}_image`] = { selector: `.service-card:nth-child(${index + 1}) .service-image img`, type: 'image', label: 'Foto' };
@@ -309,6 +311,40 @@
         const { error } = await client.auth.signInWithPassword({ email, password });
         if (error) return setMessage(loginMessage, error.message, true);
         await showDashboard();
+    });
+
+    forgotPasswordButton.addEventListener('click', async () => {
+        const email = document.getElementById('loginEmail').value.trim();
+        if (!email) return setMessage(loginMessage, 'Inserisci prima l\'email per ricevere il link di recupero.', true);
+        setMessage(loginMessage, 'Invio link di recupero...');
+        const { error } = await client.auth.resetPasswordForEmail(email, { redirectTo: `${window.location.origin}${window.location.pathname}` });
+        if (error) return setMessage(loginMessage, error.message, true);
+        setMessage(loginMessage, 'Controlla la tua email: il link per impostare la nuova password è stato inviato.');
+    });
+
+    resetPasswordForm.addEventListener('submit', async event => {
+        event.preventDefault();
+        const password = document.getElementById('resetPassword').value;
+        const confirmPassword = document.getElementById('confirmResetPassword').value;
+        if (password !== confirmPassword) return setMessage(loginMessage, 'Le password non coincidono.', true);
+        setMessage(loginMessage, 'Salvataggio nuova password...');
+        const { error } = await client.auth.updateUser({ password });
+        if (error) return setMessage(loginMessage, error.message, true);
+        await client.auth.signOut();
+        resetPasswordForm.hidden = true;
+        loginForm.hidden = false;
+        forgotPasswordButton.hidden = false;
+        loginForm.reset();
+        resetPasswordForm.reset();
+        setMessage(loginMessage, 'Password aggiornata. Ora puoi accedere con la nuova password.');
+    });
+
+    client.auth.onAuthStateChange((event) => {
+        if (event !== 'PASSWORD_RECOVERY') return;
+        loginForm.hidden = true;
+        forgotPasswordButton.hidden = true;
+        resetPasswordForm.hidden = false;
+        setMessage(loginMessage, 'Imposta la nuova password per l\'area riservata.');
     });
 
     document.getElementById('logoutButton').addEventListener('click', async () => {
