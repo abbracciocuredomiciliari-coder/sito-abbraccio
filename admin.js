@@ -11,6 +11,8 @@
     const editorPanel = document.getElementById('editorPanel');
     const tabs = document.getElementById('editorTabs');
     const forgotPasswordButton = document.getElementById('forgotPasswordButton');
+    const forgotPasswordForm = document.getElementById('forgotPasswordForm');
+    const backToLoginButton = document.getElementById('backToLoginButton');
     const resetPasswordForm = document.getElementById('resetPasswordForm');
 
     const targetMap = {
@@ -313,12 +315,28 @@
         await showDashboard();
     });
 
-    forgotPasswordButton.addEventListener('click', async () => {
-        const email = document.getElementById('loginEmail').value.trim();
-        if (!email) return setMessage(loginMessage, 'Inserisci prima l\'email per ricevere il link di recupero.', true);
+    forgotPasswordButton.addEventListener('click', () => {
+        loginForm.hidden = true;
+        forgotPasswordButton.hidden = true;
+        forgotPasswordForm.hidden = false;
+        document.getElementById('forgotPasswordEmail').value = document.getElementById('loginEmail').value.trim();
+        setMessage(loginMessage, 'Inserisci l’email per ricevere il link di recupero.');
+    });
+
+    backToLoginButton.addEventListener('click', () => {
+        forgotPasswordForm.hidden = true;
+        loginForm.hidden = false;
+        forgotPasswordButton.hidden = false;
+        setMessage(loginMessage, '');
+    });
+
+    forgotPasswordForm.addEventListener('submit', async event => {
+        event.preventDefault();
+        const email = document.getElementById('forgotPasswordEmail').value.trim();
         setMessage(loginMessage, 'Invio link di recupero...');
         const { error } = await client.auth.resetPasswordForEmail(email, { redirectTo: `${window.location.origin}${window.location.pathname}` });
         if (error) return setMessage(loginMessage, error.message, true);
+        forgotPasswordForm.reset();
         setMessage(loginMessage, 'Controlla la tua email: il link per impostare la nuova password è stato inviato.');
     });
 
@@ -332,6 +350,7 @@
         if (error) return setMessage(loginMessage, error.message, true);
         await client.auth.signOut();
         resetPasswordForm.hidden = true;
+        forgotPasswordForm.hidden = true;
         loginForm.hidden = false;
         forgotPasswordButton.hidden = false;
         loginForm.reset();
@@ -343,6 +362,7 @@
         if (event !== 'PASSWORD_RECOVERY') return;
         loginForm.hidden = true;
         forgotPasswordButton.hidden = true;
+        forgotPasswordForm.hidden = true;
         resetPasswordForm.hidden = false;
         setMessage(loginMessage, 'Imposta la nuova password per l\'area riservata.');
     });
@@ -351,6 +371,10 @@
         await client.auth.signOut();
         dashboardView.hidden = true;
         loginView.hidden = false;
+        forgotPasswordForm.hidden = true;
+        resetPasswordForm.hidden = true;
+        loginForm.hidden = false;
+        forgotPasswordButton.hidden = false;
         loginForm.reset();
     });
 

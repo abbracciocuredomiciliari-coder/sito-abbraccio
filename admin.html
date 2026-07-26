@@ -24,6 +24,12 @@
                 <button type="submit"><i class="fas fa-right-to-bracket"></i> Accedi</button>
             </form>
             <button id="forgotPasswordButton" type="button" class="back-link">Password dimenticata?</button>
+            <form id="forgotPasswordForm" class="stack-form" hidden>
+                <p>Inserisci l'email dell'area riservata: ti invieremo un link per scegliere una nuova password.</p>
+                <label>Email<input id="forgotPasswordEmail" type="email" autocomplete="email" required></label>
+                <button type="submit"><i class="fas fa-paper-plane"></i> Invia link di recupero</button>
+                <button id="backToLoginButton" type="button" class="back-link">Torna all'accesso</button>
+            </form>
             <form id="resetPasswordForm" class="stack-form" hidden>
                 <label>Nuova password<input id="resetPassword" type="password" autocomplete="new-password" minlength="8" required></label>
                 <label>Conferma nuova password<input id="confirmResetPassword" type="password" autocomplete="new-password" minlength="8" required></label>
