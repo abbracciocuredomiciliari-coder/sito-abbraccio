@@ -2237,3 +2237,67 @@ h1, h2, h3, h4 { font-family: 'Sora', sans-serif; color: var(--text-dark); }
 
 }
 
+/* ===== Telemedicina Banner ===== */
+
+.telemedicina {
+    padding: 100px 0;
+    background: var(--bg-soft);
+    position: relative;
+    overflow: hidden;
+}
+
+.telemedicina-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+}
+
+.telemedicina-content h2 {
+    font-size: 2.4rem;
+    color: var(--primary);
+    margin-bottom: 18px;
+    line-height: 1.2;
+}
+
+.telemedicina-content p {
+    font-size: 1.1rem;
+    color: var(--text-light);
+    margin-bottom: 24px;
+    max-width: 540px;
+}
+
+.telemedicina-list {
+    list-style: none;
+    margin: 0 0 32px 0;
+    padding: 0;
+}
+
+.telemedicina-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 14px;
+    color: var(--text);
+}
+
+.telemedicina-list li i {
+    color: var(--green);
+    margin-top: 3px;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+}
+
+.telemedicina-visual img {
+    width: 100%;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-lg);
+}
+
+@media (max-width: 768px) {
+    .telemedicina { padding: 60px 0; }
+    .telemedicina-inner { grid-template-columns: 1fr; gap: 30px; }
+    .telemedicina-content h2 { font-size: 1.8rem; }
+    .telemedicina-visual { order: -1; }
+}
+
