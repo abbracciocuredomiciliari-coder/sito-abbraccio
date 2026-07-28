@@ -23,7 +23,16 @@
         faq_tag: { selector: '#faq .section-tag', type: 'text' },
         faq_title: { selector: '#faq .section-header h2', type: 'text' },
         faq_subtitle: { selector: '#faq .section-header p', type: 'text' },
-        contact_phone: { selector: '.contact-details a[href^="tel:"]', type: 'text' }
+        contact_phone: { selector: '.contact-details a[href^="tel:"]', type: 'text' },
+        telemedicina_tag: { selector: '.telemedicina-content .section-tag', type: 'text' },
+        telemedicina_title: { selector: '.telemedicina-content h2', type: 'text' },
+        telemedicina_description: { selector: '.telemedicina-content > p', type: 'text' },
+        telemedicina_image: { selector: '.telemedicina-visual img', type: 'image' },
+        telemedicina_cta: { selector: '.telemedicina-content .btn', type: 'text' },
+        telemedicina_item_1: { selector: '.telemedicina-list li:nth-child(1) .telemedicina-item-text', type: 'text' },
+        telemedicina_item_2: { selector: '.telemedicina-list li:nth-child(2) .telemedicina-item-text', type: 'text' },
+        telemedicina_item_3: { selector: '.telemedicina-list li:nth-child(3) .telemedicina-item-text', type: 'text' },
+        telemedicina_item_4: { selector: '.telemedicina-list li:nth-child(4) .telemedicina-item-text', type: 'text' }
     };
 
     for (let index = 0; index < 7; index += 1) {

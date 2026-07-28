@@ -34,7 +34,16 @@
         gallery_subtitle: { selector: '.gallery-section .section-header p', type: 'text', label: 'Sottotitolo sezione' },
         faq_tag: { selector: '#faq .section-tag', type: 'text', label: 'Etichetta sezione' },
         faq_title: { selector: '#faq .section-header h2', type: 'text', label: 'Titolo sezione' },
-        faq_subtitle: { selector: '#faq .section-header p', type: 'text', label: 'Sottotitolo sezione' }
+        faq_subtitle: { selector: '#faq .section-header p', type: 'text', label: 'Sottotitolo sezione' },
+        telemedicina_tag: { selector: '.telemedicina-content .section-tag', type: 'text', label: 'Etichetta' },
+        telemedicina_title: { selector: '.telemedicina-content h2', type: 'text', label: 'Titolo' },
+        telemedicina_description: { selector: '.telemedicina-content > p', type: 'text', label: 'Descrizione' },
+        telemedicina_image: { selector: '.telemedicina-visual img', type: 'image', label: 'Immagine' },
+        telemedicina_cta: { selector: '.telemedicina-content .btn', type: 'text', label: 'Testo pulsante' },
+        telemedicina_item_1: { selector: '.telemedicina-list li:nth-child(1) .telemedicina-item-text', type: 'text', label: 'Punto 1' },
+        telemedicina_item_2: { selector: '.telemedicina-list li:nth-child(2) .telemedicina-item-text', type: 'text', label: 'Punto 2' },
+        telemedicina_item_3: { selector: '.telemedicina-list li:nth-child(3) .telemedicina-item-text', type: 'text', label: 'Punto 3' },
+        telemedicina_item_4: { selector: '.telemedicina-list li:nth-child(4) .telemedicina-item-text', type: 'text', label: 'Punto 4' }
     };
 
     const sections = {
@@ -44,6 +53,7 @@
         exams: { title: 'Esami strumentali', keys: ['exams_title', 'exams_subtitle', 'exams_image'] },
         gallery: { title: 'Galleria', keys: ['gallery_tag', 'gallery_title', 'gallery_subtitle'] },
         faq: { title: 'Domande frequenti', keys: ['faq_tag', 'faq_title', 'faq_subtitle'] },
+        telemedicina: { title: 'Telemedicina', keys: ['telemedicina_tag', 'telemedicina_title', 'telemedicina_description', 'telemedicina_image', 'telemedicina_cta', 'telemedicina_item_1', 'telemedicina_item_2', 'telemedicina_item_3', 'telemedicina_item_4'] },
         events: { title: 'Eventi', keys: [] }
     };
 
