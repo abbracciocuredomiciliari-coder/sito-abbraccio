@@ -22,6 +22,7 @@
         hero_title: { selector: '.hero-title', type: 'html', label: 'Titolo principale' },
         hero_subtitle: { selector: '.hero-subtitle', type: 'html', label: 'Descrizione principale' },
         hero_call_label: { selector: '.hero-call-action', type: 'text', label: 'Testo pulsante chiama' },
+        hero_image: { selector: '.hero-image-wrap img', type: 'image', label: 'Foto in evidenza' },
         services_title: { selector: '#servizi .section-header h2', type: 'text', label: 'Titolo sezione servizi' },
         services_subtitle: { selector: '#servizi .section-header p', type: 'text', label: 'Sottotitolo sezione servizi' },
         exams_title: { selector: '#esami .section-header h2', type: 'text', label: 'Titolo sezione esami' },
@@ -47,7 +48,7 @@
     };
 
     const sections = {
-        hero: { title: 'In evidenza', keys: ['hero_badge', 'hero_location_title', 'hero_location_subtitle', 'hero_title', 'hero_subtitle', 'hero_call_label'] },
+        hero: { title: 'In evidenza', keys: ['hero_badge', 'hero_location_title', 'hero_location_subtitle', 'hero_title', 'hero_subtitle', 'hero_call_label', 'hero_image'] },
         services: { title: 'Servizi', keys: ['services_title', 'services_subtitle'] },
         figures: { title: 'Figure assistenziali', keys: ['figures_title', 'figures_subtitle'] },
         exams: { title: 'Esami strumentali', keys: ['exams_title', 'exams_subtitle', 'exams_image'] },

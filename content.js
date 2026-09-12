@@ -10,6 +10,7 @@
         hero_title: { selector: '.hero-title', type: 'html' },
         hero_subtitle: { selector: '.hero-subtitle', type: 'html' },
         hero_call_label: { selector: '.hero-call-action', type: 'text' },
+        hero_image: { selector: '.hero-image-wrap img', type: 'image' },
         services_title: { selector: '#servizi .section-header h2', type: 'text' },
         services_subtitle: { selector: '#servizi .section-header p', type: 'text' },
         exams_title: { selector: '#esami .section-header h2', type: 'text' },
