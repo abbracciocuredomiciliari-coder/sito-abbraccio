@@ -64,9 +64,14 @@
         sections.services.keys.push(`service_${index + 1}_title`, `service_${index + 1}_description`, `service_${index + 1}_image`);
     }
 
-    for (let index = 0; index < 12; index += 1) {
+    for (let index = 0; index < 20; index += 1) {
         targetMap[`gallery_${index + 1}_image`] = { selector: `.gallery-item:nth-child(${index + 1}) img`, type: 'image', label: 'Foto galleria' };
         sections.gallery.keys.push(`gallery_${index + 1}_image`);
+    }
+
+    for (let index = 0; index < 2; index += 1) {
+        targetMap[`video_${index + 1}`] = { selector: `.gallery-item:nth-child(${21 + index}) video`, type: 'video', label: `Video galleria ${index + 1}` };
+        sections.gallery.keys.push(`video_${index + 1}`);
     }
 
     for (let index = 0; index < 7; index += 1) {
@@ -98,7 +103,7 @@
         Object.entries(targetMap).forEach(([key, target]) => {
             const element = documentFromSite.querySelector(target.selector);
             if (!element) return;
-            defaults[key] = target.type === 'image' ? element.getAttribute('src') : target.type === 'html' ? element.innerHTML.trim() : target.type === 'question' ? element.childNodes[0]?.textContent.trim() || '' : element.textContent.trim();
+            defaults[key] = (target.type === 'image' || target.type === 'video') ? element.getAttribute('src') : target.type === 'html' ? element.innerHTML.trim() : target.type === 'question' ? element.childNodes[0]?.textContent.trim() || '' : element.textContent.trim();
         });
     }
 
@@ -141,6 +146,28 @@
             input.dataset.key = key;
             input.addEventListener('change', () => {
                 if (input.files[0]) preview.src = URL.createObjectURL(input.files[0]);
+            });
+            upload.append(input);
+            wrapper.append(preview, upload);
+        } else if (target.type === 'video') {
+            const preview = document.createElement('video');
+            preview.className = 'image-preview';
+            preview.src = fieldValue(key);
+            preview.controls = true;
+            preview.muted = true;
+            preview.loop = true;
+            preview.playsInline = true;
+            const upload = document.createElement('div');
+            upload.className = 'upload-row';
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'video/mp4,video/webm,video/ogg';
+            input.dataset.key = key;
+            input.addEventListener('change', () => {
+                if (input.files[0]) {
+                    preview.src = URL.createObjectURL(input.files[0]);
+                    preview.load();
+                }
             });
             upload.append(input);
             wrapper.append(preview, upload);
@@ -258,7 +285,7 @@
         editorPanel.append(grid);
     }
 
-    async function uploadImage(key, file) {
+    async function uploadMedia(key, file) {
         const extension = file.name.split('.').pop().toLowerCase();
         const safeName = `${key}-${Date.now()}.${extension}`;
         const { error } = await client.storage.from('site-images').upload(safeName, file, { upsert: true, contentType: file.type, cacheControl: '3600' });
@@ -275,9 +302,9 @@
             for (const key of keys) {
                 const target = targetMap[key];
                 let value;
-                if (target.type === 'image') {
+                if (target.type === 'image' || target.type === 'video') {
                     const input = card.querySelector(`input[type="file"][data-key="${key}"]`);
-                    value = input.files[0] ? await uploadImage(key, input.files[0]) : fieldValue(key);
+                    value = input.files[0] ? await uploadMedia(key, input.files[0]) : fieldValue(key);
                 } else {
                     value = card.querySelector(`[data-key="${key}"]`).value.trim();
                 }
