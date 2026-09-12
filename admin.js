@@ -64,7 +64,7 @@
         sections.services.keys.push(`service_${index + 1}_title`, `service_${index + 1}_description`, `service_${index + 1}_image`);
     }
 
-    for (let index = 0; index < 5; index += 1) {
+    for (let index = 0; index < 12; index += 1) {
         targetMap[`gallery_${index + 1}_image`] = { selector: `.gallery-item:nth-child(${index + 1}) img`, type: 'image', label: 'Foto galleria' };
         sections.gallery.keys.push(`gallery_${index + 1}_image`);
     }

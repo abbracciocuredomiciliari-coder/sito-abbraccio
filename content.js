@@ -41,7 +41,7 @@
         targets[`service_${index + 1}_image`] = { selector: `.service-card:nth-child(${index + 1}) .service-image img`, type: 'image' };
     }
 
-    for (let index = 0; index < 5; index += 1) {
+    for (let index = 0; index < 12; index += 1) {
         targets[`gallery_${index + 1}_image`] = { selector: `.gallery-item:nth-child(${index + 1}) img`, type: 'image' };
     }
 
@@ -67,6 +67,7 @@
 
             if (target.type === 'image') {
                 element.src = value;
+                element.parentElement?.classList.remove('gallery-empty');
             } else if (target.type === 'html') {
                 element.innerHTML = value;
             } else if (target.type === 'question') {

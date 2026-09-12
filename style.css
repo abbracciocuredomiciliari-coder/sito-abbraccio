@@ -1369,6 +1369,8 @@ h1, h2, h3, h4 { font-family: 'Sora', sans-serif; color: var(--text-dark); }
 
 .gallery-item:hover img { transform: scale(1.04); }
 
+.gallery-empty { display: none; }
+
 
 
 /* ===== Come Funziona ===== */
