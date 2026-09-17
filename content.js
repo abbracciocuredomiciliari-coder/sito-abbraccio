@@ -42,12 +42,12 @@
         targets[`service_${index + 1}_image`] = { selector: `.service-card:nth-child(${index + 1}) .service-image img`, type: 'image' };
     }
 
-    for (let index = 0; index < 20; index += 1) {
+    for (let index = 0; index < 35; index += 1) {
         targets[`gallery_${index + 1}_image`] = { selector: `.gallery-item:nth-child(${index + 1}) img`, type: 'image' };
     }
 
-    for (let index = 0; index < 2; index += 1) {
-        targets[`video_${index + 1}`] = { selector: `.gallery-item:nth-child(${21 + index}) video`, type: 'video' };
+    for (let index = 0; index < 12; index += 1) {
+        targets[`video_${index + 1}`] = { selector: `.gallery-item:nth-child(${36 + index}) video`, type: 'video' };
     }
 
     for (let index = 0; index < 7; index += 1) {
