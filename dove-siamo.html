@@ -1,0 +1,226 @@
+﻿<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dove siamo - Abbraccio Cure Domiciliari</title>
+  <meta name="description" content="Le sedi e le aree coperte da Abbraccio Cure Domiciliari.">
+  <link rel="icon" type="image/png" href="logo-abbraccio.png">
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    .where-hero { background: var(--grad-hero); color: #fff; padding: 70px 0; text-align: center; }
+    .where-hero h1 { color: #fff; font-size: 2.4rem; margin-bottom: 10px; }
+    .where-hero p { color: rgba(255,255,255,0.85); }
+    .where-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; padding: 60px 0; }
+    .where-card { background: #fff; padding: 30px; border-radius: var(--radius); box-shadow: var(--shadow); }
+    .where-card h3 { color: var(--text-dark); margin-bottom: 12px; display: flex; align-items: center; gap: 10px; }
+    .where-card h3 i { color: var(--blue); }
+    .where-card ul { list-style: none; color: var(--text-light); font-size: 0.95rem; }
+    .where-card li { margin-bottom: 8px; }
+    .where-main { padding: 60px 0; background: var(--bg-soft); }
+    .where-main-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
+    .where-main h2 { color: var(--text-dark); margin-bottom: 16px; }
+    .where-main p { color: var(--text-light); margin-bottom: 12px; }
+    .where-map { border-radius: var(--radius); height: 300px; overflow: hidden; box-shadow: var(--shadow); }
+    .where-map iframe { width: 100%; height: 100%; border: 0; }
+    @media (max-width: 900px) { .where-grid, .where-main-inner { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body><!-- Top bar -->
+<div class="topbar">
+  <div class="container topbar-inner">
+    <div class="topbar-left">
+      <a href="tel:0601905242"><i class="fas fa-phone"></i> 06 01905242</a>
+      <a href="https://wa.me/393514175117"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+    </div>
+    <div class="topbar-right">
+      <a href="lavora-con-noi.html">Lavora con noi</a>
+      <a href="admin.html" class="area-riservata"><i class="fas fa-user-circle"></i> Area Riservata</a>
+    </div>
+  </div>
+</div>
+
+<!-- Header -->
+<header class="header" id="header">
+  <div class="container header-inner">
+    <a href="index.html" class="logo">
+      <img src="logo-abbraccio.png" alt="Abbraccio Cure Domiciliari">
+      <div class="logo-text">
+        <strong>Abbraccio</strong>
+        <span>Cure Domiciliari</span>
+      </div>
+    </a>
+    <nav class="nav" id="navMenu">
+      <ul>
+        <li><a href="index.html#chi-siamo">CHI SIAMO</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle">SERVIZI</a>
+          <div class="dropdown-menu">
+            <a href="infermiere-a-domicilio.html"><i class="fas fa-user-nurse"></i> Assistenza Infermieristica</a>
+            <a href="fisioterapia-a-domicilio.html"><i class="fas fa-person-walking"></i> Fisioterapia a domicilio</a>
+            <a href="assistenza-anziani.html"><i class="fas fa-hand-holding-heart"></i> Assistenza Anziani</a>
+            <a href="cure-pazienti-cronici.html"><i class="fas fa-notes-medical"></i> Cure Pazienti Cronici</a>
+            <a href="assistenza-notturna.html"><i class="fas fa-moon"></i> Assistenza Notturna</a>
+            <a href="cure-palliative.html"><i class="fas fa-dove"></i> Cure Palliative</a>
+            <a href="psicologia-a-domicilio.html"><i class="fas fa-brain"></i> Psicologia</a>
+            <a href="servizio-ambulanza.html"><i class="fas fa-ambulance"></i> Servizio Ambulanza</a>
+            <a href="servizi.html"><i class="fas fa-th-list"></i> Tutti i servizi</a>
+          </div>
+        </li>        <li class="dropdown">
+          <a href="#" class="dropdown-toggle">ESAMI</a>
+          <div class="dropdown-menu">
+            <a href="holter-pressorio.html"><i class="fas fa-heart-pulse"></i> Holter Pressorio</a>
+            <a href="holter-ecg.html"><i class="fas fa-wave-square"></i> Holter ECG</a>
+            <a href="apnee-sonno.html"><i class="fas fa-moon"></i> Apnee del Sonno</a>
+            <a href="screening-cardiaci.html"><i class="fas fa-heart-circle-check"></i> Screening Cardiaci</a>
+            <a href="saturimetria-spirometria.html"><i class="fas fa-lungs"></i> Saturimetria e Spirometria</a>
+            <a href="prelievi-ematici.html"><i class="fas fa-droplet"></i> Prelievi Ematici</a>
+            <a href="emogasanalisi.html"><i class="fas fa-lungs-virus"></i> Emogasanalisi</a>
+            <a href="rx-domiciliare.html"><i class="fas fa-x-ray"></i> RX Domiciliare</a>
+            <a href="ecografia-domiciliare.html"><i class="fas fa-wave-square"></i> Ecografia Domiciliare</a>
+            <a href="esami-strumentali.html"><i class="fas fa-th-list"></i> Tutti gli esami</a>
+          </div>
+        </li>
+
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle">DOVE SIAMO</a>
+                    <div class="dropdown-menu dove">
+            <a href="dove-siamo.html#roma-centro"><i class="fas fa-map-marker-alt"></i> Roma Centro</a>
+            <a href="dove-siamo.html#roma-nord"><i class="fas fa-map-marker-alt"></i> Roma Nord</a>
+            <a href="dove-siamo.html#roma-sud"><i class="fas fa-map-marker-alt"></i> Roma Sud</a>
+            <a href="dove-siamo.html#roma-est"><i class="fas fa-map-marker-alt"></i> Roma Est</a>
+            <a href="dove-siamo.html#roma-ovest"><i class="fas fa-map-marker-alt"></i> Roma Ovest</a>
+            <a href="dove-siamo.html#provincia-roma"><i class="fas fa-map-marker-alt"></i> Provincia di Roma</a>
+            <a href="dove-siamo.html#lazio"><i class="fas fa-map-marker-alt"></i> Lazio</a>
+            <a href="dove-siamo.html"><i class="fas fa-th-list"></i> Tutte le zone</a>
+          </div>
+        </li>
+        <li><a href="lavora-con-noi.html">LAVORA CON NOI</a></li>
+        <li><a href="shop.html">SHOP</a></li>
+        <li><a href="index.html#blog">BLOG</a></li>
+        <li><a href="news.html">NEWS</a></li>
+      </ul>
+    </nav>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+
+  <script src="nav.js"></script>
+<section class="where-hero">
+    <div class="container">
+      <h1>Dove siamo</h1>
+      <p>Operativi esclusivamente nel Lazio e a Roma</p>
+    </div>
+  </section>
+
+  <section class="where-main">
+    <div class="container">
+      <div class="where-main-inner">
+        <div>
+          <h2>Sede principale</h2>
+          <p><i class="fas fa-map-marker-alt"></i> Via di S. Maria Ausiliatrice n° 4/B, 00181 Roma</p>
+          <p><i class="fas fa-phone"></i> 06 01905242</p>
+          <p><i class="fas fa-mobile-alt"></i> 351.4175117</p>
+          <p><i class="fas fa-envelope"></i> abbracciocuredomiciliari@gmail.com</p>
+          <p>Siamo attivi a Roma e in tutta la Provincia di Roma, nel Reatino, nel Viterbese, nella provincia di Latina e di Frosinone.</p>
+        </div>
+        <div class="where-map">
+          <iframe src="https://www.google.com/maps?q=Via+di+S.+Maria+Ausiliatrice+4%2FB%2C+00181+Roma&output=embed" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="container">
+    <div class="where-grid">
+      <div class="where-card" id="roma-centro">
+        <h3><i class="fas fa-map-marker-alt"></i> Roma Centro</h3>
+        <ul>
+          <li>Centro storico</li>
+          <li>Municipio I - Centro</li>
+          <li>Testaccio e Trastevere</li>
+          <li>Prati e Vaticano</li>
+        </ul>
+      </div>
+      <div class="where-card" id="roma-nord">
+        <h3><i class="fas fa-map-marker-alt"></i> Roma Nord</h3>
+        <ul>
+          <li>Flaminio</li>
+          <li>Parioli</li>
+          <li>Tor di Quinto</li>
+          <li>Buffalora e Grottarossa</li>
+        </ul>
+      </div>
+      <div class="where-card" id="roma-sud">
+        <h3><i class="fas fa-map-marker-alt"></i> Roma Sud</h3>
+        <ul>
+          <li>Appia e Tuscolano</li>
+          <li>EUR</li>
+          <li>Mostacciano</li>
+          <li>Castel Fusano</li>
+        </ul>
+      </div>
+      <div class="where-card" id="roma-est">
+        <h3><i class="fas fa-map-marker-alt"></i> Roma Est</h3>
+        <ul>
+          <li>Prenestino</li>
+          <li>Torre Maura</li>
+          <li>Casalpalocco</li>
+          <li>Torre Angela</li>
+        </ul>
+      </div>
+      <div class="where-card" id="roma-ovest">
+        <h3><i class="fas fa-map-marker-alt"></i> Roma Ovest</h3>
+        <ul>
+          <li>Eur</li>
+          <li>Magliana</li>
+          <li>Monteverde</li>
+          <li>Acilia</li>
+        </ul>
+      </div>
+      <div class="where-card" id="provincia-roma">
+        <h3><i class="fas fa-map-marker-alt"></i> Provincia di Roma</h3>
+        <ul>
+          <li>Ostia e Fiumicino</li>
+          <li>Ciampino e Marino</li>
+          <li>Tivoli e Guidonia</li>
+          <li>Velletri e Albano</li>
+        </ul>
+      </div>
+      <div class="where-card" id="lazio">
+        <h3><i class="fas fa-map-marker-alt"></i> Lazio</h3>
+        <ul>
+          <li>Latina e provincia</li>
+          <li>Frosinone e provincia</li>
+          <li>Viterbo e provincia</li>
+          <li>Rieti e provincia</li>
+        </ul>
+      </div>
+      <div class="where-card">
+        <h3><i class="fas fa-clock"></i> Orari</h3>
+        <ul>
+          <li>Reperibilità 24/7</li>
+          <li>Sabato e domenica</li>
+          <li>Giorni festivi</li>
+          <li>Assistenza continua</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer" id="contatti">
+    <div class="container">
+      <div class="footer-bottom">
+        <p>© 2026 Abbraccio Cure Domiciliari. Tutti i diritti riservati.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

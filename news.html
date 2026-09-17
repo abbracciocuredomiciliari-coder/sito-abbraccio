@@ -1,0 +1,121 @@
+﻿<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>News - Abbraccio Cure Domiciliari</title>
+  <meta name="description" content="Ultime notizie e consigli di Abbraccio Cure Domiciliari.">
+  <link rel="icon" type="image/png" href="logo-abbraccio.png">
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    .news-list { padding: 80px 0; background: var(--white); }
+    .news-list .section-header { margin-bottom: 40px; }
+    .news-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; }
+    .news-card { background: #fff; border-radius: var(--radius); padding: 24px; box-shadow: var(--shadow); }
+    .news-card h3 { font-size: 1.1rem; color: var(--text-dark); margin-bottom: 8px; }
+    .news-card small { color: var(--blue); font-weight: 700; }
+    .news-card p { color: var(--text-light); margin-top: 12px; line-height: 1.6; }
+    @media (max-width: 900px) { .news-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+<div class="topbar">
+  <div class="container topbar-inner">
+    <div class="topbar-left">
+      <a href="tel:0601905242"><i class="fas fa-phone"></i> 06 01905242</a>
+      <a href="https://wa.me/393514175117"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+    </div>
+    <div class="topbar-right">
+      <a href="lavora-con-noi.html">Lavora con noi</a>
+      <a href="admin.html" class="area-riservata"><i class="fas fa-user-circle"></i> Area Riservata</a>
+    </div>
+  </div>
+</div>
+<header class="header" id="header">
+  <div class="container header-inner">
+    <a href="index.html" class="logo">
+      <img src="logo-abbraccio.png" alt="Abbraccio Cure Domiciliari">
+      <div class="logo-text"><strong>Abbraccio</strong><span>Cure Domiciliari</span></div>
+    </a>
+    <nav class="nav" id="navMenu">
+      <ul>
+        <li><a href="index.html#chi-siamo">CHI SIAMO</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle">SERVIZI</a>
+          <div class="dropdown-menu">
+            <a href="infermiere-a-domicilio.html"><i class="fas fa-user-nurse"></i> Assistenza Infermieristica</a>
+            <a href="fisioterapia-a-domicilio.html"><i class="fas fa-person-walking"></i> Fisioterapia a domicilio</a>
+            <a href="assistenza-anziani.html"><i class="fas fa-hand-holding-heart"></i> Assistenza Anziani</a>
+            <a href="cure-pazienti-cronici.html"><i class="fas fa-notes-medical"></i> Cure Pazienti Cronici</a>
+            <a href="assistenza-notturna.html"><i class="fas fa-moon"></i> Assistenza Notturna</a>
+            <a href="cure-palliative.html"><i class="fas fa-dove"></i> Cure Palliative</a>
+            <a href="psicologia-a-domicilio.html"><i class="fas fa-brain"></i> Psicologia</a>
+            <a href="servizio-ambulanza.html"><i class="fas fa-ambulance"></i> Servizio Ambulanza</a>
+            <a href="servizi.html"><i class="fas fa-th-list"></i> Tutti i servizi</a>
+          </div>
+        </li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle">ESAMI</a>
+          <div class="dropdown-menu">
+            <a href="holter-pressorio.html"><i class="fas fa-heart-pulse"></i> Holter Pressorio</a>
+            <a href="holter-ecg.html"><i class="fas fa-wave-square"></i> Holter ECG</a>
+            <a href="apnee-sonno.html"><i class="fas fa-moon"></i> Apnee del Sonno</a>
+            <a href="screening-cardiaci.html"><i class="fas fa-heart-circle-check"></i> Screening Cardiaci</a>
+            <a href="saturimetria-spirometria.html"><i class="fas fa-lungs"></i> Saturimetria e Spirometria</a>
+            <a href="prelievi-ematici.html"><i class="fas fa-droplet"></i> Prelievi Ematici</a>
+            <a href="emogasanalisi.html"><i class="fas fa-lungs-virus"></i> Emogasanalisi</a>
+            <a href="rx-domiciliare.html"><i class="fas fa-x-ray"></i> RX Domiciliare</a>
+            <a href="ecografia-domiciliare.html"><i class="fas fa-wave-square"></i> Ecografia Domiciliare</a>
+            <a href="esami-strumentali.html"><i class="fas fa-th-list"></i> Tutti gli esami</a>
+          </div>
+        </li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle">DOVE SIAMO</a>
+          <div class="dropdown-menu dove">
+            <a href="dove-siamo.html#roma-centro"><i class="fas fa-map-marker-alt"></i> Roma Centro</a>
+            <a href="dove-siamo.html#roma-nord"><i class="fas fa-map-marker-alt"></i> Roma Nord</a>
+            <a href="dove-siamo.html#roma-sud"><i class="fas fa-map-marker-alt"></i> Roma Sud</a>
+            <a href="dove-siamo.html#roma-est"><i class="fas fa-map-marker-alt"></i> Roma Est</a>
+            <a href="dove-siamo.html#roma-ovest"><i class="fas fa-map-marker-alt"></i> Roma Ovest</a>
+            <a href="dove-siamo.html#provincia-roma"><i class="fas fa-map-marker-alt"></i> Provincia di Roma</a>
+            <a href="dove-siamo.html#lazio"><i class="fas fa-map-marker-alt"></i> Lazio</a>
+            <a href="dove-siamo.html"><i class="fas fa-th-list"></i> Tutte le zone</a>
+          </div>
+        </li>
+        <li><a href="lavora-con-noi.html">LAVORA CON NOI</a></li>
+        <li><a href="shop.html">SHOP</a></li>
+        <li><a href="index.html#blog">BLOG</a></li>
+        <li><a href="news.html">NEWS</a></li>
+      </ul>
+    </nav>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<script src="nav.js"></script>
+
+<section class="news-list" id="news">
+  <div class="container">
+    <div class="section-header center">
+      <span class="eyebrow">Ultime novità</span>
+      <h2>News e consigli</h2>
+    </div>
+    <div id="newsList" class="news-grid"></div>
+  </div>
+</section>
+
+<footer class="footer" id="contatti">
+  <div class="container">
+    <div class="footer-bottom">
+      <p>© 2026 Abbraccio Cure Domiciliari. Tutti i diritti riservati.</p>
+    </div>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>

@@ -1,4 +1,5 @@
-node_modules/
-.DS_Store
-*.log
-windsurf_deployment.yaml
+# Asset binari locali (copiati da sito-abbraccio per la preview)
+images/
+logo-abbraccio.png
+hero-image.jpg
+gallery-images.json
