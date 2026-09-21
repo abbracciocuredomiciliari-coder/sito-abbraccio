@@ -130,6 +130,13 @@ function applyEdits() {
       if (se && data.eyebrow) se.innerHTML = data.eyebrow;
     }
 
+    // foto card servizi/esami sincronizzate con le immagini scelte nell'admin
+    document.querySelectorAll('.service-thumb[data-page], .service-item[data-page]').forEach(el => {
+      const pg = (c.pages || {})[el.getAttribute('data-page')];
+      const img = el.querySelector('.thumb-media img');
+      if (pg && pg.image && img) img.src = pg.image;
+    });
+
     // news
     if (c.news && c.news.length) {
       const list = document.getElementById('newsList');
@@ -150,7 +157,7 @@ function applyEdits() {
         const div = document.createElement('div');
         div.className = 'gallery-item' + (i === 0 ? ' gallery-wide' : '');
         const img = document.createElement('img');
-        img.src = name.startsWith('data:') ? name : 'images/' + name;
+        img.src = /^(data:|https?:)/.test(name) ? name : 'images/' + name;
         img.alt = 'Abbraccio Cure Domiciliari';
         img.loading = 'lazy';
         div.appendChild(img);
@@ -171,3 +178,66 @@ function applyEdits() {
   } catch (err) {}
 }
 applyEdits();
+
+// ===== Recensioni pubbliche (approvate dall'admin) =====
+(function initReviews() {
+  const list = document.getElementById('reviewsList');
+  if (!list) return;
+  const form = document.getElementById('reviewForm');
+  const openBtn = document.getElementById('reviewOpenBtn');
+  const msg = document.getElementById('reviewMsg');
+  const starsBox = document.getElementById('reviewStars');
+  let rating = 5;
+
+  function esc(s) {
+    return String(s || '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  }
+  function starRow(n) {
+    let out = '';
+    for (let i = 0; i < 5; i++) out += i < n ? '★' : '<span style="opacity:.25">★</span>';
+    return out;
+  }
+  function paintStars() {
+    if (!starsBox) return;
+    starsBox.querySelectorAll('i').forEach((s, i) => { s.style.opacity = i < rating ? '1' : '.25'; });
+  }
+
+  fetch(SB_URL + '/rest/v1/reviews?status=eq.approved&order=created_at.desc&limit=12&select=reviewer_name,location,rating,review_text', {
+    headers: { apikey: SB_KEY, Authorization: 'Bearer ' + SB_KEY }
+  }).then(r => r.ok ? r.json() : []).then(rows => {
+    if (!rows || !rows.length) {
+      list.innerHTML = '<div class="reviews-empty">Nessuna recensione ancora: racconta tu per primo la tua esperienza.</div>';
+      return;
+    }
+    list.innerHTML = rows.map(r =>
+      `<div class="review-card"><div class="review-stars">${starRow(r.rating)}</div><h4>${esc(r.reviewer_name)}${r.location ? ' — ' + esc(r.location) : ''}</h4><p>${esc(r.review_text)}</p></div>`
+    ).join('');
+  }).catch(() => { list.innerHTML = ''; });
+
+  if (openBtn && form) openBtn.addEventListener('click', () => form.classList.toggle('hidden'));
+  if (starsBox) {
+    starsBox.querySelectorAll('i').forEach((s, i) => s.addEventListener('click', () => { rating = i + 1; paintStars(); }));
+    paintStars();
+  }
+  if (form) form.addEventListener('submit', e => {
+    e.preventDefault();
+    const nome = document.getElementById('reviewNome').value.trim();
+    const zona = document.getElementById('reviewZona').value.trim();
+    const testo = document.getElementById('reviewTesto').value.trim();
+    if (!nome || !zona || !testo) { msg.textContent = 'Compila nome, zona e recensione.'; msg.style.color = '#b42318'; return; }
+    msg.textContent = 'Invio in corso...'; msg.style.color = 'var(--text-light)';
+    fetch(SB_URL + '/rest/v1/reviews', {
+      method: 'POST',
+      headers: { apikey: SB_KEY, Authorization: 'Bearer ' + SB_KEY, 'Content-Type': 'application/json', Prefer: 'return=minimal' },
+      body: JSON.stringify({ reviewer_name: nome, location: zona, rating: rating, review_text: testo, status: 'pending' })
+    }).then(r => {
+      if (!r.ok) throw new Error('insert failed');
+      msg.textContent = 'Grazie! La recensione sarà visibile dopo l\'approvazione.';
+      msg.style.color = 'var(--green)';
+      form.reset(); rating = 5; paintStars();
+    }).catch(() => {
+      msg.textContent = 'Errore durante l\'invio. Riprova più tardi.';
+      msg.style.color = '#b42318';
+    });
+  });
+})();

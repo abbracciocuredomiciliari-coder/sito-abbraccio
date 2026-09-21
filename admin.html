@@ -75,8 +75,10 @@
     <div class="tabs">
       <button class="active" data-tab="general"><i class="fas fa-home"></i> Generale</button>
       <button data-tab="pages"><i class="fas fa-file-alt"></i> Pagine</button>
+      <button data-tab="services"><i class="fas fa-briefcase-medical"></i> Servizi & Esami</button>
       <button data-tab="gallery"><i class="fas fa-images"></i> Galleria</button>
       <button data-tab="news"><i class="fas fa-newspaper"></i> News</button>
+      <button data-tab="reviews"><i class="fas fa-star"></i> Recensioni</button>
       <button data-tab="free"><i class="fas fa-edit"></i> Modifica libera</button>
     </div>
 
@@ -137,6 +139,11 @@
       <div id="page-fields"></div>
     </div>
 
+    <div class="tab-content" id="tab-services">
+      <p style="font-size:0.9rem;">Clicca <strong>Modifica</strong> su un servizio o esame per cambiare <strong>foto, titolo e descrizione</strong>. Il pulsante "Salva e pubblica" rende la modifica subito visibile online.</p>
+      <div id="services-list"></div>
+    </div>
+
     <div class="tab-content" id="tab-gallery">
       <div class="form-group">
         <label>Aggiungi per nome (deve esistere nella cartella images/)</label>
@@ -149,6 +156,7 @@
         <label>Oppure carica le foto dal dispositivo</label>
         <label class="btn-upload"><i class="fas fa-camera"></i> Carica foto<input type="file" id="gallery-file" accept="image/*" multiple></label>
       </div>
+      <p id="galleryMsg" style="font-size:0.85rem;font-weight:600;min-height:1em;margin:4px 0 10px;"></p>
       <div class="list-editor" id="gallery-list"></div>
     </div>
 
@@ -180,6 +188,13 @@
         <img class="img-preview" id="news-image-preview" src="" onerror="this.style.display='none'" alt="">
       </div>
       <button class="btn btn-primary" id="news-add"><i class="fas fa-plus"></i> Aggiungi news</button>
+    </div>
+
+    <div class="tab-content" id="tab-reviews">
+      <p style="font-size:0.9rem;">Le recensioni inviate dal sito restano <strong>in attesa</strong> finché non le approvi. Solo quelle approvate sono visibili online.</p>
+      <div id="reviews-pending"></div>
+      <h3 style="margin-top:24px;">Recensioni pubblicate</h3>
+      <div id="reviews-approved" class="list-editor"></div>
     </div>
 
     <div class="tab-content" id="tab-free">
@@ -275,12 +290,15 @@
       }
     }
     async function storeFile(file) {
+      storeFile.lastError = '';
       if (sharedMode && sb) {
         const ext = (file.name.split('.').pop() || 'jpg').toLowerCase();
         const name = 'img-' + Date.now() + '-' + Math.random().toString(36).slice(2, 8) + '.' + ext;
         const { error } = await sb.storage.from('site-images').upload(name, file, { upsert: true, contentType: file.type });
-        if (error) { saveMsg.textContent = 'Errore upload immagine: ' + error.message; return null; }
-        return sb.storage.from('site-images').getPublicUrl(name).data.publicUrl;
+        if (!error) return sb.storage.from('site-images').getPublicUrl(name).data.publicUrl;
+        // Bucket assente o senza permessi: salva la foto dentro il contenuto (data URL)
+        storeFile.lastError = error.message;
+        storeFile.usedFallback = true;
       }
       return await new Promise(res => { const r = new FileReader(); r.onload = e => res(e.target.result); r.readAsDataURL(file); });
     }
@@ -359,8 +377,10 @@
         }
         renderGeneral();
         renderPageSelect();
+        renderServices();
         renderGallery();
         renderNews();
+        renderReviews();
         renderFreeList();
       } catch (err) {
         console.error(err);
@@ -492,13 +512,92 @@
       content.pages[currentPage] = p;
     }
 
+    // ===== SERVIZI & ESAMI (modifica semplice foto + descrizione) =====
+    const SERVICES_GROUPS = [
+      { title: 'Servizi', keys: ['infermiere-a-domicilio','fisioterapia-a-domicilio','assistenza-anziani','cure-pazienti-cronici','assistenza-notturna','cure-palliative','psicologia-a-domicilio','servizio-ambulanza'] },
+      { title: 'Esami strumentali', keys: ['holter-pressorio','holter-ecg','apnee-sonno','screening-cardiaci','saturimetria-spirometria','prelievi-ematici','emogasanalisi','rx-domiciliare','ecografia-domiciliare'] },
+    ];
+    const servicesList = document.getElementById('services-list');
+
+    function renderServices() {
+      servicesList.innerHTML = '';
+      SERVICES_GROUPS.forEach(gr => {
+        const h = document.createElement('h3');
+        h.textContent = gr.title;
+        h.style.margin = '18px 0 10px';
+        servicesList.appendChild(h);
+        gr.keys.forEach(k => {
+          const p = (content.pages && content.pages[k]) || {};
+          const card = document.createElement('div');
+          card.className = 'list-item';
+          card.style.flexWrap = 'wrap';
+          card.innerHTML =
+            `<img class="thumb" src="${p.image || ''}" onerror="this.style.display='none'" alt="">` +
+            `<div class="name"><strong>${p.label || p.h1 || k}</strong><br><small>${k}.html</small></div>` +
+            `<button type="button" class="btn btn-outline svc-toggle" data-key="${k}" style="padding:6px 12px;font-size:0.8rem;white-space:nowrap;"><i class="fas fa-edit"></i> Modifica</button>` +
+            `<div class="svc-form hidden" id="svc-form-${k}" style="flex-basis:100%;margin-top:12px;">` +
+              input(`svc-${k}-h1`, 'Titolo', p.h1) +
+              input(`svc-${k}-lead`, 'Descrizione breve (puoi usare <strong> per il grassetto)', p.lead, true) +
+              input(`svc-${k}-text`, 'Testo principale', p.text, true) +
+              imageInput(`svc-${k}-image`, 'Foto', p.image) +
+              input(`svc-${k}-activitiesTitle`, 'Titolo elenco attività', p.activitiesTitle) +
+              `<div class="form-group"><label>Elenco attività (una per riga)</label><textarea id="svc-${k}-activities" rows="5">${(p.activities || []).join('\n')}</textarea></div>` +
+              `<button type="button" class="btn btn-primary svc-save" data-key="${k}"><i class="fas fa-save"></i> Salva e pubblica</button>` +
+            `</div>`;
+          servicesList.appendChild(card);
+        });
+      });
+    }
+
+    servicesList.addEventListener('click', async e => {
+      const tog = e.target.closest('.svc-toggle');
+      if (tog) {
+        document.getElementById('svc-form-' + tog.dataset.key).classList.toggle('hidden');
+        return;
+      }
+      const save = e.target.closest('.svc-save');
+      if (save) {
+        const k = save.dataset.key;
+        if (!content.pages) content.pages = {};
+        const p = content.pages[k] || (content.pages[k] = {});
+        p.h1 = document.getElementById(`svc-${k}-h1`).value;
+        p.lead = document.getElementById(`svc-${k}-lead`).value;
+        p.text = document.getElementById(`svc-${k}-text`).value;
+        p.image = document.getElementById(`svc-${k}-image`).value;
+        p.activitiesTitle = document.getElementById(`svc-${k}-activitiesTitle`).value;
+        p.activities = document.getElementById(`svc-${k}-activities`).value.split('\n').map(s => s.trim()).filter(Boolean);
+        saveMsg.textContent = 'Salvataggio...';
+        try {
+          await persistContent();
+          saveMsg.textContent = sharedMode ? 'Pubblicato online!' : 'Salvato su questo dispositivo (accedi con email admin per pubblicare).';
+          renderServices();
+        } catch (err) {
+          saveMsg.textContent = 'Errore pubblicazione: ' + (err.message || err);
+        }
+        setTimeout(() => saveMsg.textContent = '', 5000);
+      }
+    });
+    servicesList.addEventListener('change', e => {
+      if (e.target.type === 'file' && e.target.id.endsWith('-file')) {
+        fileToData(e.target, e.target.id.replace('-file', ''));
+      }
+    });
+
+    function gallerySrc(name) { return /^(data:|https?:)/.test(name) ? name : 'images/' + name; }
+    const galleryMsg = document.getElementById('galleryMsg');
+    function galleryNote(t, err) { galleryMsg.textContent = t; galleryMsg.style.color = err ? '#b42318' : 'var(--green)'; if (t) setTimeout(() => { if (galleryMsg.textContent === t) galleryMsg.textContent = ''; }, 6000); }
+    async function persistGallery() {
+      try { await persistContent(); galleryNote(sharedMode ? 'Galleria pubblicata online.' : 'Salvato su questo dispositivo (accedi con email admin per pubblicare).'); }
+      catch (err) { galleryNote('Errore pubblicazione: ' + (err.message || err), true); }
+    }
+
     function renderGallery() {
       galleryList.innerHTML = '';
       (content.gallery || []).forEach((img, i) => {
-        const isData = img.startsWith('data:');
+        const isUploaded = /^(data:|https?:)/.test(img);
         const el = document.createElement('div');
         el.className = 'list-item';
-        el.innerHTML = `<img class="thumb" src="${isData ? img : 'images/'+img}" onerror="this.style.display='none'" alt=""><div class="name">${isData ? 'Immagine caricata' : img}</div><button data-idx="${i}" class="up">↑</button><button data-idx="${i}" class="down">↓</button><button data-idx="${i}" class="del">×</button>`;
+        el.innerHTML = `<img class="thumb" src="${gallerySrc(img)}" onerror="this.style.display='none'" alt=""><div class="name">${isUploaded ? 'Immagine caricata' : img}</div><button data-idx="${i}" class="up">↑</button><button data-idx="${i}" class="down">↓</button><button data-idx="${i}" class="del">×</button>`;
         galleryList.appendChild(el);
       });
     }
@@ -511,6 +610,7 @@
       if (e.target.classList.contains('del')) g.splice(i,1);
       content.gallery = g;
       renderGallery();
+      persistGallery();
     });
     document.getElementById('gallery-add-filename').addEventListener('click', () => {
       const v = document.getElementById('gallery-filename').value.trim();
@@ -519,17 +619,26 @@
       content.gallery.push(v);
       document.getElementById('gallery-filename').value = '';
       renderGallery();
+      persistGallery();
     });
     document.getElementById('gallery-file').addEventListener('change', async e => {
-      for (const f of Array.from(e.target.files)) {
+      const files = Array.from(e.target.files);
+      if (!files.length) return;
+      galleryNote('Caricamento foto in corso...');
+      let ok = 0, fail = 0;
+      for (const f of files) {
         const url = await storeFile(f);
         if (url) {
           if (!content.gallery) content.gallery = [];
           content.gallery.push(url);
-        }
+          ok++;
+        } else fail++;
       }
       e.target.value = '';
       renderGallery();
+      if (fail) galleryNote('Upload fallito' + (storeFile.lastError ? ': ' + storeFile.lastError : ''), true);
+      else if (storeFile.usedFallback) { storeFile.usedFallback = false; persistGallery(); }
+      else persistGallery();
     });
 
     function renderNews() {
@@ -615,11 +724,62 @@
           const imported = JSON.parse(ev.target.result);
           content = deepMerge(defaults, imported);
           persistContent();
-          renderGeneral(); renderPageSelect(); renderGallery(); renderNews();
+          renderGeneral(); renderPageSelect(); renderServices(); renderGallery(); renderNews();
           saveMsg.textContent = 'JSON importato con successo.';
         } catch (ex) { alert('JSON non valido'); }
       };
       r.readAsText(f);
+    });
+
+    // ===== RECENSIONI (approvazione da Area Riservata) =====
+    const reviewsPending = document.getElementById('reviews-pending');
+    const reviewsApproved = document.getElementById('reviews-approved');
+    function escHtml(s) { return String(s || '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
+    function reviewStarsRow(n) { let o = ''; for (let i = 0; i < 5; i++) o += i < n ? '★' : '☆'; return o; }
+
+    async function renderReviews() {
+      if (!sharedMode || !sb) {
+        reviewsPending.innerHTML = '<p style="color:var(--text-light);font-size:0.85rem;">Accedi con l\'account admin per gestire le recensioni.</p>';
+        reviewsApproved.innerHTML = '';
+        return;
+      }
+      const { data, error } = await sb.from('reviews').select('*').order('created_at', { ascending: false });
+      if (error) {
+        reviewsPending.innerHTML = '<p style="color:#b42318;font-size:0.85rem;">Errore caricamento recensioni: ' + escHtml(error.message || '') + '</p>';
+        reviewsApproved.innerHTML = '';
+        return;
+      }
+      const pending = (data || []).filter(r => r.status !== 'approved');
+      const approved = (data || []).filter(r => r.status === 'approved');
+      reviewsPending.innerHTML = '<h3 style="display:flex;align-items:center;gap:8px;">In attesa di approvazione <span style="background:#fef3c7;color:#92400e;border-radius:20px;padding:2px 10px;font-size:0.8rem;">' + pending.length + '</span></h3>';
+      if (!pending.length) reviewsPending.innerHTML += '<p style="color:var(--text-light);font-size:0.85rem;">Nessuna recensione in attesa.</p>';
+      const pendList = document.createElement('div');
+      pendList.className = 'list-editor';
+      pending.forEach(r => pendList.appendChild(reviewItem(r, true)));
+      reviewsPending.appendChild(pendList);
+      reviewsApproved.innerHTML = approved.length ? '' : '<p style="color:var(--text-light);font-size:0.85rem;">Nessuna recensione pubblicata.</p>';
+      approved.forEach(r => reviewsApproved.appendChild(reviewItem(r, false)));
+    }
+
+    function reviewItem(r, isPending) {
+      const el = document.createElement('div');
+      el.className = 'list-item';
+      el.innerHTML = `<div class="name"><strong>${escHtml(r.reviewer_name)}</strong>${r.location ? ' <small>(' + escHtml(r.location) + ')</small>' : ''} <span style="color:#f5b301;">${reviewStarsRow(r.rating)}</span><br><small>${escHtml(r.review_text)}</small></div>` +
+        (isPending ? `<button type="button" class="rev-approve" data-id="${r.id}" style="color:#166534;font-weight:700;white-space:nowrap;">✓ Approva</button>` : '') +
+        `<button type="button" class="rev-del" data-id="${r.id}" style="color:#b91c1c;">×</button>`;
+      return el;
+    }
+
+    document.getElementById('tab-reviews').addEventListener('click', async e => {
+      const ap = e.target.closest('.rev-approve');
+      const del = e.target.closest('.rev-del');
+      if (ap) {
+        await sb.from('reviews').update({ status: 'approved' }).eq('id', ap.dataset.id);
+        renderReviews();
+      } else if (del && confirm('Eliminare definitivamente questa recensione?')) {
+        await sb.from('reviews').delete().eq('id', del.dataset.id);
+        renderReviews();
+      }
     });
 
     // ===== MODIFICA LIBERA (click-to-edit su qualsiasi elemento) =====
