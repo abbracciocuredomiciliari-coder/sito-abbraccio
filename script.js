@@ -46,12 +46,65 @@ function deepMerge(base, over) {
   return r;
 }
 
+let siteData = null;
+
+// Rotazione ciclica delle immagini (hero, telemedicina, lavora con noi, shop)
+function startRotator(img, srcs) {
+  if (!img || !Array.isArray(srcs) || !srcs.length) return;
+  const tag = srcs.join('|');
+  if (img.dataset.rotating === tag) return;
+  img.dataset.rotating = tag;
+  img.src = srcs[0];
+  if (srcs.length < 2) return;
+  let i = 0;
+  img.style.transition = 'opacity .55s ease';
+  setInterval(() => {
+    i = (i + 1) % srcs.length;
+    const next = srcs[i];
+    img.style.opacity = '0';
+    setTimeout(() => { img.src = next; img.style.opacity = '1'; }, 560);
+  }, 5000);
+}
+
+// Modale news: al click sulla card si apre il testo completo
+let newsBoxEl = null;
+function openNewsModal(n) {
+  if (!n) return;
+  if (!newsBoxEl) {
+    newsBoxEl = document.createElement('div');
+    newsBoxEl.id = 'newsModal';
+    newsBoxEl.className = 'news-modal';
+    newsBoxEl.innerHTML = '<div class="news-modal-card"><button type="button" class="news-modal-close" aria-label="Chiudi">&times;</button><div class="news-modal-img"></div><div class="news-modal-body"><span class="news-modal-cat"></span><h3></h3><small class="news-modal-date"></small><div class="news-modal-text"></div></div></div>';
+    document.body.appendChild(newsBoxEl);
+    newsBoxEl.addEventListener('click', e => {
+      if (e.target === newsBoxEl || e.target.closest('.news-modal-close')) newsBoxEl.classList.remove('open');
+    });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && newsBoxEl) newsBoxEl.classList.remove('open'); });
+  }
+  const img = newsBoxEl.querySelector('.news-modal-img');
+  if (n.image) { img.style.display = 'block'; img.style.backgroundImage = "url('" + n.image + "')"; }
+  else { img.style.display = 'none'; img.style.backgroundImage = 'none'; }
+  newsBoxEl.querySelector('.news-modal-cat').textContent = n.category || 'News';
+  newsBoxEl.querySelector('h3').textContent = n.title || '';
+  newsBoxEl.querySelector('.news-modal-date').textContent = n.date || '';
+  newsBoxEl.querySelector('.news-modal-text').innerHTML = String(n.fullText || n.body || '').split(/\n+/).map(l => '<p>' + l + '</p>').join('');
+  newsBoxEl.classList.add('open');
+}
+
+document.addEventListener('click', e => {
+  const card = e.target && e.target.closest ? e.target.closest('[data-news]') : null;
+  if (!card || !siteData) return;
+  const n = (siteData.news || [])[parseInt(card.dataset.news, 10)];
+  openNewsModal(n);
+});
+
 function applyEdits() {
   const saved = localStorage.getItem('vetrina-content');
   const source = remoteContent || (saved ? JSON.parse(saved) : null);
   if (!source && !defaultsData) return;
   try {
     const c = source ? deepMerge(defaultsData || {}, source) : defaultsData;
+    siteData = c;
     const path = location.pathname.replace(/^\//, '').replace(/\.html$/, '') || 'index';
     const key = path.split('/').pop();
 
@@ -64,7 +117,7 @@ function applyEdits() {
     const eyeb = document.querySelector('.hero .eyebrow');
     if (g.eyebrow && eyeb) eyeb.innerHTML = g.eyebrow;
     const heroImg = document.querySelector('.hero-image-wrap img') || document.querySelector('.hero-image img');
-    if (g.heroImage && heroImg) heroImg.src = g.heroImage;
+    startRotator(heroImg, (g.heroImages && g.heroImages.length) ? g.heroImages : (g.heroImage ? [g.heroImage] : []));
     const logo = document.querySelector('.logo img');
     if (g.logo && logo) logo.src = g.logo;
     if (g.phone) {
@@ -91,9 +144,11 @@ function applyEdits() {
       if (addrLink) addrLink.href = 'https://maps.google.com/?q=' + encodeURIComponent(g.address);
     }
     const jobsImg = document.getElementById('jobsImage');
-    if (jobsImg && g.jobsImage) jobsImg.src = g.jobsImage;
+    startRotator(jobsImg, (g.jobsImages && g.jobsImages.length) ? g.jobsImages : (g.jobsImage ? [g.jobsImage] : []));
     const shopImg = document.getElementById('shopImage');
-    if (shopImg && g.shopImage) shopImg.src = g.shopImage;
+    startRotator(shopImg, (g.shopImages && g.shopImages.length) ? g.shopImages : (g.shopImage ? [g.shopImage] : []));
+    const teleImg = document.querySelector('.tele-img img') || document.getElementById('teleImage');
+    startRotator(teleImg, (g.telemedicinaImages && g.telemedicinaImages.length) ? g.telemedicinaImages : (g.telemedicinaImage ? [g.telemedicinaImage] : []));
 
     // pages
     const p = (c.pages || {})[key];
@@ -145,11 +200,11 @@ function applyEdits() {
     if (c.news && c.news.length) {
       const list = document.getElementById('newsList');
       if (list) {
-        list.innerHTML = c.news.map(n => `<div class="news-card">${n.image ? `<div class="news-img" style="background-image:url('${n.image}')"></div>` : ''}<h3>${n.title || ''}</h3><small>${n.date || ''} ${n.category ? '- '+n.category : ''}</small><p>${n.body || ''}</p></div>`).join('');
+        list.innerHTML = c.news.map((n, i) => `<div class="news-card" data-news="${i}">${n.image ? `<div class="news-img" style="background-image:url('${n.image}')"></div>` : ''}<h3>${n.title || ''}</h3><small>${n.date || ''} ${n.category ? '- '+n.category : ''}</small><p>${n.body || ''}</p><span class="news-more">Leggi tutto →</span></div>`).join('');
       }
       const blog = document.querySelector('.blog-grid');
       if (blog) {
-        blog.innerHTML = c.news.slice(0,3).map(n => `<article class="blog-card"><div class="blog-img" style="${n.image ? `background-image:url('${n.image}');background-size:cover;background-position:center;` : 'background:#c9a227;'}"></div><div class="blog-body"><span class="blog-cat">${n.category || 'News'}</span><h3>${n.title || ''}</h3><p>${n.body ? n.body.slice(0,120) : ''}</p></div></article>`).join('');
+        blog.innerHTML = c.news.slice(0,3).map((n, i) => `<article class="blog-card" data-news="${i}"><div class="blog-img" style="${n.image ? `background-image:url('${n.image}');background-size:cover;background-position:center;` : 'background:#c9a227;'}"></div><div class="blog-body"><span class="blog-cat">${n.category || 'News'}</span><h3>${n.title || ''}</h3><p>${n.body ? n.body.slice(0,120) : ''}</p><span class="news-more">Leggi tutto →</span></div></article>`).join('');
       }
     }
 

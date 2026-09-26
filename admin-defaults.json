@@ -348,7 +348,13 @@
     "whatsappNumber": "393514175117",
     "logo": "logo-abbraccio.png",
     "heroImage": "images/IMG-20260617-WA0020.jpg",
-    "heroTitle": "La tua salute, <span>a casa tua.</span>",
+    "jobsImage": "images/team-abbraccio.jpg",
+    "shopImage": "images/promo-servizi.jpg",
+    "telemedicinaImage": "images/telemedicina.png",
+    "heroImages": [],
+    "telemedicinaImages": [],
+    "jobsImages": [],
+    "shopImages": [],
     "address": "Via di S. Maria Ausiliatrice n° 4/B, 00181 Roma"
   },
   "news": [

@@ -77,6 +77,7 @@
       <button data-tab="pages"><i class="fas fa-file-alt"></i> Pagine</button>
       <button data-tab="services"><i class="fas fa-briefcase-medical"></i> Servizi & Esami</button>
       <button data-tab="gallery"><i class="fas fa-images"></i> Galleria</button>
+      <button data-tab="slides"><i class="fas fa-sync-alt"></i> Immagini rotanti</button>
       <button data-tab="news"><i class="fas fa-newspaper"></i> News</button>
       <button data-tab="reviews"><i class="fas fa-star"></i> Recensioni</button>
       <button data-tab="free"><i class="fas fa-edit"></i> Modifica libera</button>
@@ -172,6 +173,11 @@
       <div class="list-editor" id="gallery-list"></div>
     </div>
 
+    <div class="tab-content" id="tab-slides">
+      <p style="font-size:0.9rem;">Queste foto <strong>ruotano automaticamente</strong> nella sezione corrispondente della homepage. Puoi aggiungere più immagini (caricandole o incollando un URL / nome file in <code>images/</code>), riordinarle con ↑ ↓ ed eliminarle. Le modifiche sono pubblicate subito.</p>
+      <div id="slides-list"></div>
+    </div>
+
     <div class="tab-content" id="tab-news">
       <div id="news-list"></div>
       <h3 style="margin-top:24px;">Aggiungi news</h3>
@@ -190,8 +196,12 @@
         </div>
       </div>
       <div class="form-group">
-        <label>Testo</label>
-        <textarea id="news-body"></textarea>
+        <label>Anteprima (testo breve visibile sulla card)</label>
+        <textarea id="news-body" rows="2"></textarea>
+      </div>
+      <div class="form-group">
+        <label>Testo completo (si apre al click sulla news — può essere lungo, una riga per paragrafo)</label>
+        <textarea id="news-fulltext" rows="6"></textarea>
       </div>
       <div class="form-group">
         <label>Immagine (URL, oppure carica un file)</label>
@@ -391,6 +401,7 @@
         renderPageSelect();
         renderServices();
         renderGallery();
+        renderSlides();
         renderNews();
         renderReviews();
         renderFreeList();
@@ -663,27 +674,136 @@
       else persistGallery();
     });
 
+    // ===== IMMAGINI ROTANTI (hero, telemedicina, lavora con noi, shop) =====
+    const SLIDES = [
+      { key: 'heroImages', single: 'heroImage', label: 'Hero (in cima alla homepage)' },
+      { key: 'telemedicinaImages', single: 'telemedicinaImage', label: 'Sezione Telemedicina' },
+      { key: 'jobsImages', single: 'jobsImage', label: 'Sezione "Lavora con noi"' },
+      { key: 'shopImages', single: 'shopImage', label: 'Sezione Shop' },
+    ];
+    const slidesList = document.getElementById('slides-list');
+    function slideArr(s) {
+      if (!content.global) content.global = {};
+      const g = content.global;
+      if (!Array.isArray(g[s.key]) || (!g[s.key].length && g[s.single])) {
+        g[s.key] = Array.isArray(g[s.key]) && g[s.key].length ? g[s.key] : (g[s.single] ? [g[s.single]] : []);
+      }
+      return g[s.key];
+    }
+    function slideSrc(img) { return /^(data:|https?:)/.test(img) ? img : 'images/' + img; }
+    function renderSlides() {
+      slidesList.innerHTML = '';
+      SLIDES.forEach(s => {
+        const block = document.createElement('div');
+        block.style.marginBottom = '28px';
+        block.innerHTML =
+          `<h3 style="margin:18px 0 10px;">${s.label}</h3>` +
+          `<div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:8px;">` +
+            `<input type="text" class="slide-url" data-key="${s.key}" placeholder="URL immagine oppure nome file in images/" style="flex:1;min-width:200px;padding:10px;border:1px solid var(--border);border-radius:8px;">` +
+            `<button type="button" class="btn btn-primary slide-add" data-key="${s.key}" style="white-space:nowrap;"><i class="fas fa-plus"></i> Aggiungi</button>` +
+            `<label class="btn-upload btn-upload-sm" style="margin:0;align-self:center;"><i class="fas fa-camera"></i> Carica<input type="file" accept="image/*" class="slide-file" data-key="${s.key}"></label>` +
+          `</div>` +
+          `<div class="list-editor slide-items" data-key="${s.key}"></div>`;
+        slidesList.appendChild(block);
+        const arr = slideArr(s);
+        const box = block.querySelector('.slide-items');
+        if (!arr.length) box.innerHTML = '<p style="color:var(--text-light);font-size:0.85rem;">Nessuna immagine configurata.</p>';
+        arr.forEach((img, i) => {
+          const el = document.createElement('div');
+          el.className = 'list-item';
+          el.innerHTML = `<img class="thumb" src="${slideSrc(img)}" onerror="this.style.display='none'" alt=""><div class="name">${/^(data:|https?:)/.test(img) ? 'Immagine caricata' : img}</div><button type="button" data-idx="${i}" data-key="${s.key}" class="sl-up">↑</button><button type="button" data-idx="${i}" data-key="${s.key}" class="sl-down">↓</button><button type="button" data-idx="${i}" data-key="${s.key}" class="sl-del">×</button>`;
+          box.appendChild(el);
+        });
+      });
+    }
+    async function persistSlides() {
+      try { await persistContent(); saveMsg.textContent = sharedMode ? 'Immagini pubblicate online!' : 'Salvato su questo dispositivo.'; }
+      catch (err) { saveMsg.textContent = 'Errore pubblicazione: ' + (err.message || err); }
+      setTimeout(() => saveMsg.textContent = '', 4000);
+    }
+    slidesList.addEventListener('click', e => {
+      const add = e.target.closest('.slide-add');
+      if (add) {
+        const inp = slidesList.querySelector('.slide-url[data-key="' + add.dataset.key + '"]');
+        const v = (inp.value || '').trim();
+        if (!v) return;
+        slideArr(SLIDES.find(s => s.key === add.dataset.key)).push(v);
+        inp.value = '';
+        renderSlides();
+        persistSlides();
+        return;
+      }
+      const btn = e.target.closest('.sl-up,.sl-down,.sl-del');
+      if (!btn) return;
+      const s = SLIDES.find(x => x.key === btn.dataset.key);
+      const arr = slideArr(s);
+      const i = parseInt(btn.dataset.idx);
+      if (btn.classList.contains('sl-up') && i > 0) { const t = arr[i - 1]; arr[i - 1] = arr[i]; arr[i] = t; }
+      if (btn.classList.contains('sl-down') && i < arr.length - 1) { const t = arr[i + 1]; arr[i + 1] = arr[i]; arr[i] = t; }
+      if (btn.classList.contains('sl-del')) arr.splice(i, 1);
+      renderSlides();
+      persistSlides();
+    });
+    slidesList.addEventListener('change', async e => {
+      if (!e.target.classList.contains('slide-file') || !e.target.files || !e.target.files[0]) return;
+      const s = SLIDES.find(x => x.key === e.target.dataset.key);
+      saveMsg.textContent = 'Caricamento foto...';
+      const url = await storeFile(e.target.files[0]);
+      e.target.value = '';
+      if (url) { slideArr(s).push(url); renderSlides(); persistSlides(); }
+      else saveMsg.textContent = 'Upload fallito' + (storeFile.lastError ? ': ' + storeFile.lastError : '');
+    });
+
     function renderNews() {
       newsList.innerHTML = '<h3>News pubblicate</h3>';
       (content.news || []).forEach((n, i) => {
         const el = document.createElement('div');
         el.className = 'list-item';
-        el.innerHTML = `<img class="thumb" src="${n.image || ''}" onerror="this.style.display='none'" alt=""><div class="name"><strong>${n.title || ''}</strong><br><small>${n.date || ''} ${n.category ? '- '+n.category : ''}</small><p>${n.body ? n.body.slice(0,80) : ''}</p></div><label class="btn-upload btn-upload-sm"><i class="fas fa-camera"></i> Foto<input type="file" accept="image/*" data-idx="${i}" class="news-img-file"></label><button data-idx="${i}" class="del">×</button>`;
+        el.style.flexWrap = 'wrap';
+        el.innerHTML = `<img class="thumb" src="${n.image || ''}" onerror="this.style.display='none'" alt=""><div class="name"><strong>${n.title || ''}</strong><br><small>${n.date || ''} ${n.category ? '- '+n.category : ''}</small><p>${n.body ? n.body.slice(0,80) : ''}</p></div><label class="btn-upload btn-upload-sm"><i class="fas fa-camera"></i> Foto<input type="file" accept="image/*" data-idx="${i}" class="news-img-file"></label><button type="button" class="news-toggle" data-idx="${i}"><i class="fas fa-edit"></i> Modifica</button><button type="button" data-idx="${i}" class="del">×</button>` +
+          `<div class="news-form hidden" id="news-form-${i}" style="flex-basis:100%;margin-top:10px;">` +
+            input(`news-e-${i}-title`, 'Titolo', n.title) +
+            `<div class="two-cols">` + input(`news-e-${i}-date`, 'Data', n.date) + input(`news-e-${i}-category`, 'Categoria', n.category) + `</div>` +
+            `<div class="form-group"><label>Anteprima (testo breve sulla card)</label><textarea id="news-e-${i}-body" rows="2">${n.body || ''}</textarea></div>` +
+            `<div class="form-group"><label>Testo completo (si apre al click sulla news — una riga per paragrafo)</label><textarea id="news-e-${i}-full" rows="6">${n.fullText || ''}</textarea></div>` +
+            `<button type="button" class="btn btn-primary news-save" data-idx="${i}"><i class="fas fa-save"></i> Salva e pubblica</button>` +
+          `</div>`;
         newsList.appendChild(el);
       });
     }
-    newsList.addEventListener('click', e => {
+    newsList.addEventListener('click', async e => {
+      const tog = e.target.closest('.news-toggle');
+      if (tog) { document.getElementById('news-form-' + tog.dataset.idx).classList.toggle('hidden'); return; }
+      const save = e.target.closest('.news-save');
+      if (save) {
+        const i = parseInt(save.dataset.idx);
+        const n = content.news[i];
+        n.title = document.getElementById(`news-e-${i}-title`).value;
+        n.date = document.getElementById(`news-e-${i}-date`).value;
+        n.category = document.getElementById(`news-e-${i}-category`).value;
+        n.body = document.getElementById(`news-e-${i}-body`).value;
+        n.fullText = document.getElementById(`news-e-${i}-full`).value;
+        saveMsg.textContent = 'Salvataggio...';
+        try {
+          await persistContent();
+          saveMsg.textContent = sharedMode ? 'News pubblicata online!' : 'Salvato su questo dispositivo.';
+          renderNews();
+        } catch (err) { saveMsg.textContent = 'Errore pubblicazione: ' + (err.message || err); }
+        setTimeout(() => saveMsg.textContent = '', 5000);
+        return;
+      }
       if (e.target.classList.contains('del')) {
         const i = parseInt(e.target.dataset.idx);
         content.news.splice(i,1);
         renderNews();
+        persistContent();
       }
     });
     newsList.addEventListener('change', async e => {
       if (e.target.classList.contains('news-img-file') && e.target.files[0]) {
         const i = parseInt(e.target.dataset.idx);
         const url = await storeFile(e.target.files[0]);
-        if (url) { content.news[i].image = url; renderNews(); }
+        if (url) { content.news[i].image = url; renderNews(); persistContent(); }
       }
     });
     async function addNews() {
@@ -694,6 +814,7 @@
           date: document.getElementById('news-date').value,
           category: document.getElementById('news-category').value,
           body: document.getElementById('news-body').value,
+          fullText: document.getElementById('news-fulltext').value,
           image: document.getElementById('news-image').value
         };
         if (!n.title && !n.body) return;
@@ -703,9 +824,11 @@
         document.getElementById('news-date').value = '';
         document.getElementById('news-category').value = '';
         document.getElementById('news-body').value = '';
+        document.getElementById('news-fulltext').value = '';
         document.getElementById('news-image').value = '';
         fileInput.value = '';
         renderNews();
+        persistContent();
       }
       if (fileInput.files[0]) {
         const url = await storeFile(fileInput.files[0]);
