@@ -74,7 +74,7 @@ function openNewsModal(n) {
     newsBoxEl = document.createElement('div');
     newsBoxEl.id = 'newsModal';
     newsBoxEl.className = 'news-modal';
-    newsBoxEl.innerHTML = '<div class="news-modal-card"><button type="button" class="news-modal-close" aria-label="Chiudi">&times;</button><div class="news-modal-img"></div><div class="news-modal-body"><span class="news-modal-cat"></span><h3></h3><small class="news-modal-date"></small><div class="news-modal-text"></div></div></div>';
+    newsBoxEl.innerHTML = '<div class="news-modal-card"><button type="button" class="news-modal-close" aria-label="Chiudi">&times;</button><img class="news-modal-img" alt=""><div class="news-modal-body"><span class="news-modal-cat"></span><h3></h3><small class="news-modal-date"></small><div class="news-modal-text"></div></div></div>';
     document.body.appendChild(newsBoxEl);
     newsBoxEl.addEventListener('click', e => {
       if (e.target === newsBoxEl || e.target.closest('.news-modal-close')) newsBoxEl.classList.remove('open');
@@ -82,8 +82,8 @@ function openNewsModal(n) {
     document.addEventListener('keydown', e => { if (e.key === 'Escape' && newsBoxEl) newsBoxEl.classList.remove('open'); });
   }
   const img = newsBoxEl.querySelector('.news-modal-img');
-  if (n.image) { img.style.display = 'block'; img.style.backgroundImage = "url('" + n.image + "')"; }
-  else { img.style.display = 'none'; img.style.backgroundImage = 'none'; }
+  if (n.image) { img.style.display = 'block'; img.src = n.image; }
+  else { img.style.display = 'none'; img.removeAttribute('src'); }
   newsBoxEl.querySelector('.news-modal-cat').textContent = n.category || 'News';
   newsBoxEl.querySelector('h3').textContent = n.title || '';
   newsBoxEl.querySelector('.news-modal-date').textContent = n.date || '';

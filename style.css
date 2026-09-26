@@ -285,7 +285,7 @@ body.menu-open .hamburger span { background: #fff; }
 .news-modal { position: fixed; inset: 0; z-index: 10000; background: rgba(8,18,35,.62); display: flex; align-items: center; justify-content: center; padding: 22px; opacity: 0; pointer-events: none; transition: opacity .25s ease; }
 .news-modal.open { opacity: 1; pointer-events: auto; }
 .news-modal-card { background: #fff; max-width: 720px; width: 100%; max-height: 88vh; overflow-y: auto; border-radius: var(--radius); position: relative; box-shadow: var(--shadow); }
-.news-modal-img { height: 260px; background-size: cover; background-position: center; border-radius: var(--radius) var(--radius) 0 0; }
+.news-modal-img { display: block; width: 100%; max-height: 55vh; object-fit: contain; background: var(--bg-soft); border-radius: var(--radius) var(--radius) 0 0; }
 .news-modal-body { padding: 28px; }
 .news-modal-cat { color: var(--blue); font-weight: 700; font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; }
 .news-modal-body h3 { font-size: 1.5rem; color: var(--text-dark); margin: 6px 0 4px; line-height: 1.25; }
