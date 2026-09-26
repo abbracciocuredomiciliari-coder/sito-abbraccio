@@ -205,6 +205,13 @@ function applyEdits() {
       const blog = document.querySelector('.blog-grid');
       if (blog) {
         blog.innerHTML = c.news.slice(0,3).map((n, i) => `<article class="blog-card" data-news="${i}"><div class="blog-img" style="${n.image ? `background-image:url('${n.image}');background-size:cover;background-position:center;` : 'background:#c9a227;'}"></div><div class="blog-body"><span class="blog-cat">${n.category || 'News'}</span><h3>${n.title || ''}</h3><p>${n.body ? n.body.slice(0,120) : ''}</p><span class="news-more">Leggi tutto →</span></div></article>`).join('');
+        let allLink = blog.parentElement && blog.parentElement.querySelector('.news-all-link');
+        if (!allLink && blog.parentElement) {
+          allLink = document.createElement('div');
+          allLink.className = 'news-all-link';
+          allLink.innerHTML = '<a href="news.html" class="btn btn-outline"><i class="fas fa-newspaper"></i> Vedi tutte le news</a>';
+          blog.after(allLink);
+        }
       }
     }
 

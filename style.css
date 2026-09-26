@@ -280,6 +280,7 @@ body.menu-open .hamburger span { background: #fff; }
 .news-card[data-news], .blog-card[data-news] { cursor: pointer; transition: transform .2s ease, box-shadow .2s ease; }
 .news-card[data-news]:hover, .blog-card[data-news]:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(13,27,53,.16); }
 .news-more { display: inline-block; margin-top: 10px; color: var(--blue); font-weight: 700; font-size: .85rem; }
+.news-all-link { text-align: center; margin-top: 28px; }
 
 /* Modale news */
 .news-modal { position: fixed; inset: 0; z-index: 10000; background: rgba(8,18,35,.62); display: flex; align-items: center; justify-content: center; padding: 22px; opacity: 0; pointer-events: none; transition: opacity .25s ease; }
