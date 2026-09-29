@@ -63,7 +63,7 @@ function startRotator(img, srcs) {
     const next = srcs[i];
     img.style.opacity = '0';
     setTimeout(() => { img.src = next; img.style.opacity = '1'; }, 560);
-  }, 5000);
+  }, 3000);
 }
 
 // Modale news: al click sulla card si apre il testo completo
@@ -219,15 +219,17 @@ function applyEdits() {
     if (c.gallery && c.gallery.length && document.getElementById('galleryGrid')) {
       const grid = document.getElementById('galleryGrid');
       grid.innerHTML = '';
+      const srcs = c.gallery.map(name => /^(data:|https?:)/.test(name) ? name : 'images/' + name);
       c.gallery.forEach((name, i) => {
         const div = document.createElement('div');
         div.className = 'gallery-item' + (i === 0 ? ' gallery-wide' : '');
         const img = document.createElement('img');
-        img.src = /^(data:|https?:)/.test(name) ? name : 'images/' + name;
         img.alt = 'Abbraccio Cure Domiciliari';
         img.loading = 'lazy';
         div.appendChild(img);
         grid.appendChild(div);
+        // Ogni tile parte da una foto diversa e ruota tutta la galleria ogni 3s
+        startRotator(img, srcs.slice(i).concat(srcs.slice(0, i)));
       });
     }
 
