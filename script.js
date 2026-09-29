@@ -219,18 +219,20 @@ function applyEdits() {
     if (c.gallery && c.gallery.length && document.getElementById('galleryGrid')) {
       const grid = document.getElementById('galleryGrid');
       grid.innerHTML = '';
+      grid.classList.add('gallery-duo');
       const srcs = c.gallery.map(name => /^(data:|https?:)/.test(name) ? name : 'images/' + name);
-      c.gallery.forEach((name, i) => {
+      // 2 finestre che ruotano tutte le foto della galleria, sfalsate tra loro
+      const tiles = srcs.length > 1 ? 2 : 1;
+      for (let k = 0; k < tiles; k++) {
         const div = document.createElement('div');
-        div.className = 'gallery-item' + (i === 0 ? ' gallery-wide' : '');
+        div.className = 'gallery-item';
         const img = document.createElement('img');
         img.alt = 'Abbraccio Cure Domiciliari';
         img.loading = 'lazy';
         div.appendChild(img);
         grid.appendChild(div);
-        // Ogni tile parte da una foto diversa e ruota tutta la galleria ogni 3s
-        startRotator(img, srcs.slice(i).concat(srcs.slice(0, i)));
-      });
+        startRotator(img, srcs.slice(k).concat(srcs.slice(0, k)));
+      }
     }
 
     // modifiche libere (admin → Modifica libera): valgono per qualsiasi elemento
