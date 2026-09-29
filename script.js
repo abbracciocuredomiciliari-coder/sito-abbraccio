@@ -91,6 +91,46 @@ function openNewsModal(n) {
   newsBoxEl.classList.add('open');
 }
 
+// Lightbox galleria: click su una finestra → sfoglia tutte le foto
+let galBoxEl = null;
+let galSrcs = [];
+let galIdx = 0;
+function galShow() {
+  const img = galBoxEl.querySelector('.gal-img');
+  img.src = galSrcs[galIdx];
+  galBoxEl.querySelector('.gal-counter').textContent = (galIdx + 1) + ' / ' + galSrcs.length;
+}
+function galStep(d) { galIdx = (galIdx + d + galSrcs.length) % galSrcs.length; galShow(); }
+function openGalleryModal(srcs, idx) {
+  if (!srcs || !srcs.length) return;
+  galSrcs = srcs;
+  galIdx = Math.max(0, Math.min(idx || 0, srcs.length - 1));
+  if (!galBoxEl) {
+    galBoxEl = document.createElement('div');
+    galBoxEl.id = 'galleryModal';
+    galBoxEl.className = 'gal-modal';
+    galBoxEl.innerHTML = '<button type="button" class="gal-close" aria-label="Chiudi">&times;</button>' +
+      '<button type="button" class="gal-nav gal-prev" aria-label="Precedente">&#10094;</button>' +
+      '<div class="gal-stage"><img class="gal-img" alt="Foto galleria Abbraccio"></div>' +
+      '<button type="button" class="gal-nav gal-next" aria-label="Successiva">&#10095;</button>' +
+      '<div class="gal-counter"></div>';
+    document.body.appendChild(galBoxEl);
+    galBoxEl.addEventListener('click', e => {
+      if (e.target === galBoxEl || e.target.classList.contains('gal-stage') || e.target.closest('.gal-close')) { galBoxEl.classList.remove('open'); return; }
+      if (e.target.closest('.gal-prev')) galStep(-1);
+      else if (e.target.closest('.gal-next')) galStep(1);
+    });
+    document.addEventListener('keydown', e => {
+      if (!galBoxEl || !galBoxEl.classList.contains('open')) return;
+      if (e.key === 'Escape') galBoxEl.classList.remove('open');
+      if (e.key === 'ArrowLeft') galStep(-1);
+      if (e.key === 'ArrowRight') galStep(1);
+    });
+  }
+  galShow();
+  galBoxEl.classList.add('open');
+}
+
 document.addEventListener('click', e => {
   const card = e.target && e.target.closest ? e.target.closest('[data-news]') : null;
   if (!card || !siteData) return;
@@ -232,6 +272,10 @@ function applyEdits() {
         div.appendChild(img);
         grid.appendChild(div);
         startRotator(img, srcs.slice(k).concat(srcs.slice(0, k)));
+        div.addEventListener('click', () => {
+          const idx = srcs.indexOf(img.getAttribute('src'));
+          openGalleryModal(srcs, idx >= 0 ? idx : 0);
+        });
       }
     }
 
