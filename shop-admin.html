@@ -291,7 +291,7 @@ async function loadOrders() {
   if (!r) return;
   const orders = await r.json();
   document.getElementById('ordList').innerHTML = orders.length ? `<table class="sa-table"><thead><tr>
-    <th>Data</th><th>Tipo</th><th>Cliente</th><th>Dettagli</th><th>Totale</th><th>Stato</th></tr></thead><tbody>
+    <th>Data</th><th>Tipo</th><th>Cliente</th><th>Dettagli</th><th>Totale</th><th>Stato</th><th>Azioni</th></tr></thead><tbody>
     ${orders.map(o => `<tr>
       <td>${new Date(o.createdAt).toLocaleDateString('it-IT')}</td>
       <td>${TIPO_LABEL[o.tipo] || o.tipo}</td>
@@ -302,11 +302,18 @@ async function loadOrders() {
       <td>${o.totale ? eur(o.totale) : '—'}</td>
       <td><select onchange="setStato('${o._id}', this.value)" style="padding:5px;border-radius:6px;border:1px solid var(--border);">
         ${STATI.map(s => `<option value="${s}" ${o.stato === s ? 'selected' : ''}>${s}</option>`).join('')}
-      </select></td></tr>`).join('')}</tbody></table>` : '<div class="sa-panel"><p>Nessun ordine ancora.</p></div>';
+      </select></td>
+      <td class="sa-actions"><button onclick="delOrdine('${o._id}')" style="color:#dc2626;" title="Elimina ordine"><i class="fas fa-trash"></i></button></td></tr>`).join('')}</tbody></table>` : '<div class="sa-panel"><p>Nessun ordine ancora.</p></div>';
 }
 
 async function setStato(id, stato) {
   await api(`/admin/orders/${id}`, { method: 'PATCH', headers: HJ(), body: JSON.stringify({ stato }) });
+}
+
+async function delOrdine(id) {
+  if (!confirm('Eliminare definitivamente questo ordine?')) return;
+  const r = await api(`/admin/orders/${id}`, { method: 'DELETE', headers: H() });
+  if (r?.ok) loadOrders();
 }
 
 // ─── Recensioni ──────────────────────────────────────────────────────────
