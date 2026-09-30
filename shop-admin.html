@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Gestione Shop - Abbraccio</title>
+  <link rel="icon" type="image/png" href="logo-abbraccio.png">
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+<!-- ═══ LOGIN (area separata dal gestionale, credenziali dedicate) ═══ -->
+<div class="sa-login" id="loginView">
+  <div class="sa-login-card">
+    <h2><i class="fas fa-store" style="color:var(--blue);"></i> Gestione Shop</h2>
+    <p>Area riservata amministratore shop — accesso separato dal gestionale.</p>
+    <div class="sa-err" id="loginErr"></div>
+    <form id="loginForm">
+      <input type="email" id="loginEmail" placeholder="Email" required autocomplete="username">
+      <input type="password" id="loginPassword" placeholder="Password" required autocomplete="current-password">
+      <button type="submit" class="btn btn-primary" style="width:100%;"><i class="fas fa-sign-in-alt"></i> Accedi</button>
+    </form>
+    <a href="index.html" class="btn-link" style="display:block;text-align:center;margin-top:14px;"><i class="fas fa-arrow-left"></i> Torna al sito</a>
+  </div>
+</div>
+
+<!-- ═══ PANNELLO ═══ -->
+<div class="sa-wrap" id="adminView" style="display:none;">
+  <div class="sa-header">
+    <h1><i class="fas fa-store" style="color:var(--blue);"></i> Gestione Shop</h1>
+    <div>
+      <a href="shop.html" class="btn-link" target="_blank"><i class="fas fa-external-link-alt"></i> Vedi shop</a>
+      <button class="btn btn-outline" id="logoutBtn" style="margin-left:10px;"><i class="fas fa-sign-out-alt"></i> Esci</button>
+    </div>
+  </div>
+
+  <div class="sa-tabs">
+    <button class="shop-tab active" data-sa-tab="prodotti"><i class="fas fa-box"></i> Prodotti</button>
+    <button class="shop-tab" data-sa-tab="ordini"><i class="fas fa-file-invoice"></i> Ordini / Richieste</button>
+    <button class="shop-tab" data-sa-tab="recensioni"><i class="fas fa-star"></i> Recensioni</button>
+    <button class="shop-tab" data-sa-tab="impostazioni"><i class="fas fa-cog"></i> Impostazioni</button>
+  </div>
+
+  <!-- TAB PRODOTTI -->
+  <div id="tab-prodotti">
+    <div class="sa-panel">
+      <h3 id="prodFormTitle" style="margin-top:0;">Nuovo prodotto</h3>
+      <input type="hidden" id="prodId">
+      <label>Nome *</label>
+      <input id="prodNome">
+      <label>Categoria *</label>
+      <select id="prodCategoria">
+        <option value="vendita">Presidio in vendita</option>
+        <option value="noleggio">Noleggio apparecchiatura</option>
+        <option value="apnea">Esame apnea del sonno</option>
+      </select>
+      <div id="prezziVendita">
+        <label>Prezzo vendita (€)</label>
+        <input id="prodPrezzo" type="number" min="0" step="0.01">
+      </div>
+      <div id="prezziNoleggio" style="display:none;">
+        <label>Prezzo noleggio giornata (€)</label><input id="prodGiorno" type="number" min="0" step="0.01">
+        <label>Prezzo noleggio settimana (€)</label><input id="prodSettimana" type="number" min="0" step="0.01">
+        <label>Prezzo noleggio mese (€)</label><input id="prodMese" type="number" min="0" step="0.01">
+        <label>Cauzione (€)</label><input id="prodCauzione" type="number" min="0" step="0.01">
+      </div>
+      <label>Descrizione</label>
+      <textarea id="prodDesc" rows="3"></textarea>
+      <div style="display:flex;gap:16px;flex-wrap:wrap;margin-top:12px;">
+        <label style="margin:0;display:flex;align-items:center;gap:6px;"><input type="checkbox" id="prodDisponibile" checked style="width:auto;"> Disponibile</label>
+        <label style="margin:0;display:flex;align-items:center;gap:6px;"><input type="checkbox" id="prodAttivo" checked style="width:auto;"> Visibile nello shop</label>
+        <label style="margin:0;">Ordine <input id="prodOrdine" type="number" value="0" style="width:70px;display:inline-block;"></label>
+      </div>
+      <div style="margin-top:16px;display:flex;gap:10px;">
+        <button class="btn btn-primary" id="prodSave"><i class="fas fa-save"></i> Salva prodotto</button>
+        <button class="btn-link" id="prodReset">Annulla / nuovo</button>
+      </div>
+      <div id="prodImgsWrap" style="margin-top:18px;display:none;">
+        <label>Immagini prodotto</label>
+        <div id="prodImgs"></div>
+        <input type="file" id="prodImgFile" accept="image/*" style="margin-top:8px;">
+        <button class="btn btn-outline" id="prodImgUpload" style="margin-top:8px;"><i class="fas fa-upload"></i> Carica immagine</button>
+      </div>
+    </div>
+    <div id="prodList"></div>
+  </div>
+
+  <!-- TAB ORDINI -->
+  <div id="tab-ordini" style="display:none;"><div id="ordList"></div></div>
+
+  <!-- TAB RECENSIONI -->
+  <div id="tab-recensioni" style="display:none;">
+    <div class="sa-tabs">
+      <button class="shop-tab" data-rev-filter="attesa">In attesa</button>
+      <button class="shop-tab" data-rev-filter="approvate">Approvate</button>
+      <button class="shop-tab active" data-rev-filter="">Tutte</button>
+    </div>
+    <div id="revList"></div>
+  </div>
+
+  <!-- TAB IMPOSTAZIONI -->
+  <div id="tab-impostazioni" style="display:none;">
+    <div class="sa-panel">
+      <h3 style="margin-top:0;">Pagamenti</h3>
+      <label>Link PayPal (es. https://paypal.me/TuoNome)</label>
+      <input id="cfgPaypal" placeholder="https://paypal.me/...">
+      <label>IBAN per bonifico (opzionale)</label>
+      <input id="cfgIban" placeholder="IT00...">
+      <label>Note mostrate dopo l'ordine</label>
+      <textarea id="cfgNote" rows="2" placeholder="Es. Il pagamento verrà confermato entro 24h."></textarea>
+      <button class="btn btn-primary" id="cfgSave" style="margin-top:16px;"><i class="fas fa-save"></i> Salva impostazioni</button>
+      <span id="cfgOk" style="color:#16a34a;margin-left:12px;display:none;">Salvato ✓</span>
+    </div>
+  </div>
+</div>
+
+<script>
+const API = (location.hostname === 'localhost' || location.hostname === '127.0.0.1')
+  ? 'http://localhost:4000/api/shop' : 'https://api.abbracciocuredomiciliari.it/api/shop';
+const IMG = API.replace('/api/shop', '');
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const eur = n => '€' + Number(n||0).toFixed(2);
+let token = localStorage.getItem('shop-admin-token') || '';
+const H = () => ({ 'Authorization': 'Bearer ' + token });
+const HJ = () => ({ ...H(), 'Content-Type': 'application/json' });
+const imgUrl = s => s?.startsWith('http') ? s : IMG + s;
+
+// ─── Login ────────────────────────────────────────────────────────────────
+document.getElementById('loginForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const err = document.getElementById('loginErr');
+  err.textContent = '';
+  try {
+    const r = await fetch(API + '/admin/login', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: document.getElementById('loginEmail').value, password: document.getElementById('loginPassword').value }),
+    });
+    const d = await r.json();
+    if (!r.ok) { err.textContent = d.message || 'Errore login'; return; }
+    token = d.token; localStorage.setItem('shop-admin-token', token);
+    showAdmin();
+  } catch { err.textContent = 'Server non raggiungibile'; }
+});
+document.getElementById('logoutBtn').onclick = () => { localStorage.removeItem('shop-admin-token'); token=''; location.reload(); };
+
+async function api(path, opts) {
+  const r = await fetch(API + path, opts);
+  if (r.status === 401 || r.status === 403) { localStorage.removeItem('shop-admin-token'); location.reload(); return null; }
+  return r;
+}
+
+function showAdmin() {
+  document.getElementById('loginView').style.display = 'none';
+  document.getElementById('adminView').style.display = 'block';
+  loadProducts(); loadOrders(); loadReviews(); loadConfig();
+}
+if (token) {
+  // Verifica token
+  fetch(API + '/admin/products', { headers: H() }).then(r => r.ok ? showAdmin() : (localStorage.removeItem('shop-admin-token'), null)).catch(()=>{});
+}
+
+// ─── Tabs ────────────────────────────────────────────────────────────────
+document.querySelectorAll('[data-sa-tab]').forEach(b => b.onclick = () => {
+  document.querySelectorAll('[data-sa-tab]').forEach(x => x.classList.remove('active'));
+  b.classList.add('active');
+  ['prodotti','ordini','recensioni','impostazioni'].forEach(t =>
+    document.getElementById('tab-'+t).style.display = t === b.dataset.saTab ? 'block' : 'none');
+});
+document.getElementById('prodCategoria').onchange = e => {
+  const v = e.target.value;
+  document.getElementById('prezziVendita').style.display = v !== 'noleggio' ? 'block' : 'none';
+  document.getElementById('prezziNoleggio').style.display = v === 'noleggio' ? 'block' : 'none';
+};
+
+// ─── Prodotti CRUD ───────────────────────────────────────────────────────
+const CAT_LABEL = { vendita: 'Vendita', noleggio: 'Noleggio', apnea: 'Apnea' };
+let prodCache = [];
+
+async function loadProducts() {
+  const r = await api('/admin/products', { headers: H() });
+  if (!r) return;
+  prodCache = await r.json();
+  const el = document.getElementById('prodList');
+  el.innerHTML = `<table class="sa-table"><thead><tr>
+    <th>Img</th><th>Nome</th><th>Categoria</th><th>Prezzo</th><th>Stato</th><th>Azioni</th></tr></thead>
+    <tbody>${prodCache.map(p => `<tr>
+      <td>${p.immagini?.[0] ? `<img class="sa-img" src="${imgUrl(p.immagini[0])}">` : '—'}</td>
+      <td><strong>${esc(p.nome)}</strong></td>
+      <td>${CAT_LABEL[p.categoria]}</td>
+      <td>${p.categoria === 'vendita' ? eur(p.prezzo) : p.categoria === 'noleggio'
+        ? [p.prezzoNoleggio?.giorno && 'G:'+eur(p.prezzoNoleggio.giorno), p.prezzoNoleggio?.settimana && 'S:'+eur(p.prezzoNoleggio.settimana), p.prezzoNoleggio?.mese && 'M:'+eur(p.prezzoNoleggio.mese)].filter(Boolean).join(' ')
+        : (p.prezzo ? eur(p.prezzo) : '—')}</td>
+      <td>${p.attivo ? '👁️' : '🚫'} ${p.disponibile ? '✅' : '⛔'}</td>
+      <td class="sa-actions">
+        <button onclick="editProd('${p._id}')"><i class="fas fa-edit"></i></button>
+        <button onclick="delProd('${p._id}')" style="color:#dc2626;"><i class="fas fa-trash"></i></button>
+      </td></tr>`).join('')}</tbody></table>`;
+}
+
+function editProd(id) {
+  const p = prodCache.find(x => x._id === id); if (!p) return;
+  document.getElementById('prodId').value = id;
+  document.getElementById('prodFormTitle').textContent = 'Modifica: ' + p.nome;
+  document.getElementById('prodNome').value = p.nome;
+  document.getElementById('prodCategoria').value = p.categoria;
+  document.getElementById('prodCategoria').dispatchEvent(new Event('change'));
+  document.getElementById('prodPrezzo').value = p.prezzo || '';
+  document.getElementById('prodGiorno').value = p.prezzoNoleggio?.giorno || '';
+  document.getElementById('prodSettimana').value = p.prezzoNoleggio?.settimana || '';
+  document.getElementById('prodMese').value = p.prezzoNoleggio?.mese || '';
+  document.getElementById('prodCauzione').value = p.cauzione || '';
+  document.getElementById('prodDesc').value = p.descrizione || '';
+  document.getElementById('prodDisponibile').checked = p.disponibile;
+  document.getElementById('prodAttivo').checked = p.attivo;
+  document.getElementById('prodOrdine').value = p.ordine || 0;
+  renderProdImgs(p);
+  document.getElementById('prodImgsWrap').style.display = 'block';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function renderProdImgs(p) {
+  document.getElementById('prodImgs').innerHTML = (p.immagini || []).map(src =>
+    `<img class="sa-img" src="${imgUrl(src)}" title="Clic per eliminare" onclick="delImg('${p._id}','${src}')">`).join('');
+}
+
+async function delImg(id, src) {
+  if (!confirm('Eliminare questa immagine?')) return;
+  const r = await api(`/admin/products/${id}/images`, { method: 'DELETE', headers: HJ(), body: JSON.stringify({ src }) });
+  if (r?.ok) { const d = await r.json(); const p = prodCache.find(x => x._id === id); if (p) { p.immagini = d.immagini; renderProdImgs(p); } loadProducts(); }
+}
+
+document.getElementById('prodImgUpload').onclick = async () => {
+  const id = document.getElementById('prodId').value;
+  const f = document.getElementById('prodImgFile').files[0];
+  if (!id || !f) { alert('Salva prima il prodotto, poi carica le immagini.'); return; }
+  const fd = new FormData(); fd.append('image', f);
+  const r = await api(`/admin/products/${id}/images`, { method: 'POST', headers: H(), body: fd });
+  if (r?.ok) { const d = await r.json(); const p = prodCache.find(x => x._id === id); if (p) { p.immagini = d.immagini; renderProdImgs(p); } document.getElementById('prodImgFile').value = ''; loadProducts(); }
+  else alert('Upload fallito');
+};
+
+document.getElementById('prodReset').onclick = () => {
+  document.getElementById('prodId').value = '';
+  document.getElementById('prodFormTitle').textContent = 'Nuovo prodotto';
+  ['prodNome','prodPrezzo','prodGiorno','prodSettimana','prodMese','prodCauzione','prodDesc'].forEach(i => document.getElementById(i).value = '');
+  document.getElementById('prodDisponibile').checked = true;
+  document.getElementById('prodAttivo').checked = true;
+  document.getElementById('prodOrdine').value = 0;
+  document.getElementById('prodImgsWrap').style.display = 'none';
+};
+
+document.getElementById('prodSave').onclick = async () => {
+  const id = document.getElementById('prodId').value;
+  const body = {
+    nome: document.getElementById('prodNome').value,
+    categoria: document.getElementById('prodCategoria').value,
+    descrizione: document.getElementById('prodDesc').value,
+    prezzo: document.getElementById('prodPrezzo').value,
+    prezzoNoleggio: { giorno: document.getElementById('prodGiorno').value, settimana: document.getElementById('prodSettimana').value, mese: document.getElementById('prodMese').value },
+    cauzione: document.getElementById('prodCauzione').value,
+    disponibile: document.getElementById('prodDisponibile').checked,
+    attivo: document.getElementById('prodAttivo').checked,
+    ordine: document.getElementById('prodOrdine').value,
+  };
+  const r = await api(id ? `/admin/products/${id}` : '/admin/products', {
+    method: id ? 'PUT' : 'POST', headers: HJ(), body: JSON.stringify(body),
+  });
+  if (!r) return;
+  const d = await r.json();
+  if (!r.ok) { alert(d.message || 'Errore salvataggio'); return; }
+  document.getElementById('prodReset').click();
+  if (!id) editProd(d._id); // subito immagini
+  loadProducts();
+};
+
+async function delProd(id) {
+  if (!confirm('Eliminare definitivamente il prodotto e le sue recensioni?')) return;
+  const r = await api(`/admin/products/${id}`, { method: 'DELETE', headers: H() });
+  if (r?.ok) loadProducts();
+}
+
+// ─── Ordini ──────────────────────────────────────────────────────────────
+const STATI = ['nuovo','confermato','pagato','evaso','annullato'];
+const TIPO_LABEL = { acquisto: '🛒 Acquisto', noleggio: '🔧 Noleggio', apnea: '😴 Apnea' };
+
+async function loadOrders() {
+  const r = await api('/admin/orders', { headers: H() });
+  if (!r) return;
+  const orders = await r.json();
+  document.getElementById('ordList').innerHTML = orders.length ? `<table class="sa-table"><thead><tr>
+    <th>Data</th><th>Tipo</th><th>Cliente</th><th>Dettagli</th><th>Totale</th><th>Stato</th></tr></thead><tbody>
+    ${orders.map(o => `<tr>
+      <td>${new Date(o.createdAt).toLocaleDateString('it-IT')}</td>
+      <td>${TIPO_LABEL[o.tipo] || o.tipo}</td>
+      <td><strong>${esc(o.cliente?.nome)}</strong><br><small>${esc(o.cliente?.email)}<br>${esc(o.cliente?.telefono)}${o.cliente?.indirizzo ? '<br>' + esc(o.cliente.indirizzo) : ''}</small></td>
+      <td>${(o.items||[]).map(i => `${esc(i.nome)} ×${i.qty}`).join('<br>')}
+          ${o.periodo?.da ? `<br><small>📅 ${new Date(o.periodo.da).toLocaleDateString('it-IT')} → ${new Date(o.periodo.a).toLocaleDateString('it-IT')}</small>` : ''}
+          ${o.cliente?.note ? `<br><small>📝 ${esc(o.cliente.note)}</small>` : ''}</td>
+      <td>${o.totale ? eur(o.totale) : '—'}</td>
+      <td><select onchange="setStato('${o._id}', this.value)" style="padding:5px;border-radius:6px;border:1px solid var(--border);">
+        ${STATI.map(s => `<option value="${s}" ${o.stato === s ? 'selected' : ''}>${s}</option>`).join('')}
+      </select></td></tr>`).join('')}</tbody></table>` : '<div class="sa-panel"><p>Nessun ordine ancora.</p></div>';
+}
+
+async function setStato(id, stato) {
+  await api(`/admin/orders/${id}`, { method: 'PATCH', headers: HJ(), body: JSON.stringify({ stato }) });
+}
+
+// ─── Recensioni ──────────────────────────────────────────────────────────
+let revFilter = '';
+document.querySelectorAll('[data-rev-filter]').forEach(b => b.onclick = () => {
+  document.querySelectorAll('[data-rev-filter]').forEach(x => x.classList.remove('active'));
+  b.classList.add('active');
+  revFilter = b.dataset.revFilter; loadReviews();
+});
+
+async function loadReviews() {
+  const r = await api('/admin/reviews' + (revFilter ? '?stato=' + revFilter : ''), { headers: H() });
+  if (!r) return;
+  const revs = await r.json();
+  document.getElementById('revList').innerHTML = revs.length ? `<table class="sa-table"><thead><tr>
+    <th>Data</th><th>Prodotto</th><th>Nome</th><th>Voto</th><th>Testo</th><th>Stato</th><th>Azioni</th></tr></thead><tbody>
+    ${revs.map(rv => `<tr>
+      <td>${new Date(rv.createdAt).toLocaleDateString('it-IT')}</td>
+      <td>${esc(rv.product?.nome || '—')}</td>
+      <td>${esc(rv.nome)}</td>
+      <td><span class="shop-stars">${'★'.repeat(rv.rating)}${'☆'.repeat(5-rv.rating)}</span></td>
+      <td>${esc(rv.testo)}</td>
+      <td>${rv.approvato ? '<span class="sa-badge pagato">Pubblicata</span>' : '<span class="sa-badge nuovo">In attesa</span>'}</td>
+      <td class="sa-actions">
+        ${rv.approvato ? `<button onclick="setRev('${rv._id}',false)">Nascondi</button>` : `<button onclick="setRev('${rv._id}',true)" style="color:#15803d;">Approva</button>`}
+        <button onclick="delRev('${rv._id}')" style="color:#dc2626;"><i class="fas fa-trash"></i></button>
+      </td></tr>`).join('')}</tbody></table>` : '<div class="sa-panel"><p>Nessuna recensione.</p></div>';
+}
+async function setRev(id, ok) {
+  await api(`/admin/reviews/${id}`, { method: 'PATCH', headers: HJ(), body: JSON.stringify({ approvato: ok }) });
+  loadReviews();
+}
+async function delRev(id) {
+  if (!confirm('Eliminare la recensione?')) return;
+  await api(`/admin/reviews/${id}`, { method: 'DELETE', headers: H() });
+  loadReviews();
+}
+
+// ─── Impostazioni ────────────────────────────────────────────────────────
+async function loadConfig() {
+  const r = await api('/admin/config', { headers: H() });
+  if (!r) return;
+  const c = await r.json();
+  document.getElementById('cfgPaypal').value = c.paypalLink || '';
+  document.getElementById('cfgIban').value = c.iban || '';
+  document.getElementById('cfgNote').value = c.noteCheckout || '';
+}
+document.getElementById('cfgSave').onclick = async () => {
+  const r = await api('/admin/config', { method: 'PUT', headers: HJ(), body: JSON.stringify({
+    paypalLink: document.getElementById('cfgPaypal').value,
+    iban: document.getElementById('cfgIban').value,
+    noteCheckout: document.getElementById('cfgNote').value,
+  })});
+  if (r?.ok) { const ok = document.getElementById('cfgOk'); ok.style.display = 'inline'; setTimeout(() => ok.style.display = 'none', 2500); }
+};
+</script>
+</body>
+</html>
