@@ -90,21 +90,40 @@
 
 <script src="nav.js"></script>
 
+<div id="offerTicker" class="offer-ticker" style="display:none;">
+  <div class="offer-ticker-track" id="offerTickerTrack"></div>
+</div>
+
 <section class="shop-hero">
-  <div class="container">
-    <span class="shop-badge">Shop Abbraccio</span>
-    <h1>Presidi, noleggio ed esami apnea</h1>
-    <p>Ausili sanitari e apparecchiature ortopediche ed elettromedicali — a casa tua.</p>
+  <div class="shop-hero-bg"></div>
+  <div class="container shop-hero-inner">
+    <span class="shop-badge"><i class="fas fa-heart-pulse"></i> Shop Abbraccio</span>
+    <h1>Il benessere di casa tua,<br>a portata di clic</h1>
+    <p>Presidi sanitari, noleggio apparecchiature e prenotazione esami per le apnee del sonno — con la qualità e l'assistenza Abbraccio Cure Domiciliari.</p>
+    <div class="shop-hero-cta">
+      <a href="#shop-catalogo" class="btn btn-primary btn-lg"><i class="fas fa-store"></i> Scopri il catalogo</a>
+      <button id="contactUsBtn" class="btn btn-ghost btn-lg" type="button"><i class="fas fa-comments"></i> Contattaci per info</button>
+    </div>
   </div>
 </section>
 
-<section class="shop-section">
+<section class="shop-trust">
+  <div class="container shop-trust-grid">
+    <div class="shop-trust-item"><i class="fas fa-truck-fast"></i><div><strong>Spedizione rapida</strong><span>Consegna in tutta Italia</span></div></div>
+    <div class="shop-trust-item"><i class="fas fa-warehouse"></i><div><strong>Ritiro in magazzino</strong><span>Disponibile per molti articoli</span></div></div>
+    <div class="shop-trust-item"><i class="fas fa-headset"></i><div><strong>Assistenza clienti</strong><span>Ti aiutiamo a scegliere</span></div></div>
+    <div class="shop-trust-item"><i class="fas fa-shield-heart"></i><div><strong>Qualità garantita</strong><span>Prodotti certificati</span></div></div>
+  </div>
+</section>
+
+<section class="shop-section" id="shop-catalogo">
   <div class="container">
     <div class="shop-toolbar">
       <div class="shop-tabs">
         <button class="shop-tab active" data-cat="vendita"><i class="fas fa-box"></i> Presidi</button>
         <button class="shop-tab" data-cat="noleggio"><i class="fas fa-handshake"></i> Noleggio</button>
         <button class="shop-tab" data-cat="apnea"><i class="fas fa-moon"></i> Esami apnea</button>
+        <button class="shop-tab shop-tab-offer" data-cat="_offerte"><i class="fas fa-fire"></i> Offerte</button>
       </div>
       <button id="cartBtn" class="cart-btn" type="button">
         <i class="fas fa-shopping-cart"></i> Carrello <span id="cartCount">0</span>
@@ -116,11 +135,27 @@
   </div>
 </section>
 
+<section class="shop-support">
+  <div class="container shop-support-inner">
+    <div class="shop-support-text">
+      <h2><i class="fas fa-headset"></i> Serve una mano a scegliere?</h2>
+      <p>Il nostro team è a disposizione per consigliarti il prodotto più adatto, chiarire dubbi su noleggio e spedizioni, o organizzare il ritiro in magazzino.</p>
+    </div>
+    <div class="shop-support-actions">
+      <a href="tel:0601905242" class="btn btn-outline"><i class="fas fa-phone"></i> Chiama ora</a>
+      <a href="https://wa.me/393514175117" target="_blank" rel="noopener" class="btn btn-primary"><i class="fab fa-whatsapp"></i> Scrivici su WhatsApp</a>
+    </div>
+  </div>
+</section>
+
 <!-- Modali -->
 <div id="cartModal" class="modal-overlay"><div class="modal-box"></div></div>
 <div id="checkoutModal" class="modal-overlay"><div class="modal-box"></div></div>
 <div id="productModal" class="modal-overlay"><div class="modal-box wide"></div></div>
 <div id="requestModal" class="modal-overlay"><div class="modal-box"></div></div>
+<div id="contactModal" class="modal-overlay"><div class="modal-box"></div></div>
+
+<a href="https://wa.me/393514175117" target="_blank" rel="noopener" class="shop-float-wa" title="Scrivici su WhatsApp"><i class="fab fa-whatsapp"></i></a>
 
 <footer class="footer" id="contatti">
   <div class="container">

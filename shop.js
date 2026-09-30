@@ -32,8 +32,19 @@ async function initShop() {
     $('#shopGrid').innerHTML = '<p style="grid-column:1/-1;text-align:center;color:var(--text-light);padding:40px;">Shop momentaneamente non disponibile. Riprova tra poco.</p>';
     return;
   }
+  renderTicker();
   renderProducts('vendita');
   bindShopEvents();
+}
+
+// ─── Ticker offerte ───────────────────────────────────────────────────────────
+function renderTicker() {
+  const offerte = shopConfig.offerte || [];
+  if (!offerte.length) return;
+  const track = $('#offerTickerTrack');
+  const items = offerte.map(o => `<span class="offer-item">${esc(o)}</span>`).join('<span class="offer-sep">•</span>');
+  track.innerHTML = items + '<span class="offer-sep">•</span>' + items;
+  $('#offerTicker').style.display = 'block';
 }
 
 // ─── Tab categorie ───────────────────────────────────────────────────────────
@@ -46,25 +57,49 @@ function bindShopEvents() {
     });
   });
   $('#cartBtn').addEventListener('click', openCart);
+  $('#contactUsBtn')?.addEventListener('click', openContact);
   document.addEventListener('click', e => {
     if (e.target.classList.contains('modal-overlay')) closeAllModals();
   });
 }
 
+// ─── Contattaci per info ────────────────────────────────────────────────────
+function openContact() {
+  const tel = shopConfig.telefonoAssistenza || '06 01905242';
+  const telHref = tel.replace(/\s+/g, '');
+  const wa = shopConfig.whatsappAssistenza || '393514175117';
+  const email = shopConfig.emailAssistenza || 'shop@abbracciocuredomiciliari.it';
+  $('#contactModal .modal-box').innerHTML = `
+    <button class="modal-close" onclick="closeAllModals()"><i class="fas fa-times"></i></button>
+    <h3><i class="fas fa-headset"></i> Contattaci per informazioni</h3>
+    <p style="color:var(--text-light);">Il nostro team di assistenza è a disposizione per aiutarti nella scelta, chiarire dubbi su prezzi, noleggi, spedizioni e ritiro in magazzino.</p>
+    <div class="contact-options">
+      <a href="tel:${esc(telHref)}" class="contact-opt"><i class="fas fa-phone"></i><div><strong>Chiama</strong><span>${esc(tel)}</span></div></a>
+      <a href="https://wa.me/${esc(wa)}" target="_blank" rel="noopener" class="contact-opt"><i class="fab fa-whatsapp"></i><div><strong>WhatsApp</strong><span>Risposta rapida</span></div></a>
+      <a href="mailto:${esc(email)}" class="contact-opt"><i class="fas fa-envelope"></i><div><strong>Email</strong><span>${esc(email)}</span></div></a>
+    </div>
+    <button class="btn-link" onclick="closeAllModals()" style="margin-top:14px;">Chiudi</button>`;
+  $('#contactModal').classList.add('open');
+}
+
 // ─── Render catalogo ─────────────────────────────────────────────────────────
 function renderProducts(cat) {
   const grid = $('#shopGrid');
-  const list = products.filter(p => p.categoria === cat);
+  const list = cat === '_offerte' ? products.filter(p => p.inOfferta) : products.filter(p => p.categoria === cat);
   if (!list.length) {
-    grid.innerHTML = '<p style="grid-column:1/-1;text-align:center;color:var(--text-light);padding:40px;">Nessun prodotto in questa sezione al momento.</p>';
+    grid.innerHTML = `<p style="grid-column:1/-1;text-align:center;color:var(--text-light);padding:40px;">${cat === '_offerte' ? 'Nessuna offerta attiva al momento.' : 'Nessun prodotto in questa sezione al momento.'}</p>`;
     return;
   }
   grid.innerHTML = list.map(p => {
     const img = p.immagini?.[0] ? `<img src="${imgUrl(p.immagini[0])}" alt="${esc(p.nome)}" loading="lazy">` : '<div class="shop-noimg"><i class="fas fa-box-open"></i></div>';
     const stars = p.rating ? `<span class="shop-stars">${'★'.repeat(Math.round(p.rating))}${'☆'.repeat(5 - Math.round(p.rating))}</span> <small>(${p.reviewsCount})</small>` : '<small class="shop-norev">Nessuna recensione</small>';
+    const hasOffer = p.inOfferta && p.prezzoScontato > 0 && p.categoria === 'vendita';
     let price = '';
-    if (p.categoria === 'vendita') price = `<div class="shop-price">${eur(p.prezzo)}</div>`;
-    else if (p.categoria === 'noleggio') {
+    if (p.categoria === 'vendita') {
+      price = hasOffer
+        ? `<div class="shop-price"><span class="price-old">${eur(p.prezzo)}</span> <span class="price-offer">${eur(p.prezzoScontato)}</span></div>`
+        : `<div class="shop-price">${eur(p.prezzo)}</div>`;
+    } else if (p.categoria === 'noleggio') {
       const n = p.prezzoNoleggio || {};
       const parts = [n.giorno && `${eur(n.giorno)}/giorno`, n.settimana && `${eur(n.settimana)}/sett`, n.mese && `${eur(n.mese)}/mese`].filter(Boolean);
       price = `<div class="shop-price">${parts.join(' · ') || 'Su preventivo'}</div>`;
@@ -74,12 +109,19 @@ function renderProducts(cat) {
       : p.categoria === 'noleggio'
         ? `<button class="btn btn-outline shop-btn" data-rent="${p._id}" ${p.disponibile ? '' : 'disabled'}><i class="fas fa-handshake"></i> ${p.disponibile ? 'Richiedi noleggio' : 'Non disponibile'}</button>`
         : `<button class="btn btn-outline shop-btn" data-apnea="${p._id}"><i class="fas fa-calendar-check"></i> Prenota esame</button>`;
+    const ribbon = hasOffer ? `<span class="shop-ribbon offer"><i class="fas fa-fire"></i> Offerta</span>` : p.badge ? `<span class="shop-ribbon">${esc(p.badge)}</span>` : '';
+    const meta = [
+      p.tempoSpedizione ? `<span class="shop-meta-item"><i class="fas fa-truck-fast"></i> ${esc(p.tempoSpedizione)}</span>` : '',
+      p.ritiroMagazzino ? `<span class="shop-meta-item"><i class="fas fa-warehouse"></i> Ritiro disponibile</span>` : '',
+    ].filter(Boolean).join('');
     return `<div class="shop-card">
+      ${ribbon}
       <div class="shop-card-img" data-view="${p._id}">${img}</div>
       <div class="shop-card-body">
         <h3>${esc(p.nome)}</h3>
         <div class="shop-rating">${stars}</div>
         ${price}
+        ${meta ? `<div class="shop-card-meta">${meta}</div>` : ''}
         <div class="shop-card-actions">
           <button class="btn-link" data-view="${p._id}">Dettagli</button>
           ${btn}
@@ -103,8 +145,9 @@ function renderCartBadge() {
 function addToCart(id) {
   const p = products.find(x => x._id === id);
   if (!p) return;
+  const prezzoEff = (p.inOfferta && p.prezzoScontato > 0) ? p.prezzoScontato : (p.prezzo || 0);
   const ex = cart.find(i => i.productId === id);
-  if (ex) ex.qty = Math.min(50, ex.qty + 1); else cart.push({ productId: id, nome: p.nome, prezzo: p.prezzo || 0, qty: 1 });
+  if (ex) ex.qty = Math.min(50, ex.qty + 1); else cart.push({ productId: id, nome: p.nome, prezzo: prezzoEff, qty: 1 });
   saveCart(); openCart();
 }
 function cartTotal() { return cart.reduce((s, i) => s + i.prezzo * i.qty, 0); }
@@ -196,8 +239,13 @@ async function openProduct(id) {
       (p.immagini.length > 1 ? `<button class="pnav prev" onclick="shiftImg(-1)">‹</button><button class="pnav next" onclick="shiftImg(1)">›</button>` : '')
     : '<div class="shop-noimg big"><i class="fas fa-box-open"></i></div>';
   const revs = reviews.map(rv => `<div class="review"><div class="rev-head"><strong>${esc(rv.nome)}</strong><span class="shop-stars">${'★'.repeat(rv.rating)}${'☆'.repeat(5 - rv.rating)}</span></div><p>${esc(rv.testo)}</p></div>`).join('') || '<p style="color:var(--text-light);">Nessuna recensione ancora.</p>';
+  const hasOffer = p.inOfferta && p.prezzoScontato > 0 && p.categoria === 'vendita';
   let priceHtml = '';
-  if (p.categoria === 'vendita') priceHtml = `<div class="shop-price big">${eur(p.prezzo)}</div>`;
+  if (p.categoria === 'vendita') {
+    priceHtml = hasOffer
+      ? `<div class="shop-price big"><span class="price-old">${eur(p.prezzo)}</span> <span class="price-offer">${eur(p.prezzoScontato)}</span></div>`
+      : `<div class="shop-price big">${eur(p.prezzo)}</div>`;
+  }
   else if (p.categoria === 'noleggio') {
     const n = p.prezzoNoleggio || {};
     priceHtml = `<table class="noleggio-prices">${n.giorno ? `<tr><td>Giornata</td><td>${eur(n.giorno)}</td></tr>` : ''}${n.settimana ? `<tr><td>Settimana</td><td>${eur(n.settimana)}</td></tr>` : ''}${n.mese ? `<tr><td>Mese</td><td>${eur(n.mese)}</td></tr>` : ''}${p.cauzione ? `<tr><td>Cauzione</td><td>${eur(p.cauzione)}</td></tr>` : ''}</table>`;
@@ -205,16 +253,22 @@ async function openProduct(id) {
   const action = p.categoria === 'vendita'
     ? `<button class="btn btn-primary" onclick="addToCart('${p._id}')" ${p.disponibile ? '' : 'disabled'}><i class="fas fa-cart-plus"></i> Aggiungi al carrello</button>`
     : `<button class="btn btn-primary" onclick="openRequest('${p.categoria === 'noleggio' ? 'noleggio' : 'apnea'}','${p._id}')"><i class="fas fa-handshake"></i> ${p.categoria === 'noleggio' ? 'Richiedi noleggio' : 'Prenota esame'}</button>`;
+  const metaDetail = [
+    p.tempoSpedizione ? `<span class="shop-meta-item"><i class="fas fa-truck-fast"></i> Spedizione: ${esc(p.tempoSpedizione)}</span>` : '',
+    p.ritiroMagazzino ? `<span class="shop-meta-item"><i class="fas fa-warehouse"></i> Ritiro in magazzino disponibile</span>` : '',
+  ].filter(Boolean).join('');
   modal.querySelector('.modal-box').innerHTML = `
     <button class="modal-close" onclick="closeAllModals()"><i class="fas fa-times"></i></button>
     <div class="product-detail">
       <div class="pimgs">${imgs}</div>
       <div class="pinfo">
-        <span class="shop-cat">${CAT_LABELS[p.categoria]}</span>
+        <span class="shop-cat">${CAT_LABELS[p.categoria]}</span>${p.badge && !hasOffer ? ` <span class="shop-ribbon inline">${esc(p.badge)}</span>` : ''}${hasOffer ? ' <span class="shop-ribbon offer inline"><i class="fas fa-fire"></i> Offerta</span>' : ''}
         <h3>${esc(p.nome)}</h3>
         ${priceHtml}
         <p class="pdesc">${esc(p.descrizione)}</p>
+        ${metaDetail ? `<div class="shop-card-meta big">${metaDetail}</div>` : ''}
         ${action}
+        <button class="btn-link" onclick="closeAllModals();openContact();" style="margin-top:10px;"><i class="fas fa-headset"></i> Hai domande? Contattaci</button>
       </div>
     </div>
     <div class="reviews-sec">

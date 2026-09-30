@@ -69,10 +69,28 @@
       </div>
       <label>Descrizione</label>
       <textarea id="prodDesc" rows="3"></textarea>
-      <div style="display:flex;gap:16px;flex-wrap:wrap;margin-top:12px;">
+
+      <div class="two-cols" style="margin-top:14px;">
+        <div>
+          <label>Tempo di spedizione</label>
+          <input id="prodSpedizione" placeholder="Es. 2-3 giorni lavorativi">
+        </div>
+        <div>
+          <label>Badge (etichetta card, opzionale)</label>
+          <input id="prodBadge" placeholder="Es. Novità, Bestseller">
+        </div>
+      </div>
+
+      <div style="display:flex;gap:16px;flex-wrap:wrap;margin-top:14px;align-items:center;">
         <label style="margin:0;display:flex;align-items:center;gap:6px;"><input type="checkbox" id="prodDisponibile" checked style="width:auto;"> Disponibile</label>
         <label style="margin:0;display:flex;align-items:center;gap:6px;"><input type="checkbox" id="prodAttivo" checked style="width:auto;"> Visibile nello shop</label>
+        <label style="margin:0;display:flex;align-items:center;gap:6px;"><input type="checkbox" id="prodRitiro" style="width:auto;"> Ritiro disponibile in magazzino</label>
         <label style="margin:0;">Ordine <input id="prodOrdine" type="number" value="0" style="width:70px;display:inline-block;"></label>
+      </div>
+
+      <div style="display:flex;gap:16px;flex-wrap:wrap;align-items:center;margin-top:10px;padding:12px;background:#fff7ed;border:1px solid #fed7aa;border-radius:8px;">
+        <label style="margin:0;display:flex;align-items:center;gap:6px;font-weight:700;color:#c2410c;"><input type="checkbox" id="prodInOfferta" style="width:auto;"> <i class="fas fa-tag"></i> In offerta</label>
+        <label style="margin:0;">Prezzo scontato (€) <input id="prodPrezzoScontato" type="number" min="0" step="0.01" style="width:110px;display:inline-block;"></label>
       </div>
       <div style="margin-top:16px;display:flex;gap:10px;">
         <button class="btn btn-primary" id="prodSave"><i class="fas fa-save"></i> Salva prodotto</button>
@@ -113,6 +131,28 @@
       <textarea id="cfgNote" rows="2" placeholder="Es. Il pagamento verrà confermato entro 24h."></textarea>
       <button class="btn btn-primary" id="cfgSave" style="margin-top:16px;"><i class="fas fa-save"></i> Salva impostazioni</button>
       <span id="cfgOk" style="color:#16a34a;margin-left:12px;display:none;">Salvato ✓</span>
+    </div>
+
+    <div class="sa-panel">
+      <h3 style="margin-top:0;"><i class="fas fa-bullhorn" style="color:#f59e0b;"></i> Banner offerte (ticker scorrevole)</h3>
+      <p style="color:var(--text-light);font-size:.88rem;margin-top:-8px;">Un messaggio per riga. Appare come striscia scorrevole in cima allo shop.</p>
+      <textarea id="cfgOfferte" rows="4" placeholder="🎉 Spedizione gratuita sopra i 50€&#10;🔥 -20% su tutti gli ausili da cammino"></textarea>
+    </div>
+
+    <div class="sa-panel">
+      <h3 style="margin-top:0;"><i class="fas fa-headset" style="color:var(--blue);"></i> Assistenza clienti</h3>
+      <div class="two-cols">
+        <div>
+          <label>Telefono assistenza</label>
+          <input id="cfgTelAssistenza" placeholder="06 01905242">
+        </div>
+        <div>
+          <label>WhatsApp assistenza (numero internazionale)</label>
+          <input id="cfgWaAssistenza" placeholder="393514175117">
+        </div>
+      </div>
+      <label>Email assistenza</label>
+      <input id="cfgEmailAssistenza" placeholder="shop@abbracciocuredomiciliari.it">
     </div>
   </div>
 </div>
@@ -185,14 +225,15 @@ async function loadProducts() {
   prodCache = await r.json();
   const el = document.getElementById('prodList');
   el.innerHTML = `<table class="sa-table"><thead><tr>
-    <th>Img</th><th>Nome</th><th>Categoria</th><th>Prezzo</th><th>Stato</th><th>Azioni</th></tr></thead>
+    <th>Img</th><th>Nome</th><th>Categoria</th><th>Prezzo</th><th>Offerta</th><th>Stato</th><th>Azioni</th></tr></thead>
     <tbody>${prodCache.map(p => `<tr>
       <td>${p.immagini?.[0] ? `<img class="sa-img" src="${imgUrl(p.immagini[0])}">` : '—'}</td>
-      <td><strong>${esc(p.nome)}</strong></td>
+      <td><strong>${esc(p.nome)}</strong>${p.badge ? `<br><small style="color:#f59e0b;">🏷️ ${esc(p.badge)}</small>` : ''}</td>
       <td>${CAT_LABEL[p.categoria]}</td>
       <td>${p.categoria === 'vendita' ? eur(p.prezzo) : p.categoria === 'noleggio'
         ? [p.prezzoNoleggio?.giorno && 'G:'+eur(p.prezzoNoleggio.giorno), p.prezzoNoleggio?.settimana && 'S:'+eur(p.prezzoNoleggio.settimana), p.prezzoNoleggio?.mese && 'M:'+eur(p.prezzoNoleggio.mese)].filter(Boolean).join(' ')
         : (p.prezzo ? eur(p.prezzo) : '—')}</td>
+      <td>${p.inOfferta ? `<span style="color:#dc2626;font-weight:700;">-${eur(p.prezzoScontato)}</span>` : '—'}</td>
       <td>${p.attivo ? '👁️' : '🚫'} ${p.disponibile ? '✅' : '⛔'}</td>
       <td class="sa-actions">
         <button onclick="editProd('${p._id}')"><i class="fas fa-edit"></i></button>
@@ -213,8 +254,13 @@ function editProd(id) {
   document.getElementById('prodMese').value = p.prezzoNoleggio?.mese || '';
   document.getElementById('prodCauzione').value = p.cauzione || '';
   document.getElementById('prodDesc').value = p.descrizione || '';
+  document.getElementById('prodSpedizione').value = p.tempoSpedizione || '';
+  document.getElementById('prodBadge').value = p.badge || '';
   document.getElementById('prodDisponibile').checked = p.disponibile;
   document.getElementById('prodAttivo').checked = p.attivo;
+  document.getElementById('prodRitiro').checked = !!p.ritiroMagazzino;
+  document.getElementById('prodInOfferta').checked = !!p.inOfferta;
+  document.getElementById('prodPrezzoScontato').value = p.prezzoScontato || '';
   document.getElementById('prodOrdine').value = p.ordine || 0;
   renderProdImgs(p);
   document.getElementById('prodImgsWrap').style.display = 'block';
@@ -245,9 +291,11 @@ document.getElementById('prodImgUpload').onclick = async () => {
 document.getElementById('prodReset').onclick = () => {
   document.getElementById('prodId').value = '';
   document.getElementById('prodFormTitle').textContent = 'Nuovo prodotto';
-  ['prodNome','prodPrezzo','prodGiorno','prodSettimana','prodMese','prodCauzione','prodDesc'].forEach(i => document.getElementById(i).value = '');
+  ['prodNome','prodPrezzo','prodGiorno','prodSettimana','prodMese','prodCauzione','prodDesc','prodSpedizione','prodBadge','prodPrezzoScontato'].forEach(i => document.getElementById(i).value = '');
   document.getElementById('prodDisponibile').checked = true;
   document.getElementById('prodAttivo').checked = true;
+  document.getElementById('prodRitiro').checked = false;
+  document.getElementById('prodInOfferta').checked = false;
   document.getElementById('prodOrdine').value = 0;
   document.getElementById('prodImgsWrap').style.display = 'none';
 };
@@ -264,6 +312,11 @@ document.getElementById('prodSave').onclick = async () => {
     disponibile: document.getElementById('prodDisponibile').checked,
     attivo: document.getElementById('prodAttivo').checked,
     ordine: document.getElementById('prodOrdine').value,
+    tempoSpedizione: document.getElementById('prodSpedizione').value,
+    badge: document.getElementById('prodBadge').value,
+    ritiroMagazzino: document.getElementById('prodRitiro').checked,
+    inOfferta: document.getElementById('prodInOfferta').checked,
+    prezzoScontato: document.getElementById('prodPrezzoScontato').value,
   };
   const r = await api(id ? `/admin/products/${id}` : '/admin/products', {
     method: id ? 'PUT' : 'POST', headers: HJ(), body: JSON.stringify(body),
@@ -360,12 +413,20 @@ async function loadConfig() {
   document.getElementById('cfgPaypal').value = c.paypalLink || '';
   document.getElementById('cfgIban').value = c.iban || '';
   document.getElementById('cfgNote').value = c.noteCheckout || '';
+  document.getElementById('cfgOfferte').value = (c.offerte || []).join('\n');
+  document.getElementById('cfgTelAssistenza').value = c.telefonoAssistenza || '';
+  document.getElementById('cfgWaAssistenza').value = c.whatsappAssistenza || '';
+  document.getElementById('cfgEmailAssistenza').value = c.emailAssistenza || '';
 }
 document.getElementById('cfgSave').onclick = async () => {
   const r = await api('/admin/config', { method: 'PUT', headers: HJ(), body: JSON.stringify({
     paypalLink: document.getElementById('cfgPaypal').value,
     iban: document.getElementById('cfgIban').value,
     noteCheckout: document.getElementById('cfgNote').value,
+    offerte: document.getElementById('cfgOfferte').value.split('\n').map(s => s.trim()).filter(Boolean),
+    telefonoAssistenza: document.getElementById('cfgTelAssistenza').value,
+    whatsappAssistenza: document.getElementById('cfgWaAssistenza').value,
+    emailAssistenza: document.getElementById('cfgEmailAssistenza').value,
   })});
   if (r?.ok) { const ok = document.getElementById('cfgOk'); ok.style.display = 'inline'; setTimeout(() => ok.style.display = 'none', 2500); }
 };
