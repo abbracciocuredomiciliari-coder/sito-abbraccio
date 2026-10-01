@@ -244,7 +244,14 @@ function addToCart(id) {
   }
   const ex = cart.find(i => itemKey(i) === itemKey(item));
   if (ex) ex.qty = Math.min(50, ex.qty + 1); else cart.push(item);
-  saveCart(); openCart();
+  saveCart(); pulseCart(); openCart();
+}
+function pulseCart() {
+  ['#cartBtn', '#cartFab'].forEach(sel => {
+    const el = $(sel);
+    if (!el) return;
+    el.classList.remove('pulse'); void el.offsetWidth; el.classList.add('pulse');
+  });
 }
 function cartTotal() { return cart.reduce((s, i) => s + i.prezzo * i.qty, 0); }
 
@@ -392,8 +399,9 @@ async function openProduct(id) {
   if (!r.ok) { modal.querySelector('.modal-box').innerHTML = '<p>Prodotto non trovato.</p>'; return; }
   const { product: p, reviews } = await r.json();
   const imgs = p.immagini?.length
-    ? p.immagini.map((s, i) => `<img src="${imgUrl(s)}" class="pimg ${i === 0 ? 'show' : ''}" alt="">`).join('') +
-      (p.immagini.length > 1 ? `<button class="pnav prev" onclick="shiftImg(-1)">‹</button><button class="pnav next" onclick="shiftImg(1)">›</button>` : '')
+    ? `<div class="pimgs">${p.immagini.map((s, i) => `<img src="${imgUrl(s)}" class="pimg ${i === 0 ? 'show' : ''}" alt="">`).join('')}` +
+      `${p.immagini.length > 1 ? `<button class="pnav prev" onclick="shiftImg(-1)">‹</button><button class="pnav next" onclick="shiftImg(1)">›</button><span class="pcount">${1}/${p.immagini.length}</span>` : ''}</div>` +
+      (p.immagini.length > 1 ? `<div class="pthumbs">${p.immagini.map((s, i) => `<img src="${imgUrl(s)}" class="pthumb ${i === 0 ? 'on' : ''}" onclick="setImg(${i})" alt="foto ${i + 1}">`).join('')}</div>` : '')
     : '<div class="shop-noimg big"><i class="fas fa-box-open"></i></div>';
   const revs = reviews.map(rv => `<div class="review"><div class="rev-head"><strong>${esc(rv.nome)}</strong><span class="shop-stars">${'★'.repeat(rv.rating)}${'☆'.repeat(5 - rv.rating)}</span></div><p>${esc(rv.testo)}</p></div>`).join('') || '<p style="color:var(--text-light);">Nessuna recensione ancora.</p>';
   const hasOffer = p.inOfferta && p.prezzoScontato > 0 && p.categoria === 'vendita';
@@ -415,7 +423,7 @@ async function openProduct(id) {
   modal.querySelector('.modal-box').innerHTML = `
     <button class="modal-close" onclick="closeAllModals()"><i class="fas fa-times"></i></button>
     <div class="product-detail">
-      <div class="pimgs">${imgs}</div>
+      <div class="pgallery">${imgs}</div>
       <div class="pinfo">
         <span class="shop-cat">${CAT_LABELS[p.categoria]}</span>${p.badge && !hasOffer ? ` <span class="shop-ribbon inline">${esc(p.badge)}</span>` : ''}${hasOffer ? ' <span class="shop-ribbon offer inline"><i class="fas fa-fire"></i> Offerta</span>' : ''}
         <h3>${esc(p.nome)}</h3>
@@ -455,13 +463,16 @@ async function openProduct(id) {
 }
 
 let curImg = 0;
-function shiftImg(d) {
+function setImg(i) {
   const imgs = document.querySelectorAll('#productModal .pimg');
   if (!imgs.length) return;
-  imgs[curImg].classList.remove('show');
-  curImg = (curImg + d + imgs.length) % imgs.length;
-  imgs[curImg].classList.add('show');
+  curImg = (i + imgs.length) % imgs.length;
+  imgs.forEach((im, k) => im.classList.toggle('show', k === curImg));
+  document.querySelectorAll('#productModal .pthumb').forEach((t, k) => t.classList.toggle('on', k === curImg));
+  const pc = document.querySelector('#productModal .pcount');
+  if (pc) pc.textContent = `${curImg + 1}/${imgs.length}`;
 }
+function shiftImg(d) { setImg(curImg + d); }
 
 function closeAllModals() { document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('open')); }
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeAllModals(); });
