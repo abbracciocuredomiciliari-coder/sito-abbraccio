@@ -512,6 +512,9 @@ body.shop-view-catalog #shop-catalogo .container { max-width: 1200px; }
 .cart-fab:hover { transform: translateY(-3px); }
 .cart-fab span { position: absolute; top: -4px; right: -4px; background: #ea580c; color: #fff; font-size: .72rem; font-weight: 800; min-width: 20px; height: 20px; border-radius: 999px; display: inline-flex; align-items: center; justify-content: center; padding: 0 5px; }
 
+.btn-danger { background: #dc2626; color: #fff; border: none; padding: 12px 20px; border-radius: 10px; font-family: inherit; font-size: .95rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 8px; transition: background .15s; }
+.btn-danger:hover { background: #b91c1c; }
+
 /* Form shop */
 .shop-form { display: flex; flex-direction: column; gap: 10px; }
 .shop-form input, .shop-form textarea { padding: 11px 14px; border: 1px solid var(--border); border-radius: 8px; font-family: inherit; font-size: .95rem; width: 100%; box-sizing: border-box; }

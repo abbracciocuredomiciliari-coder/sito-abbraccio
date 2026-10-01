@@ -269,7 +269,8 @@ function openCart() {
     <h3><i class="fas fa-shopping-cart"></i> Carrello</h3>
     <div class="cart-list">${items}</div>
     <div class="cart-totale">Totale: <strong>${eur(cartTotal())}</strong></div>
-    ${cart.length ? `<button class="btn btn-primary" id="toCheckout" style="width:100%;"><i class="fas fa-credit-card"></i> Procedi all'ordine</button>` : ''}
+    ${cart.length ? `<button class="btn btn-primary" id="toCheckout" style="width:100%;"><i class="fas fa-credit-card"></i> Procedi all'ordine</button>
+    <button class="btn btn-danger" id="clearCart" style="width:100%;margin-top:8px;"><i class="fas fa-trash-can"></i> Svuota carrello</button>` : ''}
     <button class="btn-link" onclick="closeAllModals()" style="margin-top:10px;">Chiudi</button>`;
   $('#cartModal').classList.add('open');
   $('#cartModal').querySelectorAll('[data-inc]').forEach(b => b.onclick = () => { cart.find(i => itemKey(i) === b.dataset.inc).qty = Math.min(50, cart.find(i => itemKey(i) === b.dataset.inc).qty + 1); saveCart(); openCart(); });
@@ -289,6 +290,8 @@ function openCart() {
     saveCart(); openCart();
   });
   const co = $('#toCheckout'); if (co) co.onclick = openCheckout;
+  const cc = $('#clearCart');
+  if (cc) cc.onclick = () => { if (confirm('Vuoi eliminare tutti i prodotti dal carrello?')) { cart = []; saveCart(); openCart(); } };
 }
 
 // ─── Checkout: step 1 dati + metodo pagamento → step 2 istruzioni pagamento ───
