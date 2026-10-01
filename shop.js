@@ -262,7 +262,7 @@ function openCart() {
       <span class="cart-nome">${esc(i.nome)}${isNol ? ' <small class="cart-cat">noleggio</small>' : ''}${tariffaSel}</span>
       <span class="cart-qty"><button data-dec="${itemKey(i)}">−</button> ${i.qty} <button data-inc="${itemKey(i)}">+</button></span>
       <span class="cart-prezzo">${eur(i.prezzo * i.qty)}</span>
-      <button class="cart-del" data-del="${itemKey(i)}"><i class="fas fa-trash"></i></button>
+      <button class="cart-del" data-del="${itemKey(i)}" title="Rimuovi prodotto"><i class="fas fa-trash"></i></button>
     </div>`;
   }).join('') || '<p style="text-align:center;color:var(--text-light);">Carrello vuoto</p>';
   $('#cartModal .modal-box').innerHTML = `

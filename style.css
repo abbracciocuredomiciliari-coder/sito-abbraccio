@@ -427,7 +427,8 @@ body.menu-open .hamburger span { background: #fff; }
 .cart-nome { flex: 1; color: var(--text-dark); }
 .cart-qty button { width: 24px; height: 24px; border: 1px solid var(--border); background: #fff; border-radius: 6px; cursor: pointer; font-weight: 700; }
 .cart-prezzo { font-weight: 700; min-width: 70px; text-align: right; }
-.cart-del { border: none; background: none; color: #dc2626; cursor: pointer; }
+.cart-del { border: none; background: #fee2e2; color: #dc2626; cursor: pointer; width: 34px; height: 34px; border-radius: 8px; font-size: .9rem; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; transition: background .15s, color .15s; }
+.cart-del:hover { background: #dc2626; color: #fff; }
 .cart-totale { text-align: right; padding: 14px 0; font-size: 1.05rem; }
 .cart-cat { display: inline-block; background: var(--bg-soft); color: var(--blue); font-size: .7rem; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; border-radius: 999px; padding: 2px 8px; margin-left: 6px; vertical-align: middle; }
 .cart-tariffa { display: block; margin-top: 6px; padding: 5px 8px; border: 1px solid var(--border); border-radius: 8px; font-size: .82rem; font-family: inherit; max-width: 190px; }
