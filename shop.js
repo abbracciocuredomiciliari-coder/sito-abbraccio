@@ -24,6 +24,7 @@ const PAY_LABELS = { paypal: 'PayPal', carta: 'Carta di credito', bonifico: 'Bon
 
 // ─── Init ────────────────────────────────────────────────────────────────────
 async function initShop() {
+  setView('home');
   renderCartBadge();
   try {
     const [prods, cfg] = await Promise.all([
@@ -82,12 +83,18 @@ function renderVetrine() {
   buildVetrina('vetrinaNoleggio', products.filter(p => p.categoria === 'noleggio'));
 }
 
+// ─── Viste: landing (home) ↔ pagina catalogo dedicata ────────────────────────
+function setView(v) {
+  document.body.classList.toggle('shop-view-catalog', v === 'catalog');
+  if (v === 'catalog') window.scrollTo({ top: 0, behavior: 'auto' });
+}
+
 // ─── Navigazione categorie (pulsanti grandi) ─────────────────────────────────
 function goCategory(cat) {
   document.querySelectorAll('.shop-tab').forEach(b => b.classList.toggle('active', b.dataset.cat === cat));
   activeCat = cat;
   renderProducts(cat);
-  document.getElementById('shop-catalogo')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  setView('catalog');
 }
 
 // ─── Ticker offerte ───────────────────────────────────────────────────────────
@@ -123,6 +130,8 @@ function bindShopEvents() {
     searchInput.focus();
   });
   $('#cartBtn').addEventListener('click', openCart);
+  $('#cartFab')?.addEventListener('click', openCart);
+  $('#backHome')?.addEventListener('click', () => setView('home'));
   $('#contactUsBtn')?.addEventListener('click', openContact);
   document.addEventListener('click', e => {
     if (e.target.classList.contains('modal-overlay')) closeAllModals();
@@ -209,7 +218,8 @@ function saveCart() { localStorage.setItem('shop-cart', JSON.stringify(cart)); r
 function renderCartBadge() {
   const n = cart.reduce((s, i) => s + i.qty, 0);
   $('#cartCount').textContent = n;
-  $('#cartBtn').style.display = 'inline-flex';
+  const fab = $('#cartFabCount');
+  if (fab) fab.textContent = n;
 }
 function noleggioDefaultTariffa(p) {
   const n = p.prezzoNoleggio || {};
