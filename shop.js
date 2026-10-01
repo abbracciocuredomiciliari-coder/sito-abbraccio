@@ -9,13 +9,18 @@ const SHOP_IMG = (location.hostname === 'localhost' || location.hostname === '12
 let products = [];
 let cart = JSON.parse(localStorage.getItem('shop-cart') || '[]');
 let shopConfig = { paypalLink: '', iban: '', noteCheckout: '' };
+let searchQuery = '';
+let activeCat = 'vendita';
+const vetrinaTimers = [];
 
 const $ = s => document.querySelector(s);
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const eur = n => `€${Number(n || 0).toFixed(2)}`;
 const imgUrl = src => src?.startsWith('http') ? src : SHOP_IMG + src;
 
-const CAT_LABELS = { vendita: 'Presidi in vendita', noleggio: 'Noleggio apparecchiature', apnea: 'Esami apnea del sonno' };
+const CAT_LABELS = { vendita: 'Presidi in vendita', noleggio: 'Noleggio apparecchiature' };
+const TARIFFA_LABELS = { giorno: 'giorno', settimana: 'settimana', mese: 'mese' };
+const PAY_LABELS = { paypal: 'PayPal', carta: 'Carta di credito', bonifico: 'Bonifico bancario' };
 
 // ─── Init ────────────────────────────────────────────────────────────────────
 async function initShop() {
@@ -33,8 +38,56 @@ async function initShop() {
     return;
   }
   renderTicker();
+  renderVetrine();
   renderProducts('vendita');
   bindShopEvents();
+}
+
+// ─── Vetrine immagini rotanti (vendita / offerte / noleggio) ─────────────────
+function buildVetrina(elId, list) {
+  const el = document.getElementById(elId);
+  if (!el) return;
+  const items = list.filter(p => p.immagini?.length).slice(0, 10);
+  if (!items.length) {
+    el.innerHTML = '<div class="vetrina-empty"><i class="fas fa-image"></i><span>Prossimamente</span></div>';
+    return;
+  }
+  el.innerHTML = items.map((p, i) => {
+    let price = '';
+    if (p.categoria === 'vendita') price = (p.inOfferta && p.prezzoScontato > 0) ? `<b>${eur(p.prezzoScontato)}</b> <s>${eur(p.prezzo)}</s>` : `<b>${eur(p.prezzo)}</b>`;
+    else { const n = p.prezzoNoleggio || {}; const t = n.giorno ? `da ${eur(n.giorno)}/giorno` : n.settimana ? `da ${eur(n.settimana)}/sett` : `da ${eur(n.mese)}/mese`; price = `<b>${t}</b>`; }
+    return `<div class="vet-slide ${i === 0 ? 'show' : ''}" data-viewprod="${p._id}">
+      <img src="${imgUrl(p.immagini[0])}" alt="${esc(p.nome)}" loading="lazy">
+      <div class="vet-caption"><span>${esc(p.nome)}</span>${price}</div>
+    </div>`;
+  }).join('') + `
+    ${items.length > 1 ? '<button class="vet-nav prev"><i class="fas fa-chevron-left"></i></button><button class="vet-nav next"><i class="fas fa-chevron-right"></i></button>' : ''}
+    <div class="vet-dots">${items.map((_, i) => `<span class="vet-dot ${i === 0 ? 'on' : ''}"></span>`).join('')}</div>`;
+  let cur = 0;
+  const show = n => {
+    cur = (n + items.length) % items.length;
+    el.querySelectorAll('.vet-slide').forEach((s, i) => s.classList.toggle('show', i === cur));
+    el.querySelectorAll('.vet-dot').forEach((d, i) => d.classList.toggle('on', i === cur));
+  };
+  const timer = items.length > 1 ? setInterval(() => show(cur + 1), 4200) : null;
+  if (timer) vetrinaTimers.push(timer);
+  el.querySelector('.vet-nav.prev')?.addEventListener('click', e => { e.stopPropagation(); clearInterval(timer); show(cur - 1); });
+  el.querySelector('.vet-nav.next')?.addEventListener('click', e => { e.stopPropagation(); clearInterval(timer); show(cur + 1); });
+  el.querySelectorAll('[data-viewprod]').forEach(s => s.addEventListener('click', () => openProduct(s.dataset.viewprod)));
+}
+
+function renderVetrine() {
+  buildVetrina('vetrinaVendita', products.filter(p => p.categoria === 'vendita'));
+  buildVetrina('vetrinaOfferte', products.filter(p => p.inOfferta));
+  buildVetrina('vetrinaNoleggio', products.filter(p => p.categoria === 'noleggio'));
+}
+
+// ─── Navigazione categorie (pulsanti grandi) ─────────────────────────────────
+function goCategory(cat) {
+  document.querySelectorAll('.shop-tab').forEach(b => b.classList.toggle('active', b.dataset.cat === cat));
+  activeCat = cat;
+  renderProducts(cat);
+  document.getElementById('shop-catalogo')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 // ─── Ticker offerte ───────────────────────────────────────────────────────────
@@ -53,8 +106,21 @@ function bindShopEvents() {
     btn.addEventListener('click', () => {
       document.querySelectorAll('.shop-tab').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-      renderProducts(btn.dataset.cat);
+      activeCat = btn.dataset.cat;
+      renderProducts(activeCat);
     });
+  });
+  const searchInput = $('#shopSearch');
+  searchInput.addEventListener('input', () => {
+    searchQuery = searchInput.value.trim();
+    $('#shopSearchClear').style.display = searchQuery ? 'inline-flex' : 'none';
+    renderProducts(activeCat);
+  });
+  $('#shopSearchClear').addEventListener('click', () => {
+    searchInput.value = ''; searchQuery = '';
+    $('#shopSearchClear').style.display = 'none';
+    renderProducts(activeCat);
+    searchInput.focus();
   });
   $('#cartBtn').addEventListener('click', openCart);
   $('#contactUsBtn')?.addEventListener('click', openContact);
@@ -82,12 +148,20 @@ function openContact() {
   $('#contactModal').classList.add('open');
 }
 
-// ─── Render catalogo ─────────────────────────────────────────────────────────
+// ─── Render catalogo + ricerca ────────────────────────────────────────────────
+function matchesSearch(p) {
+  if (!searchQuery) return true;
+  const q = searchQuery.toLowerCase();
+  return p.nome.toLowerCase().includes(q) || (p.descrizione || '').toLowerCase().includes(q);
+}
+
 function renderProducts(cat) {
   const grid = $('#shopGrid');
-  const list = cat === '_offerte' ? products.filter(p => p.inOfferta) : products.filter(p => p.categoria === cat);
+  let list = cat === '_offerte' ? products.filter(p => p.inOfferta) : products.filter(p => p.categoria === cat);
+  // Con ricerca attiva: cerca in TUTTE le sezioni (vendita + noleggio), indipendentemente dal tab
+  if (searchQuery) list = products.filter(p => ['vendita', 'noleggio'].includes(p.categoria) && matchesSearch(p));
   if (!list.length) {
-    grid.innerHTML = `<p style="grid-column:1/-1;text-align:center;color:var(--text-light);padding:40px;">${cat === '_offerte' ? 'Nessuna offerta attiva al momento.' : 'Nessun prodotto in questa sezione al momento.'}</p>`;
+    grid.innerHTML = `<p style="grid-column:1/-1;text-align:center;color:var(--text-light);padding:40px;">${searchQuery ? `Nessun prodotto trovato per "<strong>${esc(searchQuery)}</strong>".` : cat === '_offerte' ? 'Nessuna offerta attiva al momento.' : 'Nessun prodotto in questa sezione al momento.'}</p>`;
     return;
   }
   grid.innerHTML = list.map(p => {
@@ -104,11 +178,7 @@ function renderProducts(cat) {
       const parts = [n.giorno && `${eur(n.giorno)}/giorno`, n.settimana && `${eur(n.settimana)}/sett`, n.mese && `${eur(n.mese)}/mese`].filter(Boolean);
       price = `<div class="shop-price">${parts.join(' · ') || 'Su preventivo'}</div>`;
     } else price = `<div class="shop-price">${p.prezzo ? eur(p.prezzo) : 'Su richiesta'}</div>`;
-    const btn = p.categoria === 'vendita'
-      ? `<button class="btn btn-primary shop-btn" data-add="${p._id}" ${p.disponibile ? '' : 'disabled'}><i class="fas fa-cart-plus"></i> ${p.disponibile ? 'Aggiungi' : 'Non disponibile'}</button>`
-      : p.categoria === 'noleggio'
-        ? `<button class="btn btn-outline shop-btn" data-rent="${p._id}" ${p.disponibile ? '' : 'disabled'}><i class="fas fa-handshake"></i> ${p.disponibile ? 'Richiedi noleggio' : 'Non disponibile'}</button>`
-        : `<button class="btn btn-outline shop-btn" data-apnea="${p._id}"><i class="fas fa-calendar-check"></i> Prenota esame</button>`;
+    const btn = `<button class="btn btn-primary shop-btn" data-add="${p._id}" ${p.disponibile ? '' : 'disabled'}><i class="fas fa-cart-plus"></i> ${p.disponibile ? 'Aggiungi al carrello' : 'Non disponibile'}</button>`;
     const ribbon = hasOffer ? `<span class="shop-ribbon offer"><i class="fas fa-fire"></i> Offerta</span>` : p.badge ? `<span class="shop-ribbon">${esc(p.badge)}</span>` : '';
     const meta = [
       p.tempoSpedizione ? `<span class="shop-meta-item"><i class="fas fa-truck-fast"></i> ${esc(p.tempoSpedizione)}</span>` : '',
@@ -118,6 +188,7 @@ function renderProducts(cat) {
       ${ribbon}
       <div class="shop-card-img" data-view="${p._id}">${img}</div>
       <div class="shop-card-body">
+        ${searchQuery ? `<span class="shop-cat-chip">${CAT_LABELS[p.categoria] || p.categoria}</span>` : ''}
         <h3>${esc(p.nome)}</h3>
         <div class="shop-rating">${stars}</div>
         ${price}
@@ -131,8 +202,6 @@ function renderProducts(cat) {
   }).join('');
   grid.querySelectorAll('[data-add]').forEach(b => b.onclick = () => addToCart(b.dataset.add));
   grid.querySelectorAll('[data-view]').forEach(b => b.onclick = () => openProduct(b.dataset.view));
-  grid.querySelectorAll('[data-rent]').forEach(b => b.onclick = () => openRequest('noleggio', b.dataset.rent));
-  grid.querySelectorAll('[data-apnea]').forEach(b => b.onclick = () => openRequest('apnea', b.dataset.apnea));
 }
 
 // ─── Carrello ────────────────────────────────────────────────────────────────
@@ -142,23 +211,50 @@ function renderCartBadge() {
   $('#cartCount').textContent = n;
   $('#cartBtn').style.display = 'inline-flex';
 }
+function noleggioDefaultTariffa(p) {
+  const n = p.prezzoNoleggio || {};
+  if (n.giorno > 0) return 'giorno';
+  if (n.settimana > 0) return 'settimana';
+  if (n.mese > 0) return 'mese';
+  return 'giorno';
+}
+function itemKey(i) { return i.productId + '|' + (i.tariffa || ''); }
+
 function addToCart(id) {
   const p = products.find(x => x._id === id);
-  if (!p) return;
-  const prezzoEff = (p.inOfferta && p.prezzoScontato > 0) ? p.prezzoScontato : (p.prezzo || 0);
-  const ex = cart.find(i => i.productId === id);
-  if (ex) ex.qty = Math.min(50, ex.qty + 1); else cart.push({ productId: id, nome: p.nome, prezzo: prezzoEff, qty: 1 });
+  if (!p || !p.disponibile) return;
+  let item;
+  if (p.categoria === 'noleggio') {
+    const tariffa = noleggioDefaultTariffa(p);
+    const prezzo = Number(p.prezzoNoleggio?.[tariffa]) || 0;
+    item = { productId: id, nome: p.nome, prezzo, qty: 1, categoria: 'noleggio', tariffa };
+  } else {
+    const prezzoEff = (p.inOfferta && p.prezzoScontato > 0) ? p.prezzoScontato : (p.prezzo || 0);
+    item = { productId: id, nome: p.nome, prezzo: prezzoEff, qty: 1, categoria: 'vendita' };
+  }
+  const ex = cart.find(i => itemKey(i) === itemKey(item));
+  if (ex) ex.qty = Math.min(50, ex.qty + 1); else cart.push(item);
   saveCart(); openCart();
 }
 function cartTotal() { return cart.reduce((s, i) => s + i.prezzo * i.qty, 0); }
 
 function openCart() {
-  const items = cart.map(i => `<div class="cart-row">
-      <span class="cart-nome">${esc(i.nome)}</span>
-      <span class="cart-qty"><button data-dec="${i.productId}">−</button> ${i.qty} <button data-inc="${i.productId}">+</button></span>
+  const items = cart.map(i => {
+    const p = products.find(x => x._id === i.productId);
+    const isNol = i.categoria === 'noleggio';
+    const tariffaSel = isNol && p
+      ? `<select class="cart-tariffa" data-tariffa="${itemKey(i)}">
+          ${['giorno', 'settimana', 'mese'].filter(t => Number(p.prezzoNoleggio?.[t]) > 0).map(t =>
+            `<option value="${t}" ${i.tariffa === t ? 'selected' : ''}>${eur(p.prezzoNoleggio[t])}/${TARIFFA_LABELS[t]}</option>`).join('')}
+        </select><span class="cart-period">${i.qty} ${TARIFFA_LABELS[i.tariffa] === 'giorno' ? 'giorni' : TARIFFA_LABELS[i.tariffa] === 'settimana' ? 'settimane' : 'mesi'}</span>`
+      : '';
+    return `<div class="cart-row">
+      <span class="cart-nome">${esc(i.nome)}${isNol ? ' <small class="cart-cat">noleggio</small>' : ''}${tariffaSel}</span>
+      <span class="cart-qty"><button data-dec="${itemKey(i)}">−</button> ${i.qty} <button data-inc="${itemKey(i)}">+</button></span>
       <span class="cart-prezzo">${eur(i.prezzo * i.qty)}</span>
-      <button class="cart-del" data-del="${i.productId}"><i class="fas fa-trash"></i></button>
-    </div>`).join('') || '<p style="text-align:center;color:var(--text-light);">Carrello vuoto</p>';
+      <button class="cart-del" data-del="${itemKey(i)}"><i class="fas fa-trash"></i></button>
+    </div>`;
+  }).join('') || '<p style="text-align:center;color:var(--text-light);">Carrello vuoto</p>';
   $('#cartModal .modal-box').innerHTML = `
     <h3><i class="fas fa-shopping-cart"></i> Carrello</h3>
     <div class="cart-list">${items}</div>
@@ -166,13 +262,26 @@ function openCart() {
     ${cart.length ? `<button class="btn btn-primary" id="toCheckout" style="width:100%;"><i class="fas fa-credit-card"></i> Procedi all'ordine</button>` : ''}
     <button class="btn-link" onclick="closeAllModals()" style="margin-top:10px;">Chiudi</button>`;
   $('#cartModal').classList.add('open');
-  $('#cartModal').querySelectorAll('[data-inc]').forEach(b => b.onclick = () => { cart.find(i => i.productId === b.dataset.inc).qty++; saveCart(); openCart(); });
-  $('#cartModal').querySelectorAll('[data-dec]').forEach(b => b.onclick = () => { const it = cart.find(i => i.productId === b.dataset.dec); if (--it.qty <= 0) cart = cart.filter(i => i.productId !== b.dataset.dec); saveCart(); openCart(); });
-  $('#cartModal').querySelectorAll('[data-del]').forEach(b => b.onclick = () => { cart = cart.filter(i => i.productId !== b.dataset.del); saveCart(); openCart(); });
+  $('#cartModal').querySelectorAll('[data-inc]').forEach(b => b.onclick = () => { cart.find(i => itemKey(i) === b.dataset.inc).qty = Math.min(50, cart.find(i => itemKey(i) === b.dataset.inc).qty + 1); saveCart(); openCart(); });
+  $('#cartModal').querySelectorAll('[data-dec]').forEach(b => b.onclick = () => { const it = cart.find(i => itemKey(i) === b.dataset.dec); if (--it.qty <= 0) cart = cart.filter(i => itemKey(i) !== b.dataset.dec); saveCart(); openCart(); });
+  $('#cartModal').querySelectorAll('[data-del]').forEach(b => b.onclick = () => { cart = cart.filter(i => itemKey(i) !== b.dataset.del); saveCart(); openCart(); });
+  $('#cartModal').querySelectorAll('[data-tariffa]').forEach(s => s.onchange = () => {
+    const it = cart.find(i => itemKey(i) === s.dataset.tariffa);
+    const p = products.find(x => x._id === it?.productId);
+    if (!it || !p) return;
+    const oldKey = itemKey(it);
+    it.tariffa = s.value;
+    it.prezzo = Number(p.prezzoNoleggio?.[s.value]) || 0;
+    it.nome = it.nome;
+    const merged = cart.find(i => itemKey(i) === itemKey(it) && i !== it);
+    if (merged) { merged.qty = Math.min(50, merged.qty + it.qty); cart = cart.filter(i => i !== it); }
+    void oldKey;
+    saveCart(); openCart();
+  });
   const co = $('#toCheckout'); if (co) co.onclick = openCheckout;
 }
 
-// ─── Checkout ────────────────────────────────────────────────────────────────
+// ─── Checkout: step 1 dati + metodo pagamento → step 2 istruzioni pagamento ───
 function openCheckout() {
   $('#cartModal').classList.remove('open');
   $('#checkoutModal .modal-box').innerHTML = `
@@ -184,7 +293,18 @@ function openCheckout() {
       <input name="telefono" type="tel" placeholder="Telefono *" required>
       <input name="indirizzo" placeholder="Indirizzo consegna">
       <textarea name="note" placeholder="Note (opzionale)" rows="2"></textarea>
-      <button class="btn btn-primary" type="submit" style="width:100%;"><i class="fas fa-check"></i> Conferma ordine</button>
+
+      <div class="pay-title"><i class="fas fa-credit-card"></i> Scegli il metodo di pagamento *</div>
+      <div class="pay-methods">
+        <label class="pay-opt"><input type="radio" name="pagamento" value="paypal" required>
+          <span class="pay-card"><i class="fab fa-paypal"></i><strong>PayPal</strong><small>Pagamento immediato e sicuro</small></span></label>
+        <label class="pay-opt"><input type="radio" name="pagamento" value="carta">
+          <span class="pay-card"><i class="fas fa-credit-card"></i><strong>Carta di credito</strong><small>Visa, Mastercard, Amex</small></span></label>
+        <label class="pay-opt"><input type="radio" name="pagamento" value="bonifico">
+          <span class="pay-card"><i class="fas fa-building-columns"></i><strong>Bonifico bancario</strong><small>Ordine evaso a ricezione del pagamento</small></span></label>
+      </div>
+
+      <button class="btn btn-primary" type="submit" style="width:100%;margin-top:6px;"><i class="fas fa-lock"></i> Conferma e procedi al pagamento</button>
     </form>
     <button class="btn-link" onclick="closeAllModals()" style="margin-top:10px;">Annulla</button>`;
   $('#checkoutModal').classList.add('open');
@@ -194,36 +314,60 @@ function openCheckout() {
 async function submitOrder(e) {
   e.preventDefault();
   const fd = new FormData(e.target);
+  const metodoPagamento = fd.get('pagamento');
   const btn = e.target.querySelector('button[type=submit]');
   btn.disabled = true; btn.textContent = 'Invio in corso…';
   try {
     const r = await fetch(`${SHOP_API}/orders`, {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        items: cart.map(i => ({ productId: i.productId, qty: i.qty })),
+        items: cart.map(i => ({ productId: i.productId, qty: i.qty, tariffa: i.tariffa || undefined })),
         cliente: { nome: fd.get('nome'), email: fd.get('email'), telefono: fd.get('telefono'), indirizzo: fd.get('indirizzo'), note: fd.get('note') },
+        metodoPagamento,
       }),
     });
     const data = await r.json();
     if (!r.ok) throw new Error(data.message || 'Errore ordine');
     cart = []; saveCart();
-    const pp = shopConfig.paypalLink
-      ? `<a class="btn btn-primary" href="${esc(shopConfig.paypalLink)}" target="_blank" rel="noopener" style="width:100%;margin-top:12px;"><i class="fab fa-paypal"></i> Paga ${eur(data.totale)} con PayPal</a>`
-      : '';
-    const iban = shopConfig.iban ? `<p style="font-size:.85rem;color:var(--text-light);margin-top:10px;">Oppure bonifico a IBAN: <strong>${esc(shopConfig.iban)}</strong></p>` : '';
-    $('#checkoutModal .modal-box').innerHTML = `
-      <div style="text-align:center;">
-        <i class="fas fa-circle-check" style="font-size:3rem;color:#16a34a;"></i>
-        <h3>Ordine ricevuto!</h3>
-        <p>Numero ordine: <strong>#${String(data.orderId).slice(-6)}</strong><br>Totale: <strong>${eur(data.totale)}</strong></p>
-        ${pp}${iban}
-        ${esc(shopConfig.noteCheckout) ? `<p style="font-size:.85rem;color:var(--text-light);">${esc(shopConfig.noteCheckout)}</p>` : ''}
-        <button class="btn-link" onclick="closeAllModals()" style="margin-top:12px;">Chiudi</button>
-      </div>`;
+    $('#checkoutModal .modal-box').innerHTML = orderSuccessHtml(data, metodoPagamento);
   } catch (err) {
     alert(err.message);
-    btn.disabled = false; btn.innerHTML = '<i class="fas fa-check"></i> Conferma ordine';
+    btn.disabled = false; btn.innerHTML = '<i class="fas fa-lock"></i> Conferma e procedi al pagamento';
   }
+}
+
+function orderSuccessHtml(data, metodo) {
+  const num = String(data.orderId).slice(-6);
+  const base = `
+    <div style="text-align:center;">
+      <i class="fas fa-circle-check" style="font-size:3rem;color:#16a34a;"></i>
+      <h3>Ordine ricevuto!</h3>
+      <p>Numero ordine: <strong>#${num}</strong><br>Totale: <strong>${eur(data.totale)}</strong><br>
+      Metodo scelto: <strong>${PAY_LABELS[metodo] || metodo}</strong></p>`;
+  let payment = '';
+  if (metodo === 'paypal') {
+    payment = shopConfig.paypalLink
+      ? `<a class="btn btn-primary" href="${esc(shopConfig.paypalLink)}" target="_blank" rel="noopener" style="width:100%;margin-top:12px;"><i class="fab fa-paypal"></i> Paga ${eur(data.totale)} con PayPal</a>`
+      : `<p style="font-size:.85rem;color:var(--text-light);margin-top:10px;">Ti contatteremo a breve con il link per il pagamento PayPal.</p>`;
+  } else if (metodo === 'carta') {
+    const linkCarta = shopConfig.linkCarta || shopConfig.paypalLink;
+    payment = linkCarta
+      ? `<a class="btn btn-primary" href="${esc(linkCarta)}" target="_blank" rel="noopener" style="width:100%;margin-top:12px;"><i class="fas fa-credit-card"></i> Paga ${eur(data.totale)} con carta</a>
+         <p style="font-size:.8rem;color:var(--text-light);margin-top:8px;">Pagamento sicuro — potrai inserire i dati della carta nella pagina seguente.</p>`
+      : `<p style="font-size:.85rem;color:var(--text-light);margin-top:10px;">Ti contatteremo a breve con il link per il pagamento con carta.</p>`;
+  } else if (metodo === 'bonifico') {
+    payment = `
+      <div class="pay-bonifico">
+        <i class="fas fa-building-columns"></i>
+        <p><strong>Bonifico bancario</strong></p>
+        ${shopConfig.iban ? `<p>IBAN: <strong>${esc(shopConfig.iban)}</strong><br>Causale: <strong>Ordine #${num} — Abbraccio Shop</strong></p>` : '<p>Ti invieremo via email le coordinate per il bonifico.</p>'}
+        <p class="pay-note"><i class="fas fa-info-circle"></i> L'ordine sarà evaso a ricezione del pagamento.</p>
+      </div>`;
+  }
+  return `${base}${payment}
+      ${shopConfig.noteCheckout ? `<p style="font-size:.85rem;color:var(--text-light);margin-top:10px;">${esc(shopConfig.noteCheckout)}</p>` : ''}
+      <button class="btn-link" onclick="closeAllModals()" style="margin-top:12px;">Chiudi</button>
+    </div>`;
 }
 
 // ─── Dettaglio prodotto + recensioni ────────────────────────────────────────
@@ -250,9 +394,7 @@ async function openProduct(id) {
     const n = p.prezzoNoleggio || {};
     priceHtml = `<table class="noleggio-prices">${n.giorno ? `<tr><td>Giornata</td><td>${eur(n.giorno)}</td></tr>` : ''}${n.settimana ? `<tr><td>Settimana</td><td>${eur(n.settimana)}</td></tr>` : ''}${n.mese ? `<tr><td>Mese</td><td>${eur(n.mese)}</td></tr>` : ''}${p.cauzione ? `<tr><td>Cauzione</td><td>${eur(p.cauzione)}</td></tr>` : ''}</table>`;
   } else priceHtml = `<div class="shop-price big">${p.prezzo ? eur(p.prezzo) : 'Su richiesta'}</div>`;
-  const action = p.categoria === 'vendita'
-    ? `<button class="btn btn-primary" onclick="addToCart('${p._id}')" ${p.disponibile ? '' : 'disabled'}><i class="fas fa-cart-plus"></i> Aggiungi al carrello</button>`
-    : `<button class="btn btn-primary" onclick="openRequest('${p.categoria === 'noleggio' ? 'noleggio' : 'apnea'}','${p._id}')"><i class="fas fa-handshake"></i> ${p.categoria === 'noleggio' ? 'Richiedi noleggio' : 'Prenota esame'}</button>`;
+  const action = `<button class="btn btn-primary" onclick="addToCart('${p._id}')" ${p.disponibile ? '' : 'disabled'}><i class="fas fa-cart-plus"></i> ${p.disponibile ? 'Aggiungi al carrello' : 'Non disponibile'}</button>`;
   const metaDetail = [
     p.tempoSpedizione ? `<span class="shop-meta-item"><i class="fas fa-truck-fast"></i> Spedizione: ${esc(p.tempoSpedizione)}</span>` : '',
     p.ritiroMagazzino ? `<span class="shop-meta-item"><i class="fas fa-warehouse"></i> Ritiro in magazzino disponibile</span>` : '',
@@ -306,49 +448,6 @@ function shiftImg(d) {
   imgs[curImg].classList.remove('show');
   curImg = (curImg + d + imgs.length) % imgs.length;
   imgs[curImg].classList.add('show');
-}
-
-// ─── Richiesta noleggio / prenotazione apnea ─────────────────────────────────
-function openRequest(tipo, id) {
-  const p = products.find(x => x._id === id);
-  const isRent = tipo === 'noleggio';
-  $('#requestModal .modal-box').innerHTML = `
-    <button class="modal-close" onclick="closeAllModals()"><i class="fas fa-times"></i></button>
-    <h3>${isRent ? '<i class="fas fa-handshake"></i> Richiesta di noleggio' : '<i class="fas fa-calendar-check"></i> Prenota esame apnea'}</h3>
-    <p style="color:var(--text-light);"><strong>${esc(p?.nome || '')}</strong>${isRent ? ' — lascia le date, ti confermiamo disponibilità e prezzo.' : ' — ti ricontatteremo per fissare data e dettagli.'}</p>
-    <form class="shop-form" id="reqForm">
-      <input name="nome" placeholder="Nome e cognome *" required>
-      <input name="email" type="email" placeholder="Email *" required>
-      <input name="telefono" type="tel" placeholder="Telefono *" required>
-      ${isRent ? `<div class="req-dates"><label>Dal <input name="da" type="date" required></label><label>Al <input name="a" type="date" required></label></div>` : ''}
-      <input name="indirizzo" placeholder="Indirizzo (per consegna)">
-      <textarea name="note" placeholder="Note" rows="2"></textarea>
-      <button class="btn btn-primary" type="submit" style="width:100%;"><i class="fas fa-paper-plane"></i> Invia richiesta</button>
-    </form>
-    <button class="btn-link" onclick="closeAllModals()" style="margin-top:10px;">Annulla</button>`;
-  closeAllModals();
-  $('#requestModal').classList.add('open');
-  $('#reqForm').onsubmit = async e => {
-    e.preventDefault();
-    const fd = new FormData(e.target);
-    const btn = e.target.querySelector('button[type=submit]');
-    btn.disabled = true; btn.textContent = 'Invio…';
-    try {
-      const r = await fetch(`${SHOP_API}/requests`, {
-        method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          productId: id, tipo,
-          cliente: { nome: fd.get('nome'), email: fd.get('email'), telefono: fd.get('telefono'), indirizzo: fd.get('indirizzo'), note: fd.get('note') },
-          periodo: isRent ? { da: fd.get('da'), a: fd.get('a') } : undefined,
-        }),
-      });
-      const d = await r.json();
-      if (!r.ok) throw new Error(d.message);
-      $('#requestModal .modal-box').innerHTML = `<div style="text-align:center;"><i class="fas fa-circle-check" style="font-size:3rem;color:#16a34a;"></i><h3>Richiesta inviata!</h3><p>Ti contatteremo presto per confermare e indicarti le modalità di pagamento.</p><button class="btn-link" onclick="closeAllModals()">Chiudi</button></div>`;
-    } catch (err) {
-      alert(err.message); btn.disabled = false;
-    }
-  };
 }
 
 function closeAllModals() { document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('open')); }

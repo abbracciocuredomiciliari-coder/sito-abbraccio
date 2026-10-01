@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Shop - Abbraccio Cure Domiciliari</title>
-  <meta name="description" content="Shop Abbraccio: presidi sanitari in vendita, noleggio apparecchiature ortopediche ed elettromedicali, esami per apnee del sonno.">
+  <meta name="description" content="Shop Abbraccio: presidi sanitari in vendita e noleggio apparecchiature ortopediche ed elettromedicali.">
   <link rel="icon" type="image/png" href="logo-abbraccio.png">
   <link rel="stylesheet" href="style.css">
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -99,7 +99,7 @@
   <div class="container shop-hero-inner">
     <span class="shop-badge"><i class="fas fa-heart-pulse"></i> Shop Abbraccio</span>
     <h1>Il benessere di casa tua,<br>a portata di clic</h1>
-    <p>Presidi sanitari, noleggio apparecchiature e prenotazione esami per le apnee del sonno — con la qualità e l'assistenza Abbraccio Cure Domiciliari.</p>
+    <p>Presidi sanitari e noleggio apparecchiature ortopediche ed elettromedicali — con la qualità e l'assistenza Abbraccio Cure Domiciliari.</p>
     <div class="shop-hero-cta">
       <a href="#shop-catalogo" class="btn btn-primary btn-lg"><i class="fas fa-store"></i> Scopri il catalogo</a>
       <button id="contactUsBtn" class="btn btn-ghost btn-lg" type="button"><i class="fas fa-comments"></i> Contattaci per info</button>
@@ -116,14 +116,57 @@
   </div>
 </section>
 
+<section class="shop-split">
+  <div class="container">
+    <h2 class="shop-split-title">Cosa stai cercando?</h2>
+    <div class="shop-split-grid">
+      <button type="button" class="split-card vendita" onclick="goCategory('vendita')">
+        <i class="fas fa-box-open"></i>
+        <strong>Vendita</strong>
+        <span>Presidi sanitari, ausili e articoli per la cura domiciliare</span>
+        <em><i class="fas fa-arrow-right"></i> Vedi il catalogo</em>
+      </button>
+      <button type="button" class="split-card noleggio" onclick="goCategory('noleggio')">
+        <i class="fas fa-handshake"></i>
+        <strong>Noleggio</strong>
+        <span>Apparecchiature ortopediche ed elettromedicali a giornata, settimana o mese</span>
+        <em><i class="fas fa-arrow-right"></i> Vedi le tariffe</em>
+      </button>
+    </div>
+  </div>
+</section>
+
+<section class="shop-vetrine">
+  <div class="container">
+    <div class="vetrine-grid">
+      <div class="vetrina">
+        <div class="vetrina-head"><i class="fas fa-box-open"></i> In vendita</div>
+        <div class="vetrina-body" id="vetrinaVendita"></div>
+      </div>
+      <div class="vetrina">
+        <div class="vetrina-head offer"><i class="fas fa-fire"></i> In offerta</div>
+        <div class="vetrina-body" id="vetrinaOfferte"></div>
+      </div>
+      <div class="vetrina">
+        <div class="vetrina-head nol"><i class="fas fa-handshake"></i> A noleggio</div>
+        <div class="vetrina-body" id="vetrinaNoleggio"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section class="shop-section" id="shop-catalogo">
   <div class="container">
     <div class="shop-toolbar">
       <div class="shop-tabs">
         <button class="shop-tab active" data-cat="vendita"><i class="fas fa-box"></i> Presidi</button>
         <button class="shop-tab" data-cat="noleggio"><i class="fas fa-handshake"></i> Noleggio</button>
-        <button class="shop-tab" data-cat="apnea"><i class="fas fa-moon"></i> Esami apnea</button>
         <button class="shop-tab shop-tab-offer" data-cat="_offerte"><i class="fas fa-fire"></i> Offerte</button>
+      </div>
+      <div class="shop-search">
+        <i class="fas fa-magnifying-glass"></i>
+        <input type="search" id="shopSearch" placeholder="Cerca prodotto…" autocomplete="off">
+        <button type="button" id="shopSearchClear" class="shop-search-clear" title="Cancella ricerca"><i class="fas fa-times"></i></button>
       </div>
       <button id="cartBtn" class="cart-btn" type="button">
         <i class="fas fa-shopping-cart"></i> Carrello <span id="cartCount">0</span>
@@ -152,7 +195,6 @@
 <div id="cartModal" class="modal-overlay"><div class="modal-box"></div></div>
 <div id="checkoutModal" class="modal-overlay"><div class="modal-box"></div></div>
 <div id="productModal" class="modal-overlay"><div class="modal-box wide"></div></div>
-<div id="requestModal" class="modal-overlay"><div class="modal-box"></div></div>
 <div id="contactModal" class="modal-overlay"><div class="modal-box"></div></div>
 
 <a href="https://wa.me/393514175117" target="_blank" rel="noopener" class="shop-float-wa" title="Scrivici su WhatsApp"><i class="fab fa-whatsapp"></i></a>

@@ -55,7 +55,6 @@
       <select id="prodCategoria">
         <option value="vendita">Presidio in vendita</option>
         <option value="noleggio">Noleggio apparecchiatura</option>
-        <option value="apnea">Esame apnea del sonno</option>
       </select>
       <div id="prezziVendita">
         <label>Prezzo vendita (€)</label>
@@ -125,6 +124,8 @@
       <h3 style="margin-top:0;">Pagamenti</h3>
       <label>Link PayPal (es. https://paypal.me/TuoNome)</label>
       <input id="cfgPaypal" placeholder="https://paypal.me/...">
+      <label>Link pagamento carta di credito (opzionale — es. Stripe Payment Link; se vuoto usa il link PayPal)</label>
+      <input id="cfgCarta" placeholder="https://buy.stripe.com/...">
       <label>IBAN per bonifico (opzionale)</label>
       <input id="cfgIban" placeholder="IT00...">
       <label>Note mostrate dopo l'ordine</label>
@@ -338,16 +339,18 @@ async function delProd(id) {
 // ─── Ordini ──────────────────────────────────────────────────────────────
 const STATI = ['nuovo','confermato','pagato','evaso','annullato'];
 const TIPO_LABEL = { acquisto: '🛒 Acquisto', noleggio: '🔧 Noleggio', apnea: '😴 Apnea' };
+const PAY_LABELS_ADM = { paypal: 'PayPal', carta: '💳 Carta', bonifico: '🏦 Bonifico' };
 
 async function loadOrders() {
   const r = await api('/admin/orders', { headers: H() });
   if (!r) return;
   const orders = await r.json();
   document.getElementById('ordList').innerHTML = orders.length ? `<table class="sa-table"><thead><tr>
-    <th>Data</th><th>Tipo</th><th>Cliente</th><th>Dettagli</th><th>Totale</th><th>Stato</th><th>Azioni</th></tr></thead><tbody>
+    <th>Data</th><th>Tipo</th><th>Pagamento</th><th>Cliente</th><th>Dettagli</th><th>Totale</th><th>Stato</th><th>Azioni</th></tr></thead><tbody>
     ${orders.map(o => `<tr>
       <td>${new Date(o.createdAt).toLocaleDateString('it-IT')}</td>
       <td>${TIPO_LABEL[o.tipo] || o.tipo}</td>
+      <td>${PAY_LABELS_ADM[o.metodoPagamento] || '—'}</td>
       <td><strong>${esc(o.cliente?.nome)}</strong><br><small>${esc(o.cliente?.email)}<br>${esc(o.cliente?.telefono)}${o.cliente?.indirizzo ? '<br>' + esc(o.cliente.indirizzo) : ''}</small></td>
       <td>${(o.items||[]).map(i => `${esc(i.nome)} ×${i.qty}`).join('<br>')}
           ${o.periodo?.da ? `<br><small>📅 ${new Date(o.periodo.da).toLocaleDateString('it-IT')} → ${new Date(o.periodo.a).toLocaleDateString('it-IT')}</small>` : ''}
@@ -411,6 +414,7 @@ async function loadConfig() {
   if (!r) return;
   const c = await r.json();
   document.getElementById('cfgPaypal').value = c.paypalLink || '';
+  document.getElementById('cfgCarta').value = c.linkCarta || '';
   document.getElementById('cfgIban').value = c.iban || '';
   document.getElementById('cfgNote').value = c.noteCheckout || '';
   document.getElementById('cfgOfferte').value = (c.offerte || []).join('\n');
@@ -421,6 +425,7 @@ async function loadConfig() {
 document.getElementById('cfgSave').onclick = async () => {
   const r = await api('/admin/config', { method: 'PUT', headers: HJ(), body: JSON.stringify({
     paypalLink: document.getElementById('cfgPaypal').value,
+    linkCarta: document.getElementById('cfgCarta').value,
     iban: document.getElementById('cfgIban').value,
     noteCheckout: document.getElementById('cfgNote').value,
     offerte: document.getElementById('cfgOfferte').value.split('\n').map(s => s.trim()).filter(Boolean),
