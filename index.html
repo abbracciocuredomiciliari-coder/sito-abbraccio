@@ -242,6 +242,16 @@
       <div id="reviewsList" class="reviews-grid"></div>
       <div class="reviews-cta">
         <button type="button" class="btn btn-primary" id="reviewOpenBtn"><i class="fas fa-pen"></i> Scrivi una recensione</button>
+        <button type="button" class="btn btn-outline" id="reviewQrBtn"><i class="fas fa-qrcode"></i> Invia QR recensione</button>
+      </div>
+      <div id="reviewShare" class="review-share hidden">
+        <img id="reviewQrImg" width="180" height="180" alt="QR code: inquadralo per lasciare una recensione ad Abbraccio">
+        <p class="review-share-text">Fai inquadrare il QR code all'assistito oppure invialo via WhatsApp / Email: si apre direttamente il modulo per lasciare la recensione.</p>
+        <div class="review-share-actions">
+          <button type="button" id="reviewShareWa" class="btn btn-wa"><i class="fab fa-whatsapp"></i> WhatsApp</button>
+          <a id="reviewShareMail" class="btn btn-outline"><i class="fas fa-envelope"></i> Email</a>
+          <a id="reviewQrDownload" class="btn btn-outline" target="_blank" rel="noopener"><i class="fas fa-download"></i> Scarica QR</a>
+        </div>
       </div>
       <form id="reviewForm" class="review-form hidden">
         <label for="reviewNome">Il tuo nome</label>

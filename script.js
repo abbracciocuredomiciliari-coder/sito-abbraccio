@@ -329,6 +329,48 @@ applyEdits();
   }).catch(() => { list.innerHTML = ''; });
 
   if (openBtn && form) openBtn.addEventListener('click', () => form.classList.toggle('hidden'));
+
+  // ===== QR recensione: condivisione via WhatsApp / Email / download =====
+  const shareBox = document.getElementById('reviewShare');
+  const qrBtn = document.getElementById('reviewQrBtn');
+  const qrImg = document.getElementById('reviewQrImg');
+  const pageBase = location.origin + (location.pathname.endsWith('/') ? location.pathname + 'index.html' : location.pathname);
+  const reviewUrl = pageBase + '?recensione=1#recensioni';
+  const qrUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=360x360&margin=8&data=' + encodeURIComponent(reviewUrl);
+  const shareText = '⭐ Lascia una recensione ad Abbraccio Cure Domiciliari!\nInquadra il QR code oppure apri questo link:\n' + reviewUrl;
+
+  if (qrBtn && shareBox) {
+    let qrLoaded = false;
+    qrBtn.addEventListener('click', () => {
+      shareBox.classList.toggle('hidden');
+      if (!qrLoaded && qrImg) { qrImg.src = qrUrl; qrLoaded = true; }
+    });
+  }
+  const waShareBtn = document.getElementById('reviewShareWa');
+  if (waShareBtn) waShareBtn.addEventListener('click', async () => {
+    // Su mobile prova ad allegare l'immagine QR vera e propria; altrimenti testo + link
+    try {
+      const resp = await fetch(qrUrl);
+      const blob = await resp.blob();
+      const file = new File([blob], 'qr-recensione-abbraccio.png', { type: 'image/png' });
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        await navigator.share({ files: [file], text: shareText, title: 'QR Recensione Abbraccio' });
+        return;
+      }
+    } catch (e) { /* fallback wa.me sotto */ }
+    window.open('https://wa.me/?text=' + encodeURIComponent(shareText), '_blank');
+  });
+  const mailLink = document.getElementById('reviewShareMail');
+  if (mailLink) mailLink.href = 'mailto:?subject=' + encodeURIComponent('Lascia una recensione ad Abbraccio Cure Domiciliari')
+    + '&body=' + encodeURIComponent(shareText + '\n\nQR code da allegare o stampare: ' + qrUrl);
+  const qrDownload = document.getElementById('reviewQrDownload');
+  if (qrDownload) qrDownload.href = qrUrl;
+
+  // Apertura diretta del modulo quando si arriva dal QR / link (?recensione=1 o #scrivi-recensione)
+  if (form && (new URLSearchParams(location.search).get('recensione') === '1' || location.hash === '#scrivi-recensione')) {
+    form.classList.remove('hidden');
+    form.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
   if (starsBox) {
     starsBox.querySelectorAll('i').forEach((s, i) => s.addEventListener('click', () => { rating = i + 1; paintStars(); }));
     paintStars();
