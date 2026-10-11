@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Intermediazione Badanti e Colf - Abbraccio Cure Domiciliari</title>
+  <meta name="description" content="Intermediazione badanti, colf e assistenti familiari: Abbraccio Cure Domiciliari in collaborazione con Salus Group seleziona personale domestico qualificato e referenziato.">
+  <link rel="icon" type="image/png" href="logo-abbraccio.png">
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    .service-hero { padding: 70px 0 40px; background: var(--white); }
+    .detail-inner { display: grid; grid-template-columns: 1.1fr 1fr; gap: 60px; align-items: center; }
+    .detail-text h1 { font-size: 2.2rem; color: var(--text-dark); margin-bottom: 24px; }
+    .detail-text h1::after { content: ''; display: block; width: 70px; height: 4px; background: var(--green); margin-top: 14px; border-radius: 2px; }
+    .detail-text .lead { color: var(--text); font-size: 1.05rem; line-height: 1.7; margin-bottom: 20px; }
+    .detail-text .lead strong { color: var(--blue); }
+    .detail-text p { color: var(--text-light); margin-bottom: 18px; line-height: 1.7; }
+    .detail-image { position: relative; }
+    .detail-image img { width: 100%; border-radius: 20px; box-shadow: var(--shadow); display: block; }
+    .detail-image::before { content: ''; position: absolute; top: 16px; left: 16px; right: -16px; bottom: -16px; border: 2px solid var(--green); border-radius: 24px; z-index: -1; }
+    .partner-strip { display: flex; align-items: center; gap: 18px; background: #f6f9ff; border: 1px solid #dfe9fb; border-radius: 16px; padding: 14px 18px; margin: 22px 0; }
+    .partner-strip img { height: 54px; width: auto; display: block; }
+    .partner-strip .partner-text { font-size: .9rem; color: var(--text-light); line-height: 1.5; }
+    .partner-strip .partner-text strong { color: var(--blue); display: block; font-size: .95rem; }
+    .service-activities { padding: 50px 0 70px; background: var(--bg-soft); }
+    .service-activities h2 { font-size: 1.5rem; color: var(--text-dark); margin-bottom: 30px; }
+    .service-activities h2::after { content: ''; display: block; width: 50px; height: 4px; background: var(--green); margin-top: 12px; border-radius: 2px; }
+    .activities-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px 40px; list-style: none; }
+    .activities-list li { position: relative; padding-left: 24px; color: var(--text); font-size: 0.95rem; }
+    .activities-list li::before { content: '→'; position: absolute; left: 0; color: var(--green); font-weight: 900; }
+    .services-list { padding: 80px 0; background: var(--white); }
+    .services-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+    .service-thumb { display: flex; align-items: center; gap: 16px; padding: 14px 18px; border: 1px solid #e6edf5; border-radius: 18px; background: #fff; box-shadow: 0 2px 10px rgba(16,42,80,.07); text-decoration: none; transition: transform .2s, box-shadow .2s, border-color .2s; }
+    .service-thumb:hover { transform: translateY(-3px); box-shadow: 0 10px 24px rgba(16,42,80,.14); border-color: var(--green); }
+    .thumb-media { position: relative; width: 64px; height: 64px; border-radius: 14px; overflow: hidden; flex-shrink: 0; background: rgba(26,46,90,.08); display: flex; align-items: center; justify-content: center; }
+    .thumb-media > i { font-size: 1.4rem; color: var(--blue); }
+    .thumb-media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    .service-thumb h3 { flex: 1; margin: 0; font-size: 1rem; font-weight: 700; color: var(--text-dark); }
+    .thumb-arrow { width: 30px; height: 30px; border-radius: 50%; background: rgba(46,125,50,.12); color: var(--green); display: flex; align-items: center; justify-content: center; font-size: .8rem; flex-shrink: 0; }
+    @media (max-width: 900px) { .detail-inner { grid-template-columns: 1fr; } .services-grid { grid-template-columns: repeat(2,1fr); } }
+    @media (max-width: 640px) { .services-grid { grid-template-columns: 1fr; } .activities-list { grid-template-columns: 1fr; } .detail-image::before { display: none; } .partner-strip { flex-direction: column; text-align: center; } }
+  </style>
+</head>
+<body>
+<!-- Top bar -->
+<div class="topbar">
+  <div class="container topbar-inner">
+    <div class="topbar-left">
+      <a href="tel:0601905242"><i class="fas fa-phone"></i> 06 01905242</a>
+      <a href="https://wa.me/393514175117"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+    </div>
+    <div class="topbar-right">
+      <a href="lavora-con-noi.html">Lavora con noi</a>
+      <a href="admin.html" class="area-riservata"><i class="fas fa-user-circle"></i> Area Riservata</a>
+    </div>
+  </div>
+</div>
+<!-- Header -->
+<header class="header" id="header">
+  <div class="container header-inner">
+    <a href="index.html" class="logo">
+      <img src="logo-abbraccio.png" alt="Abbraccio Cure Domiciliari">
+      <div class="logo-text">
+        <strong>Abbraccio</strong>
+        <span>Cure Domiciliari</span>
+      </div>
+    </a>
+    <nav class="nav" id="navMenu">
+      <ul>
+        <li><a href="index.html#chi-siamo">CHI SIAMO</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle">SERVIZI</a>
+          <div class="dropdown-menu">
+                        <a href="infermiere-a-domicilio.html"><i class="fas fa-user-nurse"></i> Assistenza Infermieristica a domicilio</a>             <a href="fisioterapia-a-domicilio.html"><i class="fas fa-person-walking"></i> Fisioterapia a domicilio</a>             <a href="assistenza-anziani.html"><i class="fas fa-hand-holding-heart"></i> Assistenza Anziani a domicilio</a>             <a href="cure-pazienti-cronici.html"><i class="fas fa-notes-medical"></i> Cure Pazienti Cronici</a>             <a href="assistenza-notturna.html"><i class="fas fa-moon"></i> Assistenza Notturna</a>             <a href="cure-palliative.html"><i class="fas fa-dove"></i> Cure Palliative</a>             <a href="visite-specialistiche.html"><i class="fas fa-user-doctor"></i> Visite Specialistiche</a>             <a href="servizio-ambulanza.html"><i class="fas fa-ambulance"></i> Servizio Ambulanza</a>
+            <a href="intermediazione.html"><i class="fas fa-handshake"></i> Intermediazione Badanti & Colf</a>
+            <a href="servizi.html"><i class="fas fa-th-list"></i> Tutti i servizi</a>
+          </div>
+        </li>        <li class="dropdown">
+          <a href="#" class="dropdown-toggle">ESAMI</a>
+          <div class="dropdown-menu">
+            <a href="holter-pressorio.html"><i class="fas fa-heart-pulse"></i> Holter Pressorio</a>
+            <a href="holter-ecg.html"><i class="fas fa-wave-square"></i> Holter ECG</a>
+            <a href="apnee-sonno.html"><i class="fas fa-moon"></i> Apnee del Sonno</a>
+            <a href="screening-cardiaci.html"><i class="fas fa-heart-circle-check"></i> Screening Cardiaci</a>
+            <a href="saturimetria-spirometria.html"><i class="fas fa-lungs"></i> Saturimetria e Spirometria</a>
+            <a href="prelievi-ematici.html"><i class="fas fa-droplet"></i> Prelievi Ematici</a>
+            <a href="emogasanalisi.html"><i class="fas fa-lungs-virus"></i> Emogasanalisi</a>
+            <a href="rx-domiciliare.html"><i class="fas fa-x-ray"></i> RX Domiciliare</a>
+            <a href="ecografia-domiciliare.html"><i class="fas fa-wave-square"></i> Ecografia Domiciliare</a>
+            <a href="esami-strumentali.html"><i class="fas fa-th-list"></i> Tutti gli esami</a>
+          </div>
+        </li>
+        <li><a href="index.html#telemedicina">TELEMEDICINA</a></li>
+        <li><a href="visite-specialistiche.html">VISITE</a></li>
+
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle">DOVE SIAMO</a>
+                    <div class="dropdown-menu dove">
+            <a href="dove-siamo.html#roma-centro"><i class="fas fa-map-marker-alt"></i> Roma Centro</a>
+            <a href="dove-siamo.html#roma-nord"><i class="fas fa-map-marker-alt"></i> Roma Nord</a>
+            <a href="dove-siamo.html#roma-sud"><i class="fas fa-map-marker-alt"></i> Roma Sud</a>
+            <a href="dove-siamo.html#roma-est"><i class="fas fa-map-marker-alt"></i> Roma Est</a>
+            <a href="dove-siamo.html#roma-ovest"><i class="fas fa-map-marker-alt"></i> Roma Ovest</a>
+            <a href="dove-siamo.html#provincia-roma"><i class="fas fa-map-marker-alt"></i> Provincia di Roma</a>
+            <a href="dove-siamo.html#lazio"><i class="fas fa-map-marker-alt"></i> Lazio</a>
+            <a href="dove-siamo.html"><i class="fas fa-th-list"></i> Tutte le zone</a>
+          </div>
+        </li>
+        <li><a href="lavora-con-noi.html">LAVORA CON NOI</a></li>
+        <li><a href="shop.html">SHOP</a></li>
+        <li><a href="index.html#blog">BLOG</a></li>
+        <li><a href="news.html">NEWS</a></li>
+      </ul>
+    </nav>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+  <script src="nav.js"></script>
+
+  <section class="service-hero" id="dettaglio">
+    <div class="container">
+      <div class="detail-inner">
+        <div class="detail-text">
+          <h1>Intermediazione Badanti, Colf e Assistenti Familiari</h1>
+          <p class="lead">Il servizio di <strong>intermediazione</strong> di Abbraccio ti aiuta a trovare <strong>badanti, colf e assistenti familiari</strong> selezionati e referenziati per la cura dei tuoi cari.</p>
+          <div class="partner-strip">
+            <img src="images/logo-salus.png" alt="Salus Group - Divisione Datoriale Casimpresa">
+            <div class="partner-text">
+              <strong>Nuova partnership: Salus Group</strong>
+              Insieme alla divisione datoriale Casimpresa di Salus Group selezioniamo personale domestico qualificato, per assistenza a ore o H24.
+            </div>
+          </div>
+          <p>Selezioniamo personale domestico e assistenziale qualificato, verifichiamo referenze ed esperienze e gestiamo contratto, buste paga e sostituzioni, per darti una figura affidabile in tempi rapidi.</p>
+          <a href="https://app.abbracciocuredomiciliari.it/richiesta-servizio?tipo=intermediazione" target="_blank" class="btn btn-primary"><i class="fas fa-paper-plane"></i> Richiedi Badante o Colf</a>
+        </div>
+        <div class="detail-image">
+          <img src="images/partnership-salus.jpg" alt="Intermediazione Badanti e Colf - Abbraccio x Salus Group">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="service-activities" id="attivita">
+    <div class="container">
+      <h2>Cosa comprende il servizio di Intermediazione Badanti e Colf:</h2>
+      <ul class="activities-list">
+            <li>Selezione e colloqui del personale</li>             <li>Verifica referenze ed esperienze</li>             <li>Badanti conviventi e a ore</li>             <li>Colf e collaboratrici domestiche</li>             <li>Assistenti familiari</li>             <li>Gestione contratto e buste paga</li>             <li>Sostituzioni in caso di necessità</li>             <li>Consulenza continuativa alla famiglia</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="services-list" id="tutti-i-servizi">
+    <div class="container">
+      <div class="section-header center">
+        <span class="eyebrow">I Nostri Servizi</span>
+        <h2>Scopri tutti i servizi a domicilio</h2>
+      </div>
+      <div class="services-grid">
+      <a class='service-thumb' data-page='infermiere-a-domicilio' href='infermiere-a-domicilio.html'><span class='thumb-media'><i class='fas fa-user-nurse'></i><img src='images/infermieri.jpg' alt='' loading='lazy' onerror='this.remove()'></span><h3>Assistenza Infermieristica a domicilio</h3><span class='thumb-arrow'><i class='fas fa-chevron-right'></i></span></a>
+      <a class='service-thumb' data-page='fisioterapia-a-domicilio' href='fisioterapia-a-domicilio.html'><span class='thumb-media'><i class='fas fa-person-walking'></i><img src='images/fisioterapia-1.jpg' alt='' loading='lazy' onerror='this.remove()'></span><h3>Fisioterapia a domicilio</h3><span class='thumb-arrow'><i class='fas fa-chevron-right'></i></span></a>
+      <a class='service-thumb' data-page='assistenza-anziani' href='assistenza-anziani.html'><span class='thumb-media'><i class='fas fa-hand-holding-heart'></i><img src='images/IMG-20260616-WA0026.jpg' alt='' loading='lazy' onerror='this.remove()'></span><h3>Assistenza Anziani a domicilio</h3><span class='thumb-arrow'><i class='fas fa-chevron-right'></i></span></a>
+      <a class='service-thumb' data-page='cure-pazienti-cronici' href='cure-pazienti-cronici.html'><span class='thumb-media'><i class='fas fa-notes-medical'></i><img src='images/IMG-20260616-WA0038.jpg' alt='' loading='lazy' onerror='this.remove()'></span><h3>Cure Pazienti Cronici</h3><span class='thumb-arrow'><i class='fas fa-chevron-right'></i></span></a>
+      <a class='service-thumb' data-page='assistenza-notturna' href='assistenza-notturna.html'><span class='thumb-media'><i class='fas fa-moon'></i><img src='images/IMG-20260616-WA0047.jpg' alt='' loading='lazy' onerror='this.remove()'></span><h3>Assistenza Notturna</h3><span class='thumb-arrow'><i class='fas fa-chevron-right'></i></span></a>
+      <a class='service-thumb' data-page='cure-palliative' href='cure-palliative.html'><span class='thumb-media'><i class='fas fa-dove'></i><img src='images/IMG-20260616-WA0043.jpg' alt='' loading='lazy' onerror='this.remove()'></span><h3>Cure Palliative</h3><span class='thumb-arrow'><i class='fas fa-chevron-right'></i></span></a>
+      <a class='service-thumb' data-page='visite-specialistiche' href='visite-specialistiche.html'><span class='thumb-media'><i class='fas fa-user-doctor'></i><img alt='' loading='lazy' onerror='this.remove()'></span><h3>Visite Specialistiche</h3><span class='thumb-arrow'><i class='fas fa-chevron-right'></i></span></a>
+      <a class='service-thumb' data-page='servizio-ambulanza' href='servizio-ambulanza.html'><span class='thumb-media'><i class='fas fa-ambulance'></i><img src='images/ambulanza.png' alt='' loading='lazy' onerror='this.remove()'></span><h3>Servizio Ambulanza</h3><span class='thumb-arrow'><i class='fas fa-chevron-right'></i></span></a>
+      <a class='service-thumb' data-page='intermediazione' href='intermediazione.html'><span class='thumb-media'><i class='fas fa-handshake'></i><img src='images/oss.jpg' alt='' loading='lazy' onerror='this.remove()'></span><h3>Intermediazione Badanti e Colf</h3><span class='thumb-arrow'><i class='fas fa-chevron-right'></i></span></a>
+      </div>
+    </div>
+  </section>
+
+<footer class="footer" id="contatti">
+  <div class="container">
+    <div class="footer-bottom">
+      <p>© 2026 Abbraccio Cure Domiciliari. Tutti i diritti riservati.</p>
+    </div>
+  </div>
+</footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

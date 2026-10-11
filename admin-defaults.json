@@ -1,4 +1,4 @@
-﻿{
+{
   "pages": {
     "infermiere-a-domicilio": {
       "key": "infermiere-a-domicilio",
@@ -37,7 +37,7 @@
     "servizi": {
       "key": "servizi",
       "eyebrow": "I Nostri Servizi",
-      "h2": "8 servizi per la tua salute a domicilio",
+      "h2": "9 servizi per la tua salute a domicilio",
       "subtitle": "",
       "label": "Panoramica servizi"
     },
@@ -316,6 +316,25 @@
       "h2": "9 Esami Strumentali a Domicilio",
       "subtitle": "Diagnostica completa: holter, esami sangue, RX, ecografie e altro",
       "label": "Panoramica esami"
+    },
+    "intermediazione": {
+      "key": "intermediazione",
+      "activitiesTitle": "Cosa comprende il servizio di Intermediazione Badanti e Colf:",
+      "h1": "Intermediazione Badanti, Colf e Assistenti Familiari",
+      "lead": "Il servizio di <strong>intermediazione</strong> di Abbraccio ti aiuta a trovare <strong>badanti, colf e assistenti familiari</strong> selezionati e referenziati per la cura dei tuoi cari.",
+      "text": "Selezioniamo personale domestico e assistenziale qualificato, verifichiamo referenze ed esperienze e gestiamo contratto, buste paga e sostituzioni, per darti una figura affidabile in tempi rapidi.",
+      "activities": [
+        "Selezione e colloqui del personale",
+        "Verifica referenze ed esperienze",
+        "Badanti conviventi e a ore",
+        "Colf e collaboratrici domestiche",
+        "Assistenti familiari",
+        "Gestione contratto e buste paga",
+        "Sostituzioni in caso di necessità",
+        "Consulenza continuativa alla famiglia"
+      ],
+      "label": "Intermediazione Badanti e Colf",
+      "image": "images/partnership-salus.jpg"
     }
   },
   "gallery": [

@@ -279,7 +279,7 @@
     const pageFields = document.getElementById('page-fields');
     const galleryList = document.getElementById('gallery-list');
     const newsList = document.getElementById('news-list');
-    const order = ['index','servizi','esami-strumentali','infermiere-a-domicilio','fisioterapia-a-domicilio','assistenza-anziani','cure-pazienti-cronici','assistenza-notturna','cure-palliative','psicologia-a-domicilio','visite-specialistiche','servizio-ambulanza','holter-pressorio','holter-ecg','apnee-sonno','screening-cardiaci','saturimetria-spirometria','prelievi-ematici','emogasanalisi','rx-domiciliare','ecografia-domiciliare'];
+    const order = ['index','servizi','esami-strumentali','infermiere-a-domicilio','fisioterapia-a-domicilio','assistenza-anziani','cure-pazienti-cronici','assistenza-notturna','cure-palliative','psicologia-a-domicilio','visite-specialistiche','servizio-ambulanza','intermediazione','holter-pressorio','holter-ecg','apnee-sonno','screening-cardiaci','saturimetria-spirometria','prelievi-ematici','emogasanalisi','rx-domiciliare','ecografia-domiciliare'];
     let defaults = {};
     let content = {};
     let currentPage = '';
@@ -553,7 +553,7 @@
 
     // ===== SERVIZI & ESAMI (modifica semplice foto + descrizione) =====
     const SERVICES_GROUPS = [
-      { title: 'Servizi', keys: ['infermiere-a-domicilio','fisioterapia-a-domicilio','assistenza-anziani','cure-pazienti-cronici','assistenza-notturna','cure-palliative','visite-specialistiche','servizio-ambulanza'] },
+      { title: 'Servizi', keys: ['infermiere-a-domicilio','fisioterapia-a-domicilio','assistenza-anziani','cure-pazienti-cronici','assistenza-notturna','cure-palliative','visite-specialistiche','servizio-ambulanza','intermediazione'] },
       { title: 'Esami strumentali', keys: ['holter-pressorio','holter-ecg','apnee-sonno','screening-cardiaci','saturimetria-spirometria','prelievi-ematici','emogasanalisi','rx-domiciliare','ecografia-domiciliare'] },
     ];
     const servicesList = document.getElementById('services-list');
