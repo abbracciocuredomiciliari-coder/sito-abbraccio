@@ -189,6 +189,8 @@ function applyEdits() {
     startRotator(shopImg, (g.shopImages && g.shopImages.length) ? g.shopImages : (g.shopImage ? [g.shopImage] : []));
     const teleImg = document.querySelector('.tele-img img') || document.getElementById('teleImage');
     startRotator(teleImg, (g.telemedicinaImages && g.telemedicinaImages.length) ? g.telemedicinaImages : (g.telemedicinaImage ? [g.telemedicinaImage] : []));
+    const intermImg = document.getElementById('intermImage');
+    startRotator(intermImg, (g.intermediazioneImages && g.intermediazioneImages.length) ? g.intermediazioneImages : (g.intermediazioneImage ? [g.intermediazioneImage] : []));
 
     // pages
     const p = (c.pages || {})[key];
