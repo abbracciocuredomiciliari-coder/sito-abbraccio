@@ -304,6 +304,26 @@ body.menu-open .hamburger span { background: #fff; }
 .news-more { display: inline-block; margin-top: 10px; color: var(--blue); font-weight: 700; font-size: .85rem; }
 .news-all-link { text-align: center; margin-top: 28px; }
 
+/* Carosello news in homepage */
+.news-carousel { position: relative; max-width: 720px; margin: 0 auto; display: block; }
+.news-car-stage { padding: 0 8px; }
+.news-car-card { transition: opacity .25s ease; }
+.news-car-img { width: 100%; background: var(--bg-soft); text-align: center; }
+.news-car-img img { width: 100%; max-height: 360px; object-fit: contain; display: block; }
+.news-car-card small { display: block; color: var(--text-light); font-weight: 600; margin: 4px 0 8px; }
+.news-car-btn { position: absolute; top: 45%; transform: translateY(-50%); z-index: 2; width: 42px; height: 42px; border-radius: 50%; border: none; background: var(--blue); color: #fff; font-size: 1.1rem; cursor: pointer; box-shadow: var(--shadow); transition: background .2s; }
+.news-car-btn:hover { background: var(--blue-dark, #142647); }
+.news-car-prev { left: -18px; }
+.news-car-next { right: -18px; }
+.news-car-dots { display: flex; justify-content: center; gap: 8px; margin-top: 16px; }
+.news-car-dot { width: 10px; height: 10px; border-radius: 50%; border: none; background: #d1d5db; cursor: pointer; padding: 0; transition: background .2s, transform .2s; }
+.news-car-dot.active { background: var(--blue); transform: scale(1.25); }
+@media (max-width: 768px) {
+  .news-car-prev { left: -6px; }
+  .news-car-next { right: -6px; }
+  .news-car-btn { width: 36px; height: 36px; }
+}
+
 /* Modale news */
 .news-modal { position: fixed; inset: 0; z-index: 10000; background: rgba(8,18,35,.62); display: flex; align-items: center; justify-content: center; padding: 22px; opacity: 0; pointer-events: none; transition: opacity .25s ease; }
 .news-modal.open { opacity: 1; pointer-events: auto; }

@@ -138,6 +138,64 @@ document.addEventListener('click', e => {
   openNewsModal(n);
 });
 
+// ─── Carosello news in home: una news alla volta, foto intera, rotazione auto ─
+function startNewsCarousel(container, news) {
+  if (!container || !news || !news.length) return;
+  let idx = 0;
+  const colors = ['#c9a227', '#1a2e5a', '#2a7a4e', '#8b5cf6', '#0e7490'];
+  const esc = s => String(s || '').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+  container.classList.add('news-carousel');
+  container.innerHTML =
+    '<button type="button" class="news-car-btn news-car-prev" aria-label="News precedente">&#10094;</button>' +
+    '<div class="news-car-stage"><article class="blog-card news-car-card" data-news="0"></article></div>' +
+    '<button type="button" class="news-car-btn news-car-next" aria-label="News successiva">&#10095;</button>' +
+    '<div class="news-car-dots"></div>';
+
+  const card = container.querySelector('.news-car-card');
+  const dotsBox = container.querySelector('.news-car-dots');
+
+  const renderDots = () => {
+    dotsBox.innerHTML = news.map((_, i) =>
+      `<button type="button" class="news-car-dot${i === idx ? ' active' : ''}" data-idx="${i}" aria-label="Vai alla news ${i + 1}"></button>`).join('');
+  };
+
+  const render = (i, dir) => {
+    idx = (i + news.length) % news.length;
+    const n = news[idx];
+    card.style.opacity = '0';
+    setTimeout(() => {
+      card.dataset.news = idx;
+      const color = colors[idx % colors.length];
+      card.innerHTML =
+        (n.image
+          ? `<div class="news-car-img"><img src="${n.image}" alt="${esc(n.title)}" loading="lazy"></div>`
+          : `<div class="blog-img" style="background:${color};"></div>`) +
+        `<div class="blog-body"><span class="blog-cat">${esc(n.category) || 'News'}</span>` +
+        `<h3>${esc(n.title)}</h3><small>${esc(n.date)}</small>` +
+        `<p>${esc(n.body ? n.body.slice(0, 160) : '')}${n.body && n.body.length > 160 ? '…' : ''}</p>` +
+        '<span class="news-more">Leggi tutto →</span></div>';
+      card.style.opacity = '1';
+      renderDots();
+    }, dir === undefined ? 0 : 180);
+  };
+
+  const step = d => render(idx + d, d);
+  container.querySelector('.news-car-prev').addEventListener('click', e => { e.stopPropagation(); step(-1); });
+  container.querySelector('.news-car-next').addEventListener('click', e => { e.stopPropagation(); step(1); });
+  dotsBox.addEventListener('click', e => {
+    const dot = e.target.closest('.news-car-dot');
+    if (dot) render(parseInt(dot.dataset.idx, 10), 0);
+  });
+
+  // Rotazione automatica ogni 6s — in pausa quando il mouse è sopra
+  let timer = news.length > 1 ? setInterval(() => step(1), 6000) : null;
+  container.addEventListener('mouseenter', () => { if (timer) { clearInterval(timer); timer = null; } });
+  container.addEventListener('mouseleave', () => { if (!timer && news.length > 1) timer = setInterval(() => step(1), 6000); });
+
+  render(0);
+}
+
 function applyEdits() {
   const saved = localStorage.getItem('vetrina-content');
   const source = remoteContent || (saved ? JSON.parse(saved) : null);
@@ -246,7 +304,7 @@ function applyEdits() {
       }
       const blog = document.querySelector('.blog-grid');
       if (blog) {
-        blog.innerHTML = c.news.slice(0,3).map((n, i) => `<article class="blog-card" data-news="${i}"><div class="blog-img" style="${n.image ? `background-image:url('${n.image}');background-size:cover;background-position:center;` : 'background:#c9a227;'}"></div><div class="blog-body"><span class="blog-cat">${n.category || 'News'}</span><h3>${n.title || ''}</h3><p>${n.body ? n.body.slice(0,120) : ''}</p><span class="news-more">Leggi tutto →</span></div></article>`).join('');
+        startNewsCarousel(blog, c.news);
         let allLink = blog.parentElement && blog.parentElement.querySelector('.news-all-link');
         if (!allLink && blog.parentElement) {
           allLink = document.createElement('div');
