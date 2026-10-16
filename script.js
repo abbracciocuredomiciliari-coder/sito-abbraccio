@@ -440,20 +440,30 @@ applyEdits();
     const nome = document.getElementById('reviewNome').value.trim();
     const zona = document.getElementById('reviewZona').value.trim();
     const testo = document.getElementById('reviewTesto').value.trim();
-    if (!nome || !zona || !testo) { msg.textContent = 'Compila nome, zona e recensione.'; msg.style.color = '#b42318'; return; }
+    function fail(t) { msg.textContent = t; msg.style.color = '#b42318'; }
+    if (nome.length < 2 || zona.length < 2) return fail('Inserisci nome e zona (almeno 2 caratteri).');
+    if (testo.length < 10) return fail('La recensione deve contenere almeno 10 caratteri.');
+    const submitBtn = form.querySelector('button[type="submit"]');
+    if (submitBtn) submitBtn.disabled = true;
     msg.textContent = 'Invio in corso...'; msg.style.color = 'var(--text-light)';
     fetch(SB_URL + '/rest/v1/reviews', {
       method: 'POST',
       headers: { apikey: SB_KEY, Authorization: 'Bearer ' + SB_KEY, 'Content-Type': 'application/json', Prefer: 'return=minimal' },
       body: JSON.stringify({ reviewer_name: nome, location: zona, rating: rating, review_text: testo, status: 'pending' })
-    }).then(r => {
-      if (!r.ok) throw new Error('insert failed');
+    }).then(async r => {
+      if (!r.ok) {
+        let detail = '';
+        try { detail = (await r.json()).message || ''; } catch (_) {}
+        console.error('[recensioni] invio fallito:', r.status, detail);
+        throw new Error('insert failed');
+      }
       msg.textContent = 'Grazie! La recensione sarà visibile dopo l\'approvazione.';
       msg.style.color = 'var(--green)';
       form.reset(); rating = 5; paintStars();
     }).catch(() => {
-      msg.textContent = 'Errore durante l\'invio. Riprova più tardi.';
-      msg.style.color = '#b42318';
+      fail('Errore durante l\'invio. Riprova più tardi.');
+    }).finally(() => {
+      if (submitBtn) submitBtn.disabled = false;
     });
   });
 })();

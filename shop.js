@@ -453,12 +453,31 @@ async function openProduct(id) {
   form.onsubmit = async e => {
     e.preventDefault();
     const fd = new FormData(form);
-    const rr = await fetch(`${SHOP_API}/products/${p._id}/reviews`, {
-      method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ nome: fd.get('nome'), rating: fd.get('rating'), testo: fd.get('testo') }),
-    });
-    const d = await rr.json();
-    alert(d.message || (rr.ok ? 'Grazie!' : 'Errore'));
+    const nome = String(fd.get('nome') || '').trim();
+    const rating = Number(fd.get('rating'));
+    const testo = String(fd.get('testo') || '').trim();
+    if (!nome) { alert('Inserisci il tuo nome.'); return; }
+    if (!(rating >= 1 && rating <= 5)) { alert('Seleziona una valutazione cliccando sulle stelle.'); return; }
+    const submitBtn = form.querySelector('button[type="submit"]');
+    if (submitBtn) submitBtn.disabled = true;
+    try {
+      const rr = await fetch(`${SHOP_API}/products/${p._id}/reviews`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nome, rating, testo }),
+      });
+      let d = {};
+      try { d = await rr.json(); } catch (_) {}
+      alert(d.message || (rr.ok ? 'Grazie! La recensione sarà pubblicata dopo moderazione.' : 'Errore durante l\'invio. Riprova più tardi.'));
+      if (rr.ok) {
+        form.reset();
+        form.querySelectorAll('.star-input button').forEach(x => x.textContent = '☆');
+      }
+    } catch (err) {
+      console.error('[shop] invio recensione fallito:', err);
+      alert('Errore di connessione durante l\'invio. Riprova più tardi.');
+    } finally {
+      if (submitBtn) submitBtn.disabled = false;
+    }
   };
 }
 

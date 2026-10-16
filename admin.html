@@ -891,7 +891,7 @@
 
     async function renderReviews() {
       if (!sharedMode || !sb) {
-        reviewsPending.innerHTML = '<p style="color:var(--text-light);font-size:0.85rem;">Accedi con l\'account admin per gestire le recensioni.</p>';
+        reviewsPending.innerHTML = '<p style="color:#b42318;font-size:0.85rem;">Per vedere e approvare le recensioni devi uscire e accedere con <strong>email e password</strong> dell\'account admin Supabase. La modalità provvisoria (solo password "admin") non consente la moderazione.</p>';
         reviewsApproved.innerHTML = '';
         return;
       }

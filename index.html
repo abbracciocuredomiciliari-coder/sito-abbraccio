@@ -286,15 +286,15 @@
       </div>
       <form id="reviewForm" class="review-form hidden">
         <label for="reviewNome">Il tuo nome</label>
-        <input type="text" id="reviewNome" maxlength="60" placeholder="Es. Marina" required>
+        <input type="text" id="reviewNome" maxlength="60" minlength="2" placeholder="Es. Marina" required>
         <label for="reviewZona">Zona</label>
-        <input type="text" id="reviewZona" maxlength="60" placeholder="Es. Roma Nomentano" required>
+        <input type="text" id="reviewZona" maxlength="60" minlength="2" placeholder="Es. Roma Nomentano" required>
         <label>Valutazione</label>
         <div class="review-stars-input" id="reviewStars">
           <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
         </div>
         <label for="reviewTesto">La tua esperienza</label>
-        <textarea id="reviewTesto" rows="4" maxlength="600" placeholder="Racconta come ti abbiamo aiutato..." required></textarea>
+        <textarea id="reviewTesto" rows="4" maxlength="600" minlength="10" placeholder="Racconta come ti abbiamo aiutato... (min. 10 caratteri)" required></textarea>
         <button type="submit" class="btn btn-primary"><i class="fas fa-paper-plane"></i> Invia recensione</button>
         <p class="review-msg" id="reviewMsg"></p>
         <p style="font-size:0.78rem;color:var(--text-light);margin-top:10px;">La recensione sarà pubblicata dopo l'approvazione del nostro staff.</p>
