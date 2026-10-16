@@ -274,10 +274,15 @@
       <div class="reviews-cta">
         <button type="button" class="btn btn-primary" id="reviewOpenBtn"><i class="fas fa-pen"></i> Scrivi una recensione</button>
         <button type="button" class="btn btn-outline" id="reviewQrBtn"><i class="fas fa-qrcode"></i> Invia QR recensione</button>
+        <a class="btn btn-google" id="reviewGoogleBtn" href="https://search.google.com/local/writereview?placeid=ChIJXxB42PRhLxMRBtzjoDcNbhA" target="_blank" rel="noopener"><i class="fab fa-google"></i> Recensisci su Google</a>
       </div>
       <div id="reviewShare" class="review-share hidden">
+        <div class="qr-src-toggle">
+          <button type="button" class="src-btn active" id="qrSrcSite"><i class="fas fa-globe"></i> QR Sito</button>
+          <button type="button" class="src-btn" id="qrSrcGoogle"><i class="fab fa-google"></i> QR Google</button>
+        </div>
         <img id="reviewQrImg" width="180" height="180" alt="QR code: inquadralo per lasciare una recensione ad Abbraccio">
-        <p class="review-share-text">Fai inquadrare il QR code all'assistito oppure invialo via WhatsApp / Email: si apre direttamente il modulo per lasciare la recensione.</p>
+        <p class="review-share-text" id="reviewShareText">Fai inquadrare il QR code all'assistito oppure invialo via WhatsApp / Email: si apre direttamente il modulo per lasciare la recensione.</p>
         <div class="review-share-actions">
           <button type="button" id="reviewShareWa" class="btn btn-wa"><i class="fab fa-whatsapp"></i> WhatsApp</button>
           <a id="reviewShareMail" class="btn btn-outline"><i class="fas fa-envelope"></i> Email</a>
@@ -299,6 +304,10 @@
         <p class="review-msg" id="reviewMsg"></p>
         <p style="font-size:0.78rem;color:var(--text-light);margin-top:10px;">La recensione sarà pubblicata dopo l'approvazione del nostro staff.</p>
       </form>
+      <div id="reviewGooglePrompt" class="review-google-prompt hidden">
+        <p><strong>Grazie per la tua recensione!</strong><br>Vuoi pubblicarla anche su Google? Il testo è già stato copiato: basta incollarlo.</p>
+        <a class="btn btn-google" id="reviewGoogleShareBtn" href="https://search.google.com/local/writereview?placeid=ChIJXxB42PRhLxMRBtzjoDcNbhA" target="_blank" rel="noopener"><i class="fab fa-google"></i> Pubblica su Google</a>
+      </div>
     </div>
   </section>
 

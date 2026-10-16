@@ -394,37 +394,71 @@ applyEdits();
   const shareBox = document.getElementById('reviewShare');
   const qrBtn = document.getElementById('reviewQrBtn');
   const qrImg = document.getElementById('reviewQrImg');
+  const shareTextEl = document.getElementById('reviewShareText');
+  const GOOGLE_REVIEW_URL = 'https://search.google.com/local/writereview?placeid=ChIJXxB42PRhLxMRBtzjoDcNbhA';
   const pageBase = location.origin + (location.pathname.endsWith('/') ? location.pathname + 'index.html' : location.pathname);
   const reviewUrl = pageBase + '?recensione=1#recensioni';
-  const qrUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=360x360&margin=8&data=' + encodeURIComponent(reviewUrl);
-  const shareText = '⭐ Lascia una recensione ad Abbraccio Cure Domiciliari!\nInquadra il QR code oppure apri questo link:\n' + reviewUrl;
+  const qrSrc = { site: true };
+  const qrData = {
+    site: {
+      link: reviewUrl,
+      qr: 'https://api.qrserver.com/v1/create-qr-code/?size=360x360&margin=8&data=' + encodeURIComponent(reviewUrl),
+      text: '⭐ Lascia una recensione ad Abbraccio Cure Domiciliari!\nInquadra il QR code oppure apri questo link:\n' + reviewUrl,
+      hint: 'Fai inquadrare il QR code all\'assistito oppure invialo via WhatsApp / Email: si apre direttamente il modulo per lasciare la recensione.'
+    },
+    google: {
+      link: GOOGLE_REVIEW_URL,
+      qr: 'https://api.qrserver.com/v1/create-qr-code/?size=360x360&margin=8&data=' + encodeURIComponent(GOOGLE_REVIEW_URL),
+      text: '⭐ Lascia una recensione su Google ad Abbraccio Cure Domiciliari!\nInquadra il QR code oppure apri questo link:\n' + GOOGLE_REVIEW_URL,
+      hint: 'QR diretto alla pagina recensioni di Google: l\'assistito scrive la recensione col suo account Google e viene pubblicata subito.'
+    }
+  };
+  function currentQr() { return qrData[qrSrc.site ? 'site' : 'google']; }
+  const qrSiteBtn = document.getElementById('qrSrcSite');
+  const qrGoogleBtn = document.getElementById('qrSrcGoogle');
+  function setQrSource(isSite) {
+    qrSrc.site = isSite;
+    if (qrSiteBtn) qrSiteBtn.classList.toggle('active', isSite);
+    if (qrGoogleBtn) qrGoogleBtn.classList.toggle('active', !isSite);
+    const d = currentQr();
+    if (qrImg) qrImg.src = d.qr;
+    if (shareTextEl) shareTextEl.textContent = d.hint;
+    updateShareLinks();
+  }
+  if (qrSiteBtn) qrSiteBtn.addEventListener('click', () => setQrSource(true));
+  if (qrGoogleBtn) qrGoogleBtn.addEventListener('click', () => setQrSource(false));
 
   if (qrBtn && shareBox) {
     let qrLoaded = false;
     qrBtn.addEventListener('click', () => {
       shareBox.classList.toggle('hidden');
-      if (!qrLoaded && qrImg) { qrImg.src = qrUrl; qrLoaded = true; }
+      if (!qrLoaded && qrImg) { qrImg.src = currentQr().qr; qrLoaded = true; }
     });
   }
   const waShareBtn = document.getElementById('reviewShareWa');
   if (waShareBtn) waShareBtn.addEventListener('click', async () => {
+    const d = currentQr();
     // Su mobile prova ad allegare l'immagine QR vera e propria; altrimenti testo + link
     try {
-      const resp = await fetch(qrUrl);
+      const resp = await fetch(d.qr);
       const blob = await resp.blob();
       const file = new File([blob], 'qr-recensione-abbraccio.png', { type: 'image/png' });
       if (navigator.canShare && navigator.canShare({ files: [file] })) {
-        await navigator.share({ files: [file], text: shareText, title: 'QR Recensione Abbraccio' });
+        await navigator.share({ files: [file], text: d.text, title: 'QR Recensione Abbraccio' });
         return;
       }
     } catch (e) { /* fallback wa.me sotto */ }
-    window.open('https://wa.me/?text=' + encodeURIComponent(shareText), '_blank');
+    window.open('https://wa.me/?text=' + encodeURIComponent(d.text), '_blank');
   });
   const mailLink = document.getElementById('reviewShareMail');
-  if (mailLink) mailLink.href = 'mailto:?subject=' + encodeURIComponent('Lascia una recensione ad Abbraccio Cure Domiciliari')
-    + '&body=' + encodeURIComponent(shareText + '\n\nQR code da allegare o stampare: ' + qrUrl);
   const qrDownload = document.getElementById('reviewQrDownload');
-  if (qrDownload) qrDownload.href = qrUrl;
+  function updateShareLinks() {
+    const d = currentQr();
+    if (mailLink) mailLink.href = 'mailto:?subject=' + encodeURIComponent('Lascia una recensione ad Abbraccio Cure Domiciliari')
+      + '&body=' + encodeURIComponent(d.text + '\n\nQR code da allegare o stampare: ' + d.qr);
+    if (qrDownload) qrDownload.href = d.qr;
+  }
+  updateShareLinks();
 
   // Apertura diretta del modulo quando si arriva dal QR / link (?recensione=1 o #scrivi-recensione)
   if (form && (new URLSearchParams(location.search).get('recensione') === '1' || location.hash === '#scrivi-recensione')) {
@@ -459,6 +493,14 @@ applyEdits();
       }
       msg.textContent = 'Grazie! La recensione sarà visibile dopo l\'approvazione.';
       msg.style.color = 'var(--green)';
+      // Invita a pubblicare la stessa recensione anche su Google (testo già in clipboard)
+      const prompt = document.getElementById('reviewGooglePrompt');
+      if (prompt) {
+        const testoCopia = testo;
+        try { if (navigator.clipboard) navigator.clipboard.writeText(testoCopia); } catch (e) {}
+        prompt.classList.remove('hidden');
+        prompt.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
       form.reset(); rating = 5; paintStars();
     }).catch(() => {
       fail('Errore durante l\'invio. Riprova più tardi.');
