@@ -462,14 +462,15 @@ applyEdits();
       }
       msg.textContent = 'Grazie! La recensione sarà visibile dopo l\'approvazione.';
       msg.style.color = 'var(--green)';
-      // Invita a pubblicare la stessa recensione anche su Google (testo già in clipboard)
+      // Pubblica anche su Google: testo copiato negli appunti e pagina Google aperta in nuova scheda.
+      // Se il popup viene bloccato, il prompt inline con il pulsante resta come fallback.
+      try { if (navigator.clipboard) navigator.clipboard.writeText(testo); } catch (e) {}
       const prompt = document.getElementById('reviewGooglePrompt');
       if (prompt) {
-        const testoCopia = testo;
-        try { if (navigator.clipboard) navigator.clipboard.writeText(testoCopia); } catch (e) {}
         prompt.classList.remove('hidden');
         prompt.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
+      window.open(GOOGLE_REVIEW_URL, '_blank', 'noopener');
       form.reset(); rating = 5; paintStars();
     }).catch(() => {
       fail('Errore durante l\'invio. Riprova più tardi.');
@@ -477,7 +478,4 @@ applyEdits();
       if (submitBtn) submitBtn.disabled = false;
     });
   });
-})();Pncheu Google: toopat glipputi paginaapranuv schea.//Seilppp vi bccao,linline il pulanercom fallback.
-      const prompt = document.getElementById('reviewGooglePrompt');
-      if (prompt) {
-      window.open(GOOGLE_REVIEW_URL, '_blank', 'noopener');
+})();
