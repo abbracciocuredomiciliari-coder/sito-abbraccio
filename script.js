@@ -438,6 +438,28 @@ applyEdits();
     starsBox.querySelectorAll('i').forEach((s, i) => s.addEventListener('click', () => { rating = i + 1; paintStars(); }));
     paintStars();
   }
+  // Copia il testo negli appunti: prova l'API clipboard, altrimenti execCommand.
+  function copiaTesto(t) {
+    const legacy = () => {
+      try {
+        const ta = document.createElement('textarea');
+        ta.value = t;
+        ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0;';
+        document.body.appendChild(ta);
+        ta.focus(); ta.select();
+        const ok = document.execCommand('copy');
+        ta.remove();
+        return Promise.resolve(!!ok);
+      } catch (e) { return Promise.resolve(false); }
+    };
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        return navigator.clipboard.writeText(t).then(() => true, legacy);
+      }
+      return legacy();
+    } catch (e) { return legacy(); }
+  }
+
   if (form) form.addEventListener('submit', e => {
     e.preventDefault();
     const nome = document.getElementById('reviewNome').value.trim();
@@ -446,6 +468,9 @@ applyEdits();
     function fail(t) { msg.textContent = t; msg.style.color = '#b42318'; }
     if (nome.length < 2 || zona.length < 2) return fail('Inserisci nome e zona (almeno 2 caratteri).');
     if (testo.length < 10) return fail('La recensione deve contenere almeno 10 caratteri.');
+    // La copia va avviata ORA, mentre il gesto utente e' ancora attivo:
+    // dopo il fetch l'attivazione scade e la writeText puo' essere negata.
+    const copiaPromise = copiaTesto(testo);
     const submitBtn = form.querySelector('button[type="submit"]');
     if (submitBtn) submitBtn.disabled = true;
     msg.textContent = 'Invio in corso...'; msg.style.color = 'var(--text-light)';
@@ -463,16 +488,17 @@ applyEdits();
       msg.textContent = 'Grazie! La recensione sarà visibile dopo l\'approvazione.';
       msg.style.color = 'var(--green)';
       // Pubblica anche su Google: Google non accetta testo precompilato nel link,
-      // quindi il testo va copiato negli appunti e incollato nella pagina Google.
-      // Se il popup viene bloccato, il prompt inline con il pulsante resta come fallback.
-      let testoCopiato = false;
-      try { if (navigator.clipboard) { await navigator.clipboard.writeText(testo); testoCopiato = true; } } catch (e) {}
+      // quindi il testo e' stato copiato negli appunti al click di invio e resta
+      // comunque visibile nel prompt come backup per la copia manuale.
+      const testoCopiato = await copiaPromise;
       const prompt = document.getElementById('reviewGooglePrompt');
       if (prompt) {
-        if (!testoCopiato) {
-          const p = prompt.querySelector('p');
-          if (p) p.innerHTML = '<strong>Grazie per la tua recensione!</strong><br>La pagina di Google si è aperta in una nuova scheda: seleziona e copia il testo della tua recensione e incollalo lì, poi conferma su Google.';
-        }
+        const box = document.getElementById('reviewGoogleTesto');
+        if (box) box.value = testo;
+        const p = prompt.querySelector('p');
+        if (p) p.innerHTML = testoCopiato
+          ? '<strong>Grazie per la tua recensione!</strong><br>La pagina di Google si è aperta in una nuova scheda: il testo della recensione è già stato copiato, basta incollarlo lì. Se la scheda non si è aperta, usa il pulsante qui sotto.'
+          : '<strong>Grazie per la tua recensione!</strong><br>La pagina di Google si è aperta in una nuova scheda: seleziona e copia il testo qui sotto e incollalo lì, poi conferma su Google.';
         prompt.classList.remove('hidden');
         prompt.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
