@@ -462,11 +462,17 @@ applyEdits();
       }
       msg.textContent = 'Grazie! La recensione sarà visibile dopo l\'approvazione.';
       msg.style.color = 'var(--green)';
-      // Pubblica anche su Google: testo copiato negli appunti e pagina Google aperta in nuova scheda.
+      // Pubblica anche su Google: Google non accetta testo precompilato nel link,
+      // quindi il testo va copiato negli appunti e incollato nella pagina Google.
       // Se il popup viene bloccato, il prompt inline con il pulsante resta come fallback.
-      try { if (navigator.clipboard) navigator.clipboard.writeText(testo); } catch (e) {}
+      let testoCopiato = false;
+      try { if (navigator.clipboard) { await navigator.clipboard.writeText(testo); testoCopiato = true; } } catch (e) {}
       const prompt = document.getElementById('reviewGooglePrompt');
       if (prompt) {
+        if (!testoCopiato) {
+          const p = prompt.querySelector('p');
+          if (p) p.innerHTML = '<strong>Grazie per la tua recensione!</strong><br>La pagina di Google si è aperta in una nuova scheda: seleziona e copia il testo della tua recensione e incollalo lì, poi conferma su Google.';
+        }
         prompt.classList.remove('hidden');
         prompt.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
