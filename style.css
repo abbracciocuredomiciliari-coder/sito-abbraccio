@@ -80,6 +80,8 @@ body.menu-open .hamburger span { background: #fff; }
 .btn-outline:hover { background: var(--blue); color: #fff; }
 .btn-wa { background: #25d366; color: #fff; }
 .btn-wa:hover { background: #1eb856; }
+.btn-orange { background: linear-gradient(135deg,#c2410c,#ea580c); color: #fff; box-shadow: 0 4px 14px rgba(234,88,12,.35); border: none; }
+.btn-orange:hover { background: linear-gradient(135deg,#9a3412,#c2410c); color: #fff; transform: translateY(-1px); }
 .hero .btn-outline { color: #fff; border-color: rgba(255,255,255,0.7); }
 .hero .btn-outline:hover { background: rgba(255,255,255,0.15); color: #fff; }
 .hero-h24 { display: flex; align-items: center; gap: 8px; color: #e8c46a; font-weight: 700; font-size: 0.9rem; margin-bottom: 14px; }
