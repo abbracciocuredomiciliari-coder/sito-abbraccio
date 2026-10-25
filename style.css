@@ -81,6 +81,8 @@ body.menu-open .hamburger span { background: #fff; }
 .btn-wa { background: #25d366; color: #fff; }
 .btn-wa:hover { background: #1eb856; }
 .btn-orange { background: linear-gradient(135deg,#c2410c,#ea580c); color: #fff; box-shadow: 0 4px 14px rgba(234,88,12,.35); border: none; }
+.btn-calc { background: linear-gradient(135deg,#0f766e,#14b8a6); color: #fff; box-shadow: 0 4px 14px rgba(20,184,166,.35); border: none; }
+.btn-calc:hover { background: linear-gradient(135deg,#115e59,#0f766e); color: #fff; transform: translateY(-1px); }
 .btn-orange:hover { background: linear-gradient(135deg,#9a3412,#c2410c); color: #fff; transform: translateY(-1px); }
 .hero .btn-outline { color: #fff; border-color: rgba(255,255,255,0.7); }
 .hero .btn-outline:hover { background: rgba(255,255,255,0.15); color: #fff; }
