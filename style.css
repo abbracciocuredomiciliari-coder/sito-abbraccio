@@ -13,7 +13,8 @@
   --bg-dark: #0d1b35;
   --radius: 16px;
   --shadow: 0 8px 30px rgba(13,27,53,0.10);
-  --grad-hero: linear-gradient(135deg, #2a4a8a 0%, #1a2e5a 55%, #335599 100%);
+  --teal: #0e7490;
+  --grad-hero: linear-gradient(135deg, #2a4a8a 0%, #1a2e5a 55%, #0e7490 110%);
   --grad-gold: linear-gradient(135deg, #c9a227 0%, #e8c46a 100%);
 }
 

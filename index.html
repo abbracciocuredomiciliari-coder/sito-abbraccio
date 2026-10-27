@@ -9,6 +9,17 @@
   <link rel="stylesheet" href="style.css">
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script>
+    // Da smartphone la homepage apre la versione in stile app (app.html).
+    // "?desktop=1" forza la versione desktop; si torna alla app con "?app=1".
+    (function () {
+      var q = location.search;
+      if (/[?&]desktop=1/.test(q)) return;
+      if (window.matchMedia('(max-width: 860px)').matches || /[?&]app=1/.test(q)) {
+        location.replace('app.html' + q.replace(/[?&]app=1/, '') + location.hash);
+      }
+    })();
+  </script>
 </head>
 <body><!-- Top bar -->
 <div class="topbar">
@@ -322,6 +333,8 @@
           <h2>Sei un operatore sanitario o assistenziale?</h2>
           <p>Registrati come operatore sul nostro gestionale: ti ricontattiamo per attivarti nella tua zona.</p>
           <a href="https://app.abbracciocuredomiciliari.it/register" class="btn btn-primary"><i class="fas fa-user-plus"></i> Registrati come operatore</a>
+          <a href="https://app.abbracciocuredomiciliari.it/iscriviti-intermediazione" class="btn btn-primary" style="margin-top:10px;"><i class="fas fa-hand-holding-heart"></i> Registrati come badante, colf o assistente familiare</a>
+          <p style="margin-top:10px;font-size:0.85rem;opacity:0.9;">Badanti, colf e assistenti familiari: entra nella nostra rete in tutta Italia.</p>
         </div>
         <div class="jobs-image">
           <img id="jobsImage" src="images/team-abbraccio.jpg" alt="Il team Abbraccio al lavoro" loading="lazy">

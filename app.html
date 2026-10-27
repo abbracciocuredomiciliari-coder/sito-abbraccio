@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Abbraccio — Assistenza a domicilio</title>
+  <meta name="description" content="Abbraccio Cure Domiciliari: assistenza infermieristica, badanti ed esami a domicilio a Roma.">
+  <meta name="robots" content="noindex">
+  <link rel="icon" type="image/png" href="logo-abbraccio.png">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --navy: #0d1b35;
+      --blue: #2a4a8a;
+      --blue-light: #3b5db0;
+      --teal: #0e7490;
+      --teal-light: #14b8c9;
+      --gold: #c9a227;
+      --gold-light: #e8c46a;
+      --bg: #f1f5f9;
+      --card: #ffffff;
+      --text: #1e293b;
+      --text-light: #64748b;
+      --radius: 18px;
+      --shadow: 0 10px 30px rgba(13, 27, 53, .12);
+      --grad-hero: linear-gradient(155deg, #0d1b35 0%, #2a4a8a 55%, #0e7490 100%);
+      --grad-teal: linear-gradient(135deg, #2a4a8a 0%, #0e7490 100%);
+      --grad-gold: linear-gradient(135deg, #a8801d 0%, #c9a227 100%);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+      background: var(--navy);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+    }
+    .app {
+      max-width: 480px;
+      margin: 0 auto;
+      min-height: 100vh;
+      background: var(--bg);
+      position: relative;
+      padding-bottom: 86px;
+      box-shadow: 0 0 60px rgba(0,0,0,.4);
+    }
+
+    /* ── Hero ── */
+    .hero {
+      position: relative;
+      background: var(--grad-hero);
+      color: #fff;
+      padding: calc(env(safe-area-inset-top, 0px) + 20px) 20px 30px;
+      border-radius: 0 0 26px 26px;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image: var(--hero-img, none);
+      background-size: cover;
+      background-position: 74% 30%;
+      opacity: .34;
+    }
+    .hero::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(180deg, rgba(13,27,53,.25) 0%, rgba(13,27,53,.55) 100%);
+    }
+    .hero > * { position: relative; z-index: 1; }
+    .hero-top { display: flex; align-items: center; gap: 10px; margin-bottom: 18px; }
+    .hero-top img { height: 38px; width: auto; border-radius: 10px; background: #fff; padding: 5px 9px; object-fit: contain; }
+    .hero-top .brand strong { display: block; font-size: 1.05rem; letter-spacing: .2px; }
+    .hero-top .brand span { font-size: .72rem; opacity: .85; }
+    .hero-top .hero-call {
+      margin-left: auto;
+      background: rgba(255,255,255,.16);
+      backdrop-filter: blur(6px);
+      border: 1px solid rgba(255,255,255,.3);
+      color: #fff;
+      width: 40px; height: 40px;
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      text-decoration: none;
+    }
+    .hero h1 { font-size: 1.55rem; font-weight: 800; line-height: 1.25; margin-bottom: 8px; }
+    .hero p { font-size: .9rem; opacity: .9; line-height: 1.5; max-width: 340px; }
+    .hero-chips { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
+    .hero-chip {
+      background: rgba(255,255,255,.15);
+      border: 1px solid rgba(255,255,255,.25);
+      backdrop-filter: blur(4px);
+      color: #fff; font-size: .72rem; font-weight: 600;
+      padding: 5px 11px; border-radius: 999px;
+    }
+
+    /* ── Preventivi rapidi (subito sotto hero, ben visibili) ── */
+    .quick-calc {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      padding: 0 16px;
+      margin-top: -20px;
+      position: relative; z-index: 5;
+    }
+    .qc {
+      border-radius: var(--radius);
+      padding: 14px 13px;
+      text-decoration: none;
+      color: #fff;
+      display: flex; flex-direction: column; gap: 8px;
+      box-shadow: 0 12px 28px rgba(13,27,53,.22);
+      min-height: 108px;
+      position: relative; overflow: hidden;
+    }
+    .qc i.big { font-size: 1.5rem; opacity: .9; }
+    .qc strong { font-size: .92rem; font-weight: 800; line-height: 1.2; }
+    .qc span { font-size: .7rem; opacity: .85; line-height: 1.3; }
+    .qc .go {
+      margin-top: auto; font-size: .68rem; font-weight: 800;
+      display: inline-flex; align-items: center; gap: 5px;
+      text-transform: uppercase; letter-spacing: .5px;
+    }
+    .qc-gold { background: var(--grad-gold); }
+    .qc-teal { background: var(--grad-teal); }
+    .qc::after {
+      content: ''; position: absolute; right: -22px; bottom: -22px;
+      width: 90px; height: 90px; border-radius: 50%;
+      background: rgba(255,255,255,.12);
+    }
+
+    /* ── Categorie + ricerca ── */
+    .search-wrap { padding: 20px 16px 4px; }
+    .search {
+      display: flex; align-items: center; gap: 10px;
+      background: var(--card); border-radius: 14px;
+      padding: 12px 14px; box-shadow: var(--shadow);
+      border: 1px solid #e2e8f0;
+    }
+    .search i { color: var(--text-light); }
+    .search input { border: none; outline: none; flex: 1; font: inherit; font-size: .95rem; background: none; }
+    .cats {
+      display: flex; gap: 8px; padding: 14px 16px 6px;
+      overflow-x: auto; scrollbar-width: none;
+      position: sticky; top: 0; z-index: 20;
+      background: var(--bg);
+    }
+    .cats::-webkit-scrollbar { display: none; }
+    .cat {
+      border: 1.5px solid #cbd5e1; background: var(--card);
+      color: var(--text-light); font-weight: 700; font-size: .8rem;
+      padding: 8px 15px; border-radius: 999px; white-space: nowrap;
+      cursor: pointer; transition: .15s;
+    }
+    .cat.active { background: var(--grad-teal); border-color: transparent; color: #fff; }
+    .cat.c-assistenza { color: #0e7490; border-color: #7cc4d4; background: #effafc; }
+    .cat.c-visite { color: #2a4a8a; border-color: #9db4e0; background: #f0f5fd; }
+    .cat.c-diagnostica { color: #6d28d9; border-color: #c4b5f0; background: #f6f2fe; }
+    .cat.c-altro { color: #a8801d; border-color: #dcc06a; background: #fdf7e6; }
+    .cat.c-assistenza.active { background: var(--grad-teal); color: #fff; border-color: transparent; }
+    .cat.c-visite.active { background: linear-gradient(135deg,#2a4a8a,#0d1b35); color: #fff; border-color: transparent; }
+    .cat.c-diagnostica.active { background: linear-gradient(135deg,#7c3aed,#4c1d95); color: #fff; border-color: transparent; }
+    .cat.c-altro.active { background: var(--grad-gold); color: #fff; border-color: transparent; }
+
+    /* ── Tile servizi (foto ridotta sopra + testo sotto) ── */
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      padding: 12px 16px 6px;
+    }
+    .tile {
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: var(--card);
+      cursor: pointer;
+      box-shadow: var(--shadow);
+      border: 1px solid #e2e8f0;
+      text-align: left; width: 100%; font: inherit;
+      display: flex; flex-direction: column;
+      padding: 0;
+      transition: transform .12s;
+    }
+    .tile:active { transform: scale(.97); }
+    .tile img {
+      width: 100%; height: 112px;
+      object-fit: cover; object-position: center 22%;
+      display: block;
+      background: linear-gradient(135deg, #eaf1fb 0%, #dce9f4 100%);
+    }
+    .tile .tile-txt { padding: 9px 11px 11px; }
+    .tile .tile-cat { font-size: .6rem; font-weight: 700; text-transform: uppercase; letter-spacing: .6px; color: var(--teal); }
+    .tile .tile-name { font-size: .85rem; font-weight: 800; line-height: 1.2; margin: 3px 0 4px; color: var(--navy); }
+    .tile .tile-desc { font-size: .68rem; line-height: 1.35; color: var(--text-light); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .empty-msg { padding: 30px 20px; text-align: center; color: var(--text-light); font-size: .9rem; }
+
+    /* ── Sezioni ── */
+    section.blocco { padding: 22px 16px 8px; }
+    .sec-title { font-size: 1.15rem; font-weight: 800; color: var(--navy); margin-bottom: 4px; display: flex; align-items: center; gap: 9px; }
+    .sec-title i { color: var(--teal); }
+    .sec-sub { font-size: .82rem; color: var(--text-light); margin-bottom: 14px; }
+    .card {
+      background: var(--card); border-radius: var(--radius);
+      padding: 16px; box-shadow: var(--shadow);
+      border: 1px solid #e2e8f0; margin-bottom: 12px;
+    }
+    .card-link {
+      display: flex; align-items: center; gap: 14px; text-decoration: none; color: inherit;
+    }
+    .card-link .ico {
+      width: 46px; height: 46px; border-radius: 14px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem; color: #fff;
+    }
+    .ico-teal { background: var(--grad-teal); }
+    .ico-navy { background: linear-gradient(135deg, #2a4a8a, #0d1b35); }
+    .ico-gold { background: linear-gradient(135deg, #c9a227, #e8c46a); }
+    .card-link .t { flex: 1; }
+    .card-link .t strong { display: block; font-size: .95rem; color: var(--navy); }
+    .card-link .t span { font-size: .78rem; color: var(--text-light); }
+    .card-link .chev { color: #cbd5e1; }
+    .card-link.fill-gold {
+      background: var(--grad-gold); border-color: transparent; color: #fff;
+    }
+    .card-link.fill-gold .t strong, .card-link.fill-teal .t strong { color: #fff; }
+    .card-link.fill-gold .t span, .card-link.fill-teal .t span { color: rgba(255,255,255,.85); }
+    .card-link.fill-gold .ico, .card-link.fill-teal .ico { background: rgba(255,255,255,.22); }
+    .card-link.fill-gold .chev, .card-link.fill-teal .chev { color: rgba(255,255,255,.8); }
+    .card-link.fill-teal {
+      background: var(--grad-teal); border-color: transparent; color: #fff;
+    }
+
+    /* ── Mappa rete nazionale ── */
+    .net-card {
+      background: linear-gradient(160deg, #0d1b35 0%, #16305e 60%, #0e7490 130%);
+      border-radius: var(--radius);
+      color: #fff;
+      padding: 20px 18px 14px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      position: relative;
+    }
+    .net-num { font-size: 2.4rem; font-weight: 800; color: var(--gold-light); line-height: 1; }
+    .net-num small { font-size: 1.1rem; }
+    .net-title { font-size: 1.45rem; font-weight: 800; color: var(--gold-light); line-height: 1.2; }
+    .net-txt { font-size: .82rem; opacity: .92; line-height: 1.5; margin-top: 6px; }
+    .net-txt strong { color: var(--gold-light); }
+    .net-map { display: block; margin: 14px auto 0; width: 100%; max-width: 300px; }
+    .net-map-wrap { position: relative; }
+    .net-map-wrap img { display: block; width: 100%; border-radius: 14px; background: #fff; }
+    .net-lazio {
+      position: absolute; left: 47%; top: 50%;
+      width: 14px; height: 14px; border-radius: 50%;
+      background: #e8c46a; border: 2.5px solid #fff;
+      box-shadow: 0 0 0 4px rgba(232,196,106,.35);
+      animation: netpulse 1.8s ease-out infinite;
+    }
+    @keyframes netpulse {
+      0% { box-shadow: 0 0 0 0 rgba(232,196,106,.55); }
+      70% { box-shadow: 0 0 0 12px rgba(232,196,106,0); }
+      100% { box-shadow: 0 0 0 0 rgba(232,196,106,0); }
+    }
+    .net-cap { text-align: center; font-size: .66rem; letter-spacing: .5px; text-transform: uppercase; opacity: .6; margin-top: 6px; }
+    .net-dot {
+      position: absolute; width: 6.5px; height: 6.5px; border-radius: 50%;
+      background: #14b8c9; border: 1.3px solid #fff;
+      box-shadow: 0 1px 3px rgba(0,0,0,.4);
+      transform: translate(-50%, -50%);
+    }
+    .net-dot.lz { background: #e8c46a; width: 8px; height: 8px; }
+
+    /* ── Form prenota ── */
+    .form-grid { display: grid; gap: 10px; }
+    .form-grid label { font-size: .74rem; font-weight: 700; color: var(--text-light); display: block; margin-bottom: 4px; }
+    .form-grid input, .form-grid select, .form-grid textarea {
+      width: 100%; padding: 11px 12px; border-radius: 12px;
+      border: 1.5px solid #e2e8f0; font: inherit; font-size: .92rem; background: #fff;
+    }
+    .form-grid input:focus, .form-grid select:focus, .form-grid textarea:focus { border-color: var(--teal-light); outline: none; }
+    .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+    /* Elenco prestazioni selezionabili (come il calcolatore preventivi) */
+    .svc-picker {
+      border: 1.5px solid #e2e8f0; border-radius: 14px;
+      background: #fff; overflow: hidden;
+      max-height: 300px; overflow-y: auto;
+    }
+    .svc-group { padding: 9px 12px 4px; font-size: .66rem; font-weight: 800; text-transform: uppercase; letter-spacing: .7px; color: var(--teal); background: #f8fafc; }
+    .svc-row {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 12px; cursor: pointer;
+      border-bottom: 1px solid #f1f5f9;
+    }
+    .svc-row:last-child { border-bottom: none; }
+    .svc-row .box {
+      width: 20px; height: 20px; border-radius: 6px; flex-shrink: 0;
+      border: 2px solid #cbd5e1; background: #fff;
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; font-size: .68rem;
+    }
+    .svc-row.on .box { background: var(--teal); border-color: var(--teal); }
+    .svc-row .nm { flex: 1; font-size: .86rem; font-weight: 600; color: var(--text); }
+    .svc-row.on .nm { color: var(--navy); font-weight: 700; }
+
+    .btn-primary {
+      width: 100%; border: none; border-radius: 14px; padding: 14px;
+      background: var(--grad-teal); color: #fff;
+      font: inherit; font-weight: 800; font-size: .95rem;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      cursor: pointer;
+    }
+    .btn-ghost {
+      width: 100%; text-align: center; padding: 12px;
+      border-radius: 14px; font-weight: 700; font-size: .85rem;
+      background: #eef3fc; color: var(--blue);
+      border: 1.5px solid #b6c4e2; text-decoration: none; display: block;
+    }
+
+    /* ── Contatti ── */
+    .contact-row { display: flex; align-items: center; gap: 13px; padding: 11px 0; border-bottom: 1px solid #f1f5f9; text-decoration: none; color: inherit; }
+    .contact-row:last-child { border-bottom: none; }
+    .contact-row .ico { width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 1rem; }
+    .contact-row strong { display: block; font-size: .9rem; }
+    .contact-row span { font-size: .76rem; color: var(--text-light); }
+    .desktop-link { display: block; text-align: center; margin: 18px 0 8px; font-size: .8rem; color: var(--text-light); text-decoration: underline; }
+
+    /* ── Bottom nav ── */
+    .bottomnav {
+      position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
+      width: 100%; max-width: 480px; z-index: 50;
+      background: rgba(255,255,255,.96); backdrop-filter: blur(12px);
+      border-top: 1px solid #e2e8f0;
+      display: flex; justify-content: space-around;
+      padding: 8px 4px calc(env(safe-area-inset-bottom, 0px) + 8px);
+    }
+    .bn {
+      flex: 1; text-align: center; text-decoration: none;
+      color: var(--text-light); font-size: .66rem; font-weight: 700;
+      padding: 6px 2px; border-radius: 10px;
+    }
+    .bn i { display: block; font-size: 1.15rem; margin-bottom: 3px; }
+    .bn.active { color: var(--teal); }
+
+    /* ── Dettaglio servizio (sheet a foto intera) ── */
+    .sheet {
+      position: fixed; inset: 0; z-index: 100;
+      background: var(--bg);
+      overflow-y: auto;
+      transform: translateY(100%);
+      transition: transform .28s ease;
+      max-width: 480px; margin: 0 auto;
+    }
+    .sheet.open { transform: translateY(0); }
+    .sheet-img { position: relative; height: 300px; }
+    .sheet-img img { width: 100%; height: 100%; object-fit: cover; }
+    .sheet-img::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(13,27,53,.15), rgba(13,27,53,.75)); }
+    .sheet-close {
+      position: absolute; top: calc(env(safe-area-inset-top,0px) + 14px); left: 14px; z-index: 2;
+      width: 38px; height: 38px; border-radius: 12px; border: none;
+      background: rgba(13,27,53,.55); color: #fff; font-size: 1rem; cursor: pointer;
+      backdrop-filter: blur(6px);
+    }
+    .sheet-title-wrap { position: absolute; bottom: 16px; left: 16px; right: 16px; z-index: 1; color: #fff; }
+    .sheet-title-wrap .sc { font-size: .66rem; font-weight: 700; text-transform: uppercase; letter-spacing: .7px; color: var(--gold-light); }
+    .sheet-title-wrap h2 { font-size: 1.35rem; font-weight: 800; }
+    .sheet-body { padding: 18px 18px 160px; }
+    .sheet-body .lead { font-size: .95rem; font-weight: 600; color: var(--navy); line-height: 1.5; margin-bottom: 10px; }
+    .sheet-body .text { font-size: .87rem; color: var(--text-light); line-height: 1.6; margin-bottom: 14px; }
+    .act-list { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 16px; }
+    .act-list span { background: #e0f2f5; color: var(--teal); font-size: .74rem; font-weight: 700; padding: 5px 11px; border-radius: 999px; }
+    .sheet-cta {
+      position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
+      width: 100%; max-width: 480px;
+      background: rgba(255,255,255,.97); backdrop-filter: blur(10px);
+      border-top: 1px solid #e2e8f0;
+      padding: 10px 14px calc(env(safe-area-inset-bottom,0px) + 10px);
+      z-index: 110;
+      display: grid; gap: 8px;
+      opacity: 0; pointer-events: none; transition: opacity .25s;
+    }
+    .sheet-cta.show { opacity: 1; pointer-events: auto; }
+    .cta-row { display: flex; gap: 8px; }
+    .sheet-cta a {
+      flex: 1; text-align: center; text-decoration: none;
+      font-weight: 800; font-size: .84rem; padding: 13px 6px; border-radius: 13px;
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+    }
+    .sheet-cta .c1 { background: var(--grad-teal); color: #fff; }
+    .sheet-cta .c2 { background: #e8eefb; color: var(--blue); }
+    .sheet-cta .c3 { background: linear-gradient(135deg,#2a4a8a,#0d1b35); color: #fff; }
+    .sheet-cta .c4 { background: var(--grad-gold); color: #fff; }
+    .page-link { display: inline-block; margin-top: 4px; font-size: .8rem; color: var(--blue); font-weight: 700; text-decoration: none; }
+  </style>
+</head>
+<body>
+<div class="app">
+
+  <!-- ═══════════ HERO ═══════════ -->
+  <header class="hero" id="top">
+    <div class="hero-top">
+      <img src="logo-abbraccio.png" alt="Abbraccio">
+      <div class="brand">
+        <strong>Abbraccio</strong>
+        <span>Cure Domiciliari</span>
+      </div>
+      <a class="hero-call" href="tel:0601905242" aria-label="Chiama"><i class="fas fa-phone"></i></a>
+    </div>
+    <h1 id="heroTitle">La salute a casa tua, sempre</h1>
+    <p id="heroSub">Assistenza sanitaria a domicilio a Roma e provincia. Badanti, colf e assistenti familiari in tutta Italia.</p>
+    <div class="hero-chips" id="heroChips"></div>
+  </header>
+
+  <!-- ═══════════ PREVENTIVI RAPIDI (in alto) ═══════════ -->
+  <div class="quick-calc" id="preventivo">
+    <a class="qc qc-gold" href="https://app.abbracciocuredomiciliari.it/badante?modulo=1" target="_blank" rel="noopener">
+      <i class="fas fa-hand-holding-heart big"></i>
+      <strong>Calcola costo badante</strong>
+      <span>Badanti e colf in tutta Italia — costo CCNL 2026</span>
+      <span class="go">Calcola <i class="fas fa-arrow-right"></i></span>
+    </a>
+    <a class="qc qc-teal" href="https://app.abbracciocuredomiciliari.it/preventivo" target="_blank" rel="noopener">
+      <i class="fas fa-file-invoice big"></i>
+      <strong>Preventivo servizi</strong>
+      <span>Infermieri ed esami a Roma e provincia — PDF immediato</span>
+      <span class="go">Calcola <i class="fas fa-arrow-right"></i></span>
+    </a>
+  </div>
+
+  <!-- ═══════════ SERVIZI ═══════════ -->
+  <div id="home">
+    <div class="search-wrap">
+      <div class="search">
+        <i class="fas fa-magnifying-glass"></i>
+        <input id="searchInput" type="search" placeholder="Cerca un servizio o un esame..." autocomplete="off">
+      </div>
+    </div>
+    <div class="cats" id="cats"></div>
+    <div class="grid" id="grid"></div>
+    <div class="empty-msg" id="emptyMsg" style="display:none">Nessun servizio trovato. Prova a cambiare ricerca.</div>
+  </div>
+
+  <!-- ═══════════ RETE NAZIONALE ═══════════ -->
+  <section class="blocco" id="rete">
+    <div class="net-card">
+      <div class="net-title">Una rete capillare<br>in tutta Italia</div>
+      <div class="net-txt">Badanti, colf, assistenti familiari, infermieri e operatori socio-sanitari <strong>verificati</strong> — copertura nazionale con <strong>forte presenza nel Lazio</strong>.</div>
+      <div class="net-map-wrap net-map">
+        <img src="images/mappa-italia.png" alt="Mappa dell'Italia con la rete di professionisti Abbraccio">
+        <span class="net-lazio" title="Lazio"></span>
+      </div>
+      <div class="net-cap">rete Abbraccio · forte presenza nel Lazio</div>
+    </div>
+  </section>
+
+  <!-- ═══════════ PRENOTA ═══════════ -->
+  <section class="blocco" id="prenota">
+    <h2 class="sec-title"><i class="fas fa-calendar-check"></i> Prenota un servizio</h2>
+    <p class="sec-sub">Seleziona le prestazioni che ti servono e invia: ti rispondiamo su WhatsApp o ti richiamiamo noi.</p>
+    <div class="card">
+      <div class="form-grid">
+        <div>
+          <label>Prestazioni richieste</label>
+          <div class="svc-picker" id="svcPicker"></div>
+        </div>
+        <div class="row2">
+          <div><label for="bk-name">Nome</label><input id="bk-name" placeholder="Il tuo nome"></div>
+          <div><label for="bk-phone">Telefono *</label><input id="bk-phone" type="tel" placeholder="333 1234567"></div>
+        </div>
+        <div class="row2">
+          <div><label for="bk-city">Zona / città</label><input id="bk-city" placeholder="Es. Roma Nord"></div>
+          <div><label for="bk-date">Data preferita</label><input id="bk-date" type="date"></div>
+        </div>
+        <div>
+          <label for="bk-slot">Fascia oraria</label>
+          <select id="bk-slot">
+            <option>Indifferente</option><option>Mattina</option><option>Pomeriggio</option><option>Sera</option>
+          </select>
+        </div>
+        <div><label for="bk-notes">Note</label><textarea id="bk-notes" rows="3" placeholder="Raccontaci di cosa hai bisogno..."></textarea></div>
+        <button class="btn-primary" id="bk-send" type="button"><i class="fab fa-whatsapp"></i> Invia richiesta su WhatsApp</button>
+        <a class="btn-ghost" href="https://app.abbracciocuredomiciliari.it/richiesta-assistenza" target="_blank" rel="noopener"><i class="fas fa-paper-plane"></i> oppure compila il modulo online completo</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ OPERATORI ═══════════ -->
+  <section class="blocco" id="operatori">
+    <h2 class="sec-title"><i class="fas fa-user-nurse"></i> Sei un professionista?</h2>
+    <p class="sec-sub">Entra nel registro degli operatori Abbraccio.</p>
+    <a class="card card-link fill-gold" href="https://app.abbracciocuredomiciliari.it/iscriviti-intermediazione" target="_blank" rel="noopener">
+      <div class="ico"><i class="fas fa-user-plus"></i></div>
+      <div class="t"><strong>Registrati come badante, colf o assistente familiare</strong><span>Candidatura rapida online — rete in tutta Italia</span></div>
+      <i class="fas fa-chevron-right chev"></i>
+    </a>
+    <a class="card card-link fill-teal" href="lavora-con-noi.html?desktop=1">
+      <div class="ico"><i class="fas fa-briefcase"></i></div>
+      <div class="t"><strong>Lavora con noi</strong><span>Infermieri, fisioterapisti e figure sanitarie</span></div>
+      <i class="fas fa-chevron-right chev"></i>
+    </a>
+  </section>
+
+  <!-- ═══════════ CONTATTI ═══════════ -->
+  <section class="blocco" id="contatti">
+    <h2 class="sec-title"><i class="fas fa-phone"></i> Contatti</h2>
+    <p class="sec-sub">Siamo sempre disponibili, anche su WhatsApp.</p>
+    <div class="card" id="contactCard"></div>
+    <a class="desktop-link" id="desktopLink" href="index.html?desktop=1"><i class="fas fa-desktop"></i> Vai alla versione desktop del sito</a>
+  </section>
+
+  <!-- ═══════════ SHEET DETTAGLIO ═══════════ -->
+  <div class="sheet" id="sheet">
+    <div class="sheet-img">
+      <button class="sheet-close" id="sheetClose" aria-label="Chiudi"><i class="fas fa-arrow-left"></i></button>
+      <img id="sheetImg" src="" alt="">
+      <div class="sheet-title-wrap">
+        <div class="sc" id="sheetCat"></div>
+        <h2 id="sheetTitle"></h2>
+      </div>
+    </div>
+    <div class="sheet-body">
+      <p class="lead" id="sheetLead"></p>
+      <p class="text" id="sheetText"></p>
+      <div class="act-list" id="sheetActs"></div>
+      <a class="page-link" id="sheetPage" href="#"><i class="fas fa-arrow-up-right-from-square"></i> Apri la pagina completa sul sito</a>
+    </div>
+  </div>
+  <div class="sheet-cta" id="sheetCta">
+    <div class="cta-row">
+      <a class="c1" id="ctaWa" href="#" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+      <a class="c2" id="ctaCall" href="tel:0601905242"><i class="fas fa-phone"></i> Chiama</a>
+    </div>
+    <div class="cta-row">
+      <a class="c3" id="ctaBook" href="#prenota"><i class="fas fa-calendar-check"></i> Prenota</a>
+      <a class="c4" id="ctaCalc" href="#" target="_blank" rel="noopener"><i class="fas fa-calculator"></i> <span id="ctaCalcLbl">Calcola preventivo</span></a>
+    </div>
+  </div>
+
+  <!-- ═══════════ BOTTOM NAV ═══════════ -->
+  <nav class="bottomnav">
+    <a class="bn active" href="#top" data-sec="home"><i class="fas fa-house"></i>Servizi</a>
+    <a class="bn" href="#prenota"><i class="fas fa-calendar-check"></i>Prenota</a>
+    <a class="bn" href="#preventivo"><i class="fas fa-calculator"></i>Preventivo</a>
+    <a class="bn" href="#operatori"><i class="fas fa-user-nurse"></i>Operatori</a>
+    <a class="bn" href="#contatti"><i class="fas fa-phone"></i>Contatti</a>
+  </nav>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════════════════
+// APP MOBILE — esperienza smartphone del sito (stile app).
+// I contenuti (titoli, foto, descrizioni dei servizi, contatti, testi app)
+// arrivano dagli STESSI dati dell'area riservata: admin-defaults.json +
+// Supabase site_content 'vetrina_content'. Modificando un servizio
+// dall'admin si aggiorna anche la relativa tile qui.
+// ═══════════════════════════════════════════════════════════════════════
+const SB_URL = 'https://nxdrxhbpbcrefyxmuvsi.supabase.co';
+const SB_KEY = 'sb_publishable_bJzQ8eVZ-GyQN1AYFGNKpA_mLID3o5W';
+const APP_BASE = 'https://app.abbracciocuredomiciliari.it';
+
+const SERVICES = [
+  { key: 'infermiere-a-domicilio', cat: 'assistenza' },
+  { key: 'assistenza-anziani', cat: 'assistenza' },
+  { key: 'assistenza-notturna', cat: 'assistenza' },
+  { key: 'cure-pazienti-cronici', cat: 'assistenza' },
+  { key: 'cure-palliative', cat: 'assistenza' },
+  { key: 'fisioterapia-a-domicilio', cat: 'assistenza' },
+  { key: 'psicologia-a-domicilio', cat: 'assistenza' },
+  { key: 'visite-specialistiche', cat: 'visite' },
+  { key: 'prelievi-ematici', cat: 'diagnostica' },
+  { key: 'holter-pressorio', cat: 'diagnostica' },
+  { key: 'holter-ecg', cat: 'diagnostica' },
+  { key: 'ecografia-domiciliare', cat: 'diagnostica' },
+  { key: 'rx-domiciliare', cat: 'diagnostica' },
+  { key: 'emogasanalisi', cat: 'diagnostica' },
+  { key: 'saturimetria-spirometria', cat: 'diagnostica' },
+  { key: 'apnee-sonno', cat: 'diagnostica' },
+  { key: 'screening-cardiaci', cat: 'diagnostica' },
+  { key: 'servizio-ambulanza', cat: 'altro' },
+  { key: 'intermediazione', cat: 'altro', calc: 'badante' },
+];
+
+const CATS = [
+  { id: 'tutti', label: 'Tutti' },
+  { id: 'assistenza', label: 'Assistenza' },
+  { id: 'visite', label: 'Visite' },
+  { id: 'diagnostica', label: 'Diagnostica' },
+  { id: 'altro', label: 'Altri servizi' },
+];
+const CAT_LABEL = { assistenza: 'Assistenza', visite: 'Visite mediche', diagnostica: 'Diagnostica', altro: 'Servizi' };
+
+// Immagine di riserva per ogni servizio: se nell'admin la pagina non ha foto,
+// la tile e la scheda usano comunque un'immagine reale del sito.
+const FALLBACK_IMG = {
+  'infermiere-a-domicilio': 'images/infermieri.jpg',
+  'assistenza-anziani': 'images/IMG-20260616-WA0026.jpg',
+  'assistenza-notturna': 'images/IMG-20260616-WA0047.jpg',
+  'cure-pazienti-cronici': 'images/IMG-20260616-WA0038.jpg',
+  'cure-palliative': 'images/IMG-20260616-WA0043.jpg',
+  'fisioterapia-a-domicilio': 'images/fisioterapia-1.jpg',
+  'psicologia-a-domicilio': 'images/IMG-20260616-WA0043.jpg',
+  'visite-specialistiche': 'images/IMG-20260616-WA0049.jpg',
+  'prelievi-ematici': 'images/IMG-20260616-WA0049.jpg',
+  'holter-pressorio': 'images/IMG-20260616-WA0049.jpg',
+  'holter-ecg': 'images/IMG-20260616-WA0049.jpg',
+  'ecografia-domiciliare': 'images/IMG-20260616-WA0049.jpg',
+  'rx-domiciliare': 'images/IMG-20260616-WA0049.jpg',
+  'emogasanalisi': 'images/IMG-20260616-WA0049.jpg',
+  'saturimetria-spirometria': 'images/IMG-20260616-WA0049.jpg',
+  'apnee-sonno': 'images/IMG-20260616-WA0048.jpg',
+  'screening-cardiaci': 'images/IMG-20260616-WA0049.jpg',
+  'servizio-ambulanza': 'images/ambulanza.png',
+  'intermediazione': 'images/oss.jpg',
+};
+const DEFAULT_IMG = 'images/hero-abbraccio.jpg';
+// File che sono loghi/banner bianchi: brutti come foto di copertina, li saltiamo
+const BAD_IMG = ['partnership-salus', 'logo-salus', 'logo-abbraccio'];
+// Le immagini del sito sono volantini metà foto / metà grafica.
+// Posizione del ritaglio per ciascuna: dove sta la parte fotografica.
+const IMG_POS = {
+  'images/IMG-20260616-WA0026.jpg': '74% 32%',   // anziani: foto a destra
+  'images/infermieri.jpg': '24% 38%',            // infermieri: foto a sinistra
+  'images/IMG-20260616-WA0047.jpg': 'center 15%', // notturna: foto in alto
+  'images/IMG-20260616-WA0049.jpg': 'center 18%', // esami: foto in alto
+  'images/oss.jpg': '66% 22%',                   // oss: foto alto-destra
+};
+const posFor = src => IMG_POS[src] || 'center 22%';
+
+const strip = h => String(h || '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+let content = { pages: {}, global: {} };
+let pages = {};
+let g = {};
+let activeCat = 'tutti';
+let query = '';
+const picked = new Set();
+
+const $ = id => document.getElementById(id);
+const tel = () => (g.phone || '06 01905242').replace(/[^\d+]/g, '');
+const waNum = () => (g.whatsappNumber || '393514175117').replace(/[^\d]/g, '');
+const waUrl = t => `https://wa.me/${waNum()}?text=${encodeURIComponent(t)}`;
+
+function deepMerge(base, over) {
+  const r = JSON.parse(JSON.stringify(base || {}));
+  if (!over || typeof over !== 'object') return r;
+  for (const k of Object.keys(over)) {
+    if (over[k] && typeof over[k] === 'object' && !Array.isArray(over[k]) && r[k] && typeof r[k] === 'object') r[k] = deepMerge(r[k], over[k]);
+    else r[k] = over[k];
+  }
+  return r;
+}
+
+// ── Dati servizio (con fallback immagine) ──
+function serviceData(s) {
+  const p = pages[s.key] || {};
+  return {
+    name: strip(p.h1) || s.key.replace(/-/g, ' '),
+    short: strip(p.label) || strip(p.h1) || s.key.replace(/-/g, ' '),
+    desc: strip(p.lead) || strip(p.text),
+    img: (p.image && !BAD_IMG.some(b => p.image.includes(b))) ? p.image : (FALLBACK_IMG[s.key] || DEFAULT_IMG),
+    text: strip(p.text),
+    acts: Array.isArray(p.activities) ? p.activities : [],
+    href: s.key + '.html',
+    calc: s.calc === 'badante'
+      ? { url: APP_BASE + '/badante?modulo=1', label: 'Calcola costo badante' }
+      : { url: APP_BASE + '/preventivo', label: 'Calcola preventivo' },
+  };
+}
+
+function filtered() {
+  const q = query.toLocaleLowerCase('it');
+  return SERVICES.filter(s => (activeCat === 'tutti' || s.cat === activeCat)).filter(s => {
+    if (!q) return true;
+    const d = serviceData(s);
+    return (d.name + ' ' + d.desc + ' ' + CAT_LABEL[s.cat]).toLocaleLowerCase('it').includes(q);
+  });
+}
+
+function renderTiles() {
+  const list = filtered();
+  $('emptyMsg').style.display = list.length ? 'none' : 'block';
+  $('grid').replaceChildren(...list.map(s => {
+    const d = serviceData(s);
+    const b = document.createElement('button');
+    b.className = 'tile';
+    b.type = 'button';
+    b.innerHTML = `<img src="${d.img}" alt="${d.short}" loading="lazy" style="object-position:${posFor(d.img)}" onerror="this.onerror=null;this.src='${DEFAULT_IMG}'">` +
+      `<div class="tile-txt"><div class="tile-cat">${CAT_LABEL[s.cat]}</div><div class="tile-name">${d.short}</div><div class="tile-desc">${d.desc}</div></div>`;
+    b.addEventListener('click', () => openSheet(s));
+    return b;
+  }));
+}
+
+function renderCats() {
+  $('cats').replaceChildren(...CATS.map(c => {
+    const b = document.createElement('button');
+    b.className = 'cat c-' + c.id + (c.id === activeCat ? ' active' : '');
+    b.textContent = c.label;
+    b.type = 'button';
+    b.addEventListener('click', () => { activeCat = c.id; renderCats(); renderTiles(); });
+    return b;
+  }));
+}
+
+// ── Sheet dettaglio ──
+function openSheet(s) {
+  const d = serviceData(s);
+  $('sheetImg').src = d.img;
+  $('sheetImg').alt = d.name;
+  $('sheetImg').style.objectPosition = posFor(d.img);
+  $('sheetImg').onerror = function () { this.onerror = null; this.src = DEFAULT_IMG; };
+  $('sheetCat').textContent = CAT_LABEL[s.cat];
+  $('sheetTitle').textContent = d.name;
+  $('sheetLead').textContent = d.desc;
+  $('sheetText').textContent = d.text;
+  $('sheetActs').replaceChildren(...d.acts.slice(0, 8).map(a => { const el = document.createElement('span'); el.textContent = a; return el; }));
+  $('sheetPage').href = d.href;
+  $('ctaWa').href = waUrl(`Ciao, vorrei informazioni su: ${d.name}.`);
+  $('ctaCall').href = 'tel:' + tel();
+  $('ctaCalc').href = d.calc.url;
+  $('ctaCalcLbl').textContent = d.calc.label;
+  $('ctaBook').onclick = e => { e.preventDefault(); closeSheet(); picked.add(s.key); renderPicker(); document.getElementById('prenota').scrollIntoView({ behavior: 'smooth' }); };
+  $('sheet').classList.add('open');
+  $('sheetCta').classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+function closeSheet() {
+  $('sheet').classList.remove('open');
+  $('sheetCta').classList.remove('show');
+  document.body.style.overflow = '';
+}
+$('sheetClose').addEventListener('click', closeSheet);
+
+// ── Prenota: elenco prestazioni (stile calcolatore, senza tariffe) ──
+function renderPicker() {
+  const wrap = $('svcPicker');
+  const nodes = [];
+  CATS.filter(c => c.id !== 'tutti').forEach(c => {
+    const hd = document.createElement('div');
+    hd.className = 'svc-group';
+    hd.textContent = c.label;
+    nodes.push(hd);
+    SERVICES.filter(s => s.cat === c.id).forEach(s => {
+      const d = serviceData(s);
+      const row = document.createElement('div');
+      row.className = 'svc-row' + (picked.has(s.key) ? ' on' : '');
+      row.innerHTML = `<div class="box"><i class="fas fa-check"></i></div><div class="nm">${d.short}</div>`;
+      row.addEventListener('click', () => {
+        picked.has(s.key) ? picked.delete(s.key) : picked.add(s.key);
+        row.classList.toggle('on');
+      });
+      nodes.push(row);
+    });
+  });
+  wrap.replaceChildren(...nodes);
+}
+
+$('bk-send').addEventListener('click', () => {
+  const telIn = $('bk-phone').value.trim();
+  if (!telIn) { $('bk-phone').focus(); $('bk-phone').style.borderColor = '#ef4444'; return; }
+  $('bk-phone').style.borderColor = '';
+  const names = SERVICES.filter(s => picked.has(s.key)).map(s => serviceData(s).short);
+  const msg = [
+    'Richiesta servizio — Abbraccio',
+    names.length && `• Prestazioni: ${names.join(', ')}`,
+    $('bk-name').value.trim() && `• Nome: ${$('bk-name').value.trim()}`,
+    `• Telefono: ${telIn}`,
+    $('bk-city').value.trim() && `• Zona: ${$('bk-city').value.trim()}`,
+    $('bk-date').value && `• Data preferita: ${$('bk-date').value}`,
+    `• Fascia: ${$('bk-slot').value}`,
+    $('bk-notes').value.trim() && `\nNote: ${$('bk-notes').value.trim()}`,
+  ].filter(Boolean).join('\n');
+  window.open(waUrl(msg), '_blank');
+});
+
+
+
+// ── Contatti ──
+function renderContacts() {
+  const rows = [
+    { ico: 'fas fa-phone', bg: 'ico-teal', t: g.phone || '06 01905242', s: 'Chiamaci ora', href: 'tel:' + tel() },
+    { ico: 'fab fa-whatsapp', bg: 'ico-navy', t: 'WhatsApp', s: 'Scrivici un messaggio', href: waUrl('Ciao, vorrei informazioni sui vostri servizi.') },
+    g.email && { ico: 'fas fa-envelope', bg: 'ico-gold', t: g.email, s: 'Scrivici una email', href: 'mailto:' + g.email },
+    { ico: 'fas fa-location-dot', bg: 'ico-teal', t: g.address || 'Via di S. Maria Ausiliatrice 4/B, Roma', s: 'Dove siamo', href: 'dove-siamo.html?desktop=1' },
+  ].filter(Boolean);
+  $('contactCard').replaceChildren(...rows.map(r => {
+    const a = document.createElement('a');
+    a.className = 'contact-row';
+    a.href = r.href;
+    a.innerHTML = `<div class="ico ${r.bg}"><i class="${r.ico}"></i></div><div><strong>${r.t}</strong><span>${r.s}</span></div>`;
+    return a;
+  }));
+}
+
+// ── Hero + testi app (pagina 'app' nei defaults admin) ──
+function renderHero() {
+  const app = pages['app'] || {};
+  if (strip(app.h1)) $('heroTitle').textContent = strip(app.h1);
+  if (strip(app.lead)) $('heroSub').textContent = strip(app.lead);
+  if (app.image) document.querySelector('.hero').style.setProperty('--hero-img', `url("${app.image}")`);
+  $('heroWa') && ($('heroWa').href = waUrl('Ciao, vorrei informazioni sui servizi Abbraccio.'));
+  const chips = (Array.isArray(app.activities) ? app.activities : []).slice(0, 4);
+  $('heroChips').replaceChildren(...(chips.length ? chips : ['Assistenza h24', 'A casa tua', 'Risposta rapida']).map(c => {
+    const el = document.createElement('span');
+    el.className = 'hero-chip';
+    el.textContent = c;
+    return el;
+  }));
+  const callA = document.querySelector('.hero-call');
+  if (callA) callA.href = 'tel:' + tel();
+}
+
+// ── Bottom nav highlight ──
+const bnLinks = [...document.querySelectorAll('.bn')];
+const secIds = ['preventivo', 'home', 'rete', 'prenota', 'operatori', 'contatti'];
+window.addEventListener('scroll', () => {
+  let cur = 'home';
+  for (const id of secIds) {
+    const el = document.getElementById(id);
+    if (el && el.getBoundingClientRect().top < window.innerHeight * .45) cur = id;
+  }
+  bnLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + (cur === 'home' || cur === 'rete' ? 'top' : cur)));
+}, { passive: true });
+
+// ── Caricamento contenuti (stessi dati dell'area riservata) ──
+Promise.all([
+  fetch('admin-defaults.json').then(r => r.json()).catch(() => null),
+  fetch(SB_URL + '/rest/v1/site_content?content_key=eq.vetrina_content&select=content_value', {
+    headers: { apikey: SB_KEY, Authorization: 'Bearer ' + SB_KEY }
+  }).then(r => r.json()).then(d => (d && d[0] && d[0].content_value) ? JSON.parse(d[0].content_value) : null).catch(() => null)
+]).then(([defaults, remote]) => {
+  content = deepMerge(defaults || {}, remote || {});
+  pages = content.pages || {};
+  g = content.global || {};
+  renderHero(); renderCats(); renderTiles(); renderPicker(); renderContacts();
+});
+// ── Pallini rete sulla mappa Italia (% x, % y, n°, dispersione%, lazio) ──
+(function renderNetDots() {
+  const wrap = document.querySelector('.net-map-wrap');
+  if (!wrap) return;
+  const clusters = [
+    [11, 18, 10, 4], [27, 13, 14, 5], [36, 5, 6, 3], [44, 16, 9, 4], [53, 10, 5, 3],
+    [16, 28, 5, 2], [35, 25, 12, 4],
+    [36, 39, 10, 4], [46, 40, 5, 3], [54, 36, 6, 3],
+    [46, 49, 12, 3, true], [44, 54, 8, 3, true], [49, 47, 7, 2, true], [47, 52, 5, 2, true],
+    [57, 45, 6, 3], [64, 52, 4, 2],
+    [61, 60, 8, 4], [79, 58, 9, 5], [72, 66, 4, 3], [74, 80, 7, 4],
+    [61, 92, 8, 5], [17, 70, 7, 4],
+  ];
+  let n = 0;
+  const rand = seed => { const x = Math.sin(seed * 9973) * 43758.5453; return x - Math.floor(x); };
+  clusters.forEach(([cx, cy, count, r, lz]) => {
+    for (let i = 0; i < count; i++) {
+      n++;
+      const a = rand(n * 7.13) * Math.PI * 2;
+      const d = Math.sqrt(rand(n * 3.71)) * r;
+      const dot = document.createElement('span');
+      dot.className = 'net-dot' + (lz ? ' lz' : '');
+      dot.style.left = (cx + Math.cos(a) * d) + '%';
+      dot.style.top = (cy + Math.sin(a) * d) + '%';
+      wrap.appendChild(dot);
+    }
+  });
+})();
+$('searchInput').addEventListener('input', e => { query = e.target.value.trim(); renderTiles(); });
+</script>
+</body>
+</html>

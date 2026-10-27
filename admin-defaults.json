@@ -335,6 +335,21 @@
       ],
       "label": "Intermediazione Badanti e Colf",
       "image": "images/partnership-salus.jpg"
+    },
+    "app": {
+      "key": "app",
+      "activitiesTitle": "Chip visibili sotto il titolo (uno per riga)",
+      "h1": "La salute a casa tua, sempre",
+      "lead": "Assistenza sanitaria a domicilio a Roma e provincia. Badanti, colf e assistenti familiari in tutta Italia.",
+      "text": "Versione in stile app del sito, visibile solo da smartphone.",
+      "activities": [
+        "Assistenza h24",
+        "A casa tua",
+        "Risposta rapida",
+        "Equipe qualificata"
+      ],
+      "label": "App mobile (versione smartphone)",
+      "image": "images/IMG-20260616-WA0026.jpg"
     }
   },
   "gallery": [
