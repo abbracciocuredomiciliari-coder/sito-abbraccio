@@ -700,3 +700,26 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   .hero-ctas .btn { width: 100%; justify-content: center; padding: 15px 20px; font-size: 1rem; }
   .btn { min-height: 44px; }
 }
+
+/* Badge zona di servizio */
+.zone-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(20,184,166,0.12); color: #0f766e; border: 1px solid rgba(20,184,166,0.35); padding: 7px 16px; border-radius: 999px; font-weight: 700; font-size: 0.85rem; margin: 4px 0 18px; }
+.zone-badge.zone-badge-it { background: rgba(201,162,39,0.14); color: #8a6d12; border-color: rgba(201,162,39,0.4); }
+
+/* Banda preventivi protagonista */
+.preventivi-band { background: linear-gradient(135deg, #0d1b35 0%, #1a2e5a 60%, #0e7490 100%); padding: 56px 0; }
+.preventivi-band .pv-head { text-align: center; margin-bottom: 30px; }
+.preventivi-band .pv-head .eyebrow { background: rgba(255,255,255,0.12); color: #e8c46a; }
+.preventivi-band .pv-head h2 { color: #fff; font-size: 1.9rem; margin: 8px 0 6px; }
+.preventivi-band .pv-head p { color: rgba(255,255,255,0.8); }
+.pv-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 860px; margin: 0 auto; }
+.pv-card { display: flex; align-items: center; gap: 18px; padding: 26px 28px; border-radius: 18px; text-decoration: none; color: #fff; transition: transform .2s, box-shadow .2s; }
+.pv-card:hover { transform: translateY(-4px); }
+.pv-card.pv-badante { background: linear-gradient(135deg, #a8841a, #c9a227); box-shadow: 0 10px 30px rgba(201,162,39,0.35); }
+.pv-card.pv-badante:hover { box-shadow: 0 16px 40px rgba(201,162,39,0.5); }
+.pv-card.pv-servizi { background: linear-gradient(135deg, #0f766e, #14b8a6); box-shadow: 0 10px 30px rgba(20,184,166,0.35); }
+.pv-card.pv-servizi:hover { box-shadow: 0 16px 40px rgba(20,184,166,0.5); }
+.pv-card .pv-icon { font-size: 2rem; opacity: .9; flex-shrink: 0; }
+.pv-card .pv-title { font-weight: 800; font-size: 1.15rem; margin-bottom: 4px; }
+.pv-card .pv-sub { font-size: 0.85rem; opacity: .92; }
+.pv-card .pv-arrow { margin-left: auto; font-size: 1.3rem; opacity: .85; }
+@media (max-width: 640px) { .pv-cards { grid-template-columns: 1fr; } }

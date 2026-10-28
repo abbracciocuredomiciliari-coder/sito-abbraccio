@@ -14,7 +14,7 @@ const biz = {
   'name': 'Abbraccio Cure Domiciliari',
   'url': BASE + '/',
   'telephone': '+39 06 01905242',
-  'email': 'abbracciocuredomiciliari@gmail.com',
+  'email': 'info@abbracciocuredomiciliari.it',
   'address': { '@type': 'PostalAddress', 'streetAddress': 'Via di S. Maria Ausiliatrice 4/B', 'addressLocality': 'Roma', 'postalCode': '00181', 'addressCountry': 'IT' },
   'areaServed': ['Roma', 'Provincia di Roma', 'Lazio'],
   'image': BASE + '/images/IMG-20260616-WA0026.jpg',
