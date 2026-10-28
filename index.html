@@ -11,19 +11,11 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script>
-    // Da smartphone la homepage apre la versione in stile app (app.html).
-    // "?desktop=1" forza e RICORDA la versione desktop; "?app=1" torna alla app.
+    // La homepage e responsive; la versione app resta disponibile su app.html.
     (function () {
       var q = location.search;
-      if (/[?&]desktop=1/.test(q)) { try { localStorage.setItem('abb-view', 'desktop'); } catch (e) {} return; }
       if (/[?&]app=1/.test(q)) {
-        try { localStorage.removeItem('abb-view'); } catch (e) {}
         location.replace('app.html' + q.replace(/[?&]app=1/, '') + location.hash);
-        return;
-      }
-      try { if (localStorage.getItem('abb-view') === 'desktop') return; } catch (e) {}
-      if (window.matchMedia('(max-width: 860px)').matches) {
-        location.replace('app.html' + q + location.hash);
       }
     })();
   </script>
@@ -41,7 +33,7 @@
   <meta name="twitter:image" content="https://www.abbracciocuredomiciliari.it/images/hero-assistenza-casa.jpg">
   <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"MedicalBusiness","@id":"https://www.abbracciocuredomiciliari.it/#business","name":"Abbraccio Cure Domiciliari","url":"https://www.abbracciocuredomiciliari.it/","telephone":"+39 06 01905242","email":"info@abbracciocuredomiciliari.it","address":{"@type":"PostalAddress","streetAddress":"Via di S. Maria Ausiliatrice 4/B","addressLocality":"Roma","postalCode":"00181","addressCountry":"IT"},"areaServed":["Roma","Provincia di Roma","Lazio"],"image":"https://www.abbracciocuredomiciliari.it/images/IMG-20260616-WA0026.jpg","logo":"https://www.abbracciocuredomiciliari.it/logo-abbraccio.png"},{"@type":"WebSite","name":"Abbraccio Cure Domiciliari","url":"https://www.abbracciocuredomiciliari.it/"}]}</script>
 </head>
-<body><!-- Top bar -->
+<body class="home-page"><!-- Top bar -->
 <div class="topbar">
   <div class="container topbar-inner">
     <div class="topbar-left">
@@ -66,60 +58,23 @@
         <span>Cure Domiciliari</span>
       </div>
     </a>
-    <nav class="nav" id="navMenu">
+    <nav class="nav" id="navMenu" aria-label="Navigazione principale">
       <ul>
-        <li><a href="index.html#chi-siamo">CHI SIAMO</a></li>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle">SERVIZI</a>
-          <div class="dropdown-menu">
-            <a href="infermiere-a-domicilio.html"><i class="fas fa-user-nurse"></i> Assistenza Infermieristica</a>
-            <a href="fisioterapia-a-domicilio.html"><i class="fas fa-person-walking"></i> Fisioterapia a domicilio</a>
-            <a href="assistenza-anziani.html"><i class="fas fa-hand-holding-heart"></i> Assistenza Anziani</a>
-            <a href="cure-pazienti-cronici.html"><i class="fas fa-notes-medical"></i> Cure Pazienti Cronici</a>
-            <a href="assistenza-notturna.html"><i class="fas fa-moon"></i> Assistenza Notturna</a>
-            <a href="cure-palliative.html"><i class="fas fa-dove"></i> Cure Palliative</a>
-            <a href="visite-specialistiche.html"><i class="fas fa-user-doctor"></i> Visite Specialistiche</a>
-            <a href="servizio-ambulanza.html"><i class="fas fa-ambulance"></i> Servizio Ambulanza</a>
-            <a href="intermediazione.html"><i class="fas fa-handshake"></i> Intermediazione Badanti & Colf</a>
-            <a href="servizi.html"><i class="fas fa-th-list"></i> Tutti i servizi</a>
-          </div>
-        </li>        <li class="dropdown">
-          <a href="#" class="dropdown-toggle">ESAMI</a>
-          <div class="dropdown-menu">
-            <a href="holter-pressorio.html"><i class="fas fa-heart-pulse"></i> Holter Pressorio</a>
-            <a href="holter-ecg.html"><i class="fas fa-wave-square"></i> Holter ECG</a>
-            <a href="apnee-sonno.html"><i class="fas fa-moon"></i> Apnee del Sonno</a>
-            <a href="screening-cardiaci.html"><i class="fas fa-heart-circle-check"></i> Screening Cardiaci</a>
-            <a href="saturimetria-spirometria.html"><i class="fas fa-lungs"></i> Saturimetria e Spirometria</a>
-            <a href="prelievi-ematici.html"><i class="fas fa-droplet"></i> Prelievi Ematici</a>
-            <a href="emogasanalisi.html"><i class="fas fa-lungs-virus"></i> Emogasanalisi</a>
-            <a href="rx-domiciliare.html"><i class="fas fa-x-ray"></i> RX Domiciliare</a>
-            <a href="ecografia-domiciliare.html"><i class="fas fa-wave-square"></i> Ecografia Domiciliare</a>
-            <a href="esami-strumentali.html"><i class="fas fa-th-list"></i> Tutti gli esami</a>
-          </div>
-        </li>
-
-        <li><a href="telemedicina.html">TELEMEDICINA</a></li>
-        <li><a href="visite-specialistiche.html">VISITE</a></li>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle">DOVE SIAMO</a>
-                    <div class="dropdown-menu dove">
-            <a href="dove-siamo.html#roma-centro"><i class="fas fa-map-marker-alt"></i> Roma Centro</a>
-            <a href="dove-siamo.html#roma-nord"><i class="fas fa-map-marker-alt"></i> Roma Nord</a>
-            <a href="dove-siamo.html#roma-sud"><i class="fas fa-map-marker-alt"></i> Roma Sud</a>
-            <a href="dove-siamo.html#roma-est"><i class="fas fa-map-marker-alt"></i> Roma Est</a>
-            <a href="dove-siamo.html#roma-ovest"><i class="fas fa-map-marker-alt"></i> Roma Ovest</a>
-            <a href="dove-siamo.html#provincia-roma"><i class="fas fa-map-marker-alt"></i> Provincia di Roma</a>
-            <a href="dove-siamo.html#lazio"><i class="fas fa-map-marker-alt"></i> Lazio</a>
-            <a href="dove-siamo.html"><i class="fas fa-th-list"></i> Tutte le zone</a>
-          </div>
-        </li>
-        <li><a href="lavora-con-noi.html">LAVORA CON NOI</a></li>
-        <li><a href="shop.html">SHOP</a></li>
-        <li><a href="news.html">BLOG</a></li>
+        <li><a href="#servizi">Servizi</a></li>
+        <li><a href="#come-funziona">Come funziona</a></li>
+        <li><a href="#chi-siamo">Perché Abbraccio</a></li>
+        <li><a href="#contatti">Contatti</a></li>
+        <li><a class="nav-assistance" href="https://app.abbracciocuredomiciliari.it/richiesta-assistenza">Richiedi assistenza</a></li>
+        <li class="mobile-menu-only"><a href="servizi.html">Tutti i servizi</a></li>
+        <li class="mobile-menu-only"><a href="shop.html">Shop e noleggio</a></li>
+        <li class="mobile-menu-only"><a href="lavora-con-noi.html">Lavora con noi</a></li>
+        <li class="mobile-menu-only"><a href="telemedicina.html">Telemedicina</a></li>
+        <li class="mobile-menu-only"><a href="news.html">Blog</a></li>
+        <li class="mobile-menu-only"><a href="https://app.abbracciocuredomiciliari.it/area-famiglia">Area famiglie</a></li>
+        <li class="mobile-menu-only"><a href="admin.html">Area riservata</a></li>
       </ul>
     </nav>
-    <button class="hamburger" id="hamburger" aria-label="Menu">
+    <button class="hamburger" id="hamburger" aria-label="Apri menu" aria-controls="navMenu" aria-expanded="false">
       <span></span><span></span><span></span>
     </button>
   </div>
@@ -131,7 +86,7 @@
   <section class="hero" id="home">
     <div class="container hero-inner">
       <div class="hero-content">
-        <div class="eyebrow"><i class="fas fa-shield-heart"></i> Assistenza sanitaria a domicilio</div>
+        <div class="eyebrow">Assistenza domiciliare</div>
         <h1>L'assistenza di cui hai bisogno, <span>direttamente a casa tua.</span></h1>
         <p class="hero-sub">Infermieri, badanti, OSS, visite specialistiche, diagnostica e tanti altri servizi. <strong>Scopri i servizi e conosci il costo prima di richiederli.</strong></p>
         <a href="https://app.abbracciocuredomiciliari.it/preventivo?utm_source=sito&utm_medium=cta&utm_campaign=servizi&utm_content=hero_main" target="_blank" class="btn-hero-calc">
@@ -152,7 +107,15 @@
         <img src="images/hero-assistenza-casa.jpg" alt="Infermiera Abbraccio assiste un'anziana a casa" fetchpriority="high">
       </div>
     </div>
-    <div class="container hero-cats" id="servizi">
+  </section>
+
+  <section class="home-services" id="servizi" aria-labelledby="home-services-title">
+    <div class="container hero-cats">
+      <div class="home-services-heading">
+        <span class="eyebrow">I nostri servizi</span>
+        <h2 id="home-services-title">Come possiamo aiutarti?</h2>
+        <p>Scegli il servizio più adatto alle tue esigenze.</p>
+      </div>
       <div class="cat-grid">
         <a href="infermiere-a-domicilio.html" class="cat-card">
           <span class="cat-icon"><i class="fas fa-user-nurse"></i></span>
@@ -198,6 +161,20 @@
         </a>
       </div>
       <div class="hero-cats-link"><a href="servizi.html">Vedi tutti i servizi <i class="fas fa-arrow-right"></i></a></div>
+    </div>
+  </section>
+
+  <section class="home-how" id="come-funziona">
+    <div class="container">
+      <div class="section-header center">
+        <span class="eyebrow">Semplice e trasparente</span>
+        <h2>Richiedere assistenza è facile</h2>
+      </div>
+      <div class="home-how-grid">
+        <div class="home-how-step"><strong>1</strong><h3>Scegli il servizio</h3><p>Seleziona la prestazione di cui hai bisogno.</p></div>
+        <div class="home-how-step"><strong>2</strong><h3>Calcola il preventivo</h3><p>Visualizza il costo indicativo e i dettagli.</p></div>
+        <div class="home-how-step"><strong>3</strong><h3>Invia la richiesta</h3><p>Il centro ti ricontatta per confermare.</p></div>
+      </div>
     </div>
   </section>
 
@@ -337,39 +314,6 @@
           <div class="why-icon"><i class="fas fa-map-location-dot"></i></div>
           <h3>Presenti a Roma e Provincia</h3>
           <p>Con una rete capillare di professionisti attiviamo servizi in tutta Roma e in tutta la provincia.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Come funziona -->
-  <section class="how-it-works" id="come-funziona" style="background:var(--bg-soft);padding:80px 0;">
-    <div class="container">
-      <div class="section-header center">
-        <span class="eyebrow">Come funziona</span>
-        <h2>Richiedere assistenza è semplice</h2>
-        <p>Quattro passaggi per avere il professionista giusto a casa tua</p>
-      </div>
-      <div class="why-grid" style="grid-template-columns:repeat(auto-fit,minmax(230px,1fr));">
-        <div class="why-card" style="position:relative;padding-top:56px;">
-          <div style="position:absolute;top:-18px;left:50%;transform:translateX(-50%);width:44px;height:44px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.2rem;box-shadow:var(--shadow);">1</div>
-          <h3>Contattaci</h3>
-          <p>Chiama il <a href="tel:0601905242" style="color:var(--blue);font-weight:600;">06 01905242</a>, scrivi su <a href="https://wa.me/393514175117" style="color:var(--green-real);font-weight:600;">WhatsApp</a> o usa il modulo online.</p>
-        </div>
-        <div class="why-card" style="position:relative;padding-top:56px;">
-          <div style="position:absolute;top:-18px;left:50%;transform:translateX(-50%);width:44px;height:44px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.2rem;box-shadow:var(--shadow);">2</div>
-          <h3>Raccontaci il bisogno</h3>
-          <p>Descrivi di cosa hai bisogno: un infermiere, una badante, un esame a domicilio o una visita specialistica.</p>
-        </div>
-        <div class="why-card" style="position:relative;padding-top:56px;">
-          <div style="position:absolute;top:-18px;left:50%;transform:translateX(-50%);width:44px;height:44px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.2rem;box-shadow:var(--shadow);">3</div>
-          <h3>Ricevi il preventivo</h3>
-          <p>Ti proponiamo il professionista adatto con un preventivo chiaro, senza sorprese.</p>
-        </div>
-        <div class="why-card" style="position:relative;padding-top:56px;">
-          <div style="position:absolute;top:-18px;left:50%;transform:translateX(-50%);width:44px;height:44px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.2rem;box-shadow:var(--shadow);">4</div>
-          <h3>Il servizio a casa tua</h3>
-          <p>Organizziamo giorni e orari secondo le tue esigenze, a Roma e provincia.</p>
         </div>
       </div>
     </div>

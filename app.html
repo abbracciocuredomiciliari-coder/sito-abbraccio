@@ -376,6 +376,110 @@
     .sheet-cta .c3 { background: linear-gradient(135deg,#2a4a8a,#0d1b35); color: #fff; }
     .sheet-cta .c4 { background: var(--grad-gold); color: #fff; }
     .page-link { display: inline-block; margin-top: 4px; font-size: .8rem; color: var(--blue); font-weight: 700; text-decoration: none; }
+
+    /* Schermata iniziale: stessa gerarchia della homepage responsive. */
+    body { background: #fff; }
+    .app { background: #fff; padding-bottom: calc(76px + env(safe-area-inset-bottom)); }
+    .hero {
+      padding: 0; border-radius: 0; overflow: visible;
+      background: linear-gradient(90deg,#f5faff,#fff); color: #183655;
+    }
+    .hero::before, .hero::after { display: none; }
+    .hero-top {
+      position: sticky; top: 0; z-index: 60; margin: 0;
+      padding: calc(env(safe-area-inset-top) + 6px) 20px 6px;
+      min-height: 65px; background: #fff;
+      box-shadow: 0 2px 14px rgba(17,34,51,.12);
+    }
+    .hero-top img { height: 53px; padding: 0; background: none; border-radius: 0; }
+    .hero-top .brand { display: none; }
+    .hero-top .hero-call { display: none; }
+    .app-menu-button {
+      margin-left: auto; border: 0; background: none;
+      color: #10539c; font-size: 1.65rem; padding: 8px;
+      cursor: pointer;
+    }
+    .app-menu {
+      display: none; position: absolute; top: 100%; left: 0; right: 0;
+      max-height: calc(100dvh - 65px); overflow-y: auto;
+      padding: 12px 22px; background: #fff;
+      box-shadow: 0 14px 18px rgba(17,34,51,.15);
+    }
+    .app-menu.open { display: flex; flex-direction: column; }
+    .app-menu a {
+      color: #183655; padding: 12px 5px; font-weight: 700;
+      text-decoration: none; border-bottom: 1px solid #e7eef5;
+    }
+    .app-menu a:last-child {
+      margin: 10px 0; border: 0; border-radius: 12px;
+      background: linear-gradient(135deg,#dbb65d,#bd8628);
+      color: #fff; text-align: center;
+    }
+    .app-hero-image { height: 230px; background: #eaf4fc; }
+    .app-hero-image img { width: 100%; height: 100%; display: block; object-fit: cover; object-position: center; }
+    .app-hero-copy { padding: 24px 18px 35px; }
+    .app-hero-eye {
+      display: block; margin-bottom: 8px; color: #c99b40;
+      text-transform: uppercase; letter-spacing: .14em;
+      font-size: .85rem; font-weight: 800;
+    }
+    .hero h1 {
+      font-size: 2.06rem; line-height: 1.1; letter-spacing: -.025em;
+      color: #0d3c73; margin-bottom: 19px;
+    }
+    .hero h1 em { color: #c99b40; font-style: normal; }
+    .hero p { font-size: 1.06rem; line-height: 1.55; max-width: none; opacity: 1; margin-bottom: 26px; }
+    .app-hero-actions { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12px; }
+    .app-hero-actions a {
+      min-height: 55px; border-radius: 12px; display: flex;
+      justify-content: center; align-items: center; gap: 8px;
+      text-align: center; text-decoration: none; font-size: .95rem; font-weight: 800;
+    }
+    .app-hero-actions .app-calc {
+      grid-column: 1 / -1; background: #10539c; color: #fff;
+      text-transform: uppercase; padding: 12px;
+    }
+    .app-hero-actions .app-wa { background: #07b95d; color: #fff; }
+    .app-hero-actions .app-call { background: #fff; color: #10539c; border: 2px solid #10539c; }
+    .app-hero-request { display: inline-block; margin-top: 13px; color: #10539c; font-weight: 700; font-size: .86rem; }
+    .app-main-cats { padding: 44px 16px; }
+    .app-main-heading { text-align: center; margin-bottom: 26px; }
+    .app-main-heading span { color: #c99b40; font-size: .85rem; letter-spacing: .14em; text-transform: uppercase; font-weight: 800; }
+    .app-main-heading h2 { color: #0c4079; font-size: 1.75rem; margin: 8px 0; }
+    .app-main-heading p { color: #596b7b; }
+    .app-main-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 10px; }
+    .app-main-card {
+      display: flex; flex-direction: column; align-items: flex-start; gap: 7px;
+      padding: 13px; background: #fff; border: 1px solid #dfe8f1; border-radius: 13px;
+      box-shadow: 0 7px 24px rgba(19,49,86,.07); color: #536c81;
+      text-decoration: none; font-size: .84rem; line-height: 1.4;
+    }
+    .app-main-card i {
+      display: grid; place-items: center; width: 43px; height: 43px;
+      border-radius: 12px; background: #e8f4fc; color: #10539c; font-size: 1.35rem;
+    }
+    .app-main-card strong { color: #0c4079; font-size: 1rem; line-height: 1.25; }
+    .app-main-card small { margin-top: auto; color: #10539c; font-size: .7rem; font-weight: 700; }
+    .app-main-more { display: block; text-align: center; margin: 24px 0 0; color: #10539c; font-weight: 700; }
+    .quick-calc { margin: 0; padding: 12px 16px; background: #edf6fd; }
+    .bottomnav {
+      left: 50%; display: grid; grid-template-columns: repeat(3,1fr);
+      gap: 0; padding: 0 0 env(safe-area-inset-bottom);
+      border: 0; background: #10539c; box-shadow: 0 -2px 14px rgba(17,34,51,.15);
+    }
+    .bottomnav .bn {
+      min-height: 67px; display: flex; flex-direction: column; align-items: center;
+      justify-content: center; border-radius: 0; padding: 9px 4px;
+      color: #fff; font-size: .82rem; font-weight: 800;
+    }
+    .bottomnav .bn i { font-size: 1.35rem; }
+    .bottomnav .bn-wa { background: #07b95d; }
+    .bottomnav .bn-calc { background: #c99b40; }
+    .bottomnav .bn.active { color: #fff; }
+    @media (max-width: 350px) {
+      .hero h1 { font-size: 1.9rem; }
+      .app-hero-actions a { font-size: .85rem; }
+    }
   </style>
 </head>
 <body>
@@ -384,17 +488,57 @@
   <!-- ═══════════ HERO ═══════════ -->
   <header class="hero" id="top">
     <div class="hero-top">
-      <img src="logo-abbraccio.png" alt="Abbraccio">
+      <img src="logo-abbraccio.png" alt="Abbraccio Cure Domiciliari">
       <div class="brand">
         <strong>Abbraccio</strong>
         <span>Cure Domiciliari</span>
       </div>
       <a class="hero-call" href="tel:0601905242" aria-label="Chiama"><i class="fas fa-phone"></i></a>
+      <button class="app-menu-button" id="appMenuButton" type="button" aria-label="Apri menu" aria-controls="appMenu" aria-expanded="false"><i class="fas fa-bars"></i></button>
+      <nav class="app-menu" id="appMenu" aria-label="Navigazione mobile">
+        <a href="#servizi">Servizi</a>
+        <a href="#home">Cerca un servizio</a>
+        <a href="#preventivo">Calcolatori</a>
+        <a href="#rete">Rete operatori</a>
+        <a href="#prenota">Prenota</a>
+        <a href="#operatori">Lavora con noi</a>
+        <a href="#contatti">Contatti</a>
+        <a href="index.html">Sito completo</a>
+        <a href="https://app.abbracciocuredomiciliari.it/richiesta-assistenza">Richiedi assistenza</a>
+      </nav>
     </div>
-    <h1 id="heroTitle">La salute a casa tua, sempre</h1>
-    <p id="heroSub">Assistenza sanitaria a domicilio a Roma e provincia. Badanti, colf e assistenti familiari in tutta Italia.</p>
-    <div class="hero-chips" id="heroChips"></div>
+    <div class="app-hero-image">
+      <img id="appHeroImg" src="images/hero-assistenza-casa.jpg" alt="Infermiera Abbraccio con un'anziana a casa" fetchpriority="high">
+    </div>
+    <div class="app-hero-copy">
+      <span class="app-hero-eye" id="appHeroEye">Assistenza domiciliare</span>
+      <h1 id="heroTitle">L'assistenza di cui hai bisogno, <em>direttamente a casa tua.</em></h1>
+      <p id="heroSub">Infermieri, badanti, OSS, visite specialistiche, diagnostica e tanti altri servizi. Scopri i servizi e conosci il costo prima di richiederli.</p>
+      <div class="app-hero-actions">
+        <a class="app-calc" href="https://app.abbracciocuredomiciliari.it/preventivo?utm_source=sito&utm_medium=cta&utm_campaign=app_mobile"><i class="fas fa-calculator"></i> Calcola il tuo preventivo</a>
+        <a class="app-wa" id="heroWa" href="https://wa.me/393514175117" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+        <a class="app-call" id="heroCall" href="tel:0601905242"><i class="fas fa-phone"></i> Chiamaci</a>
+      </div>
+      <a class="app-hero-request" href="https://app.abbracciocuredomiciliari.it/richiesta-assistenza">oppure invia una richiesta online <i class="fas fa-arrow-right"></i></a>
+    </div>
   </header>
+
+  <section class="app-main-cats" id="servizi">
+    <div class="app-main-heading">
+      <span>I nostri servizi</span>
+      <h2>Come possiamo aiutarti?</h2>
+      <p>Scegli il servizio più adatto alle tue esigenze.</p>
+    </div>
+    <div class="app-main-grid">
+      <a class="app-main-card" href="infermiere-a-domicilio.html"><i class="fas fa-user-nurse"></i><strong>Infermieristica</strong><span>Prestazioni infermieristiche, terapie e medicazioni a domicilio</span><small>Roma e Provincia</small></a>
+      <a class="app-main-card" href="intermediazione.html"><i class="fas fa-hand-holding-heart"></i><strong>Badanti e OSS</strong><span>Badanti, colf, assistenti familiari e OSS selezionati</span><small>Alcuni servizi in tutta Italia</small></a>
+      <a class="app-main-card" href="visite-specialistiche.html"><i class="fas fa-user-doctor"></i><strong>Visite Specialistiche</strong><span>Medici specialisti direttamente a casa tua</span><small>Roma e Provincia</small></a>
+      <a class="app-main-card" href="esami-strumentali.html"><i class="fas fa-heart-pulse"></i><strong>Diagnostica</strong><span>ECG, holter, ecografie, RX e prelievi a domicilio</span><small>Roma e Provincia</small></a>
+      <a class="app-main-card" href="fisioterapia-a-domicilio.html"><i class="fas fa-person-walking"></i><strong>Fisioterapia</strong><span>Riabilitazione e recupero funzionale a casa</span><small>Roma e Provincia</small></a>
+      <a class="app-main-card" href="servizio-ambulanza.html"><i class="fas fa-ambulance"></i><strong>Ambulanza</strong><span>Trasporto sanitario assistito per dimissioni e visite</span><small>Roma e Provincia</small></a>
+    </div>
+    <a class="app-main-more" href="#home">Cerca tutti i servizi <i class="fas fa-arrow-right"></i></a>
+  </section>
 
   <!-- ═══════════ PREVENTIVI RAPIDI (in alto) ═══════════ -->
   <div class="quick-calc" id="preventivo">
@@ -487,7 +631,7 @@
     <h2 class="sec-title"><i class="fas fa-phone"></i> Contatti</h2>
     <p class="sec-sub">Siamo sempre disponibili, anche su WhatsApp.</p>
     <div class="card" id="contactCard"></div>
-    <a class="desktop-link" id="desktopLink" href="index.html?desktop=1"><i class="fas fa-desktop"></i> Vai alla versione desktop del sito</a>
+    <a class="desktop-link" id="desktopLink" href="index.html"><i class="fas fa-globe"></i> Vai al sito completo</a>
   </section>
 
   <!-- ═══════════ SHEET DETTAGLIO ═══════════ -->
@@ -520,11 +664,9 @@
 
   <!-- ═══════════ BOTTOM NAV ═══════════ -->
   <nav class="bottomnav">
-    <a class="bn active" href="#top" data-sec="home"><i class="fas fa-house"></i>Servizi</a>
-    <a class="bn" href="#prenota"><i class="fas fa-calendar-check"></i>Prenota</a>
-    <a class="bn" href="#preventivo"><i class="fas fa-calculator"></i>Preventivo</a>
-    <a class="bn" href="#operatori"><i class="fas fa-user-nurse"></i>Operatori</a>
-    <a class="bn" href="#contatti"><i class="fas fa-phone"></i>Contatti</a>
+    <a class="bn" id="bottomCall" href="tel:0601905242"><i class="fas fa-phone"></i>Chiama</a>
+    <a class="bn bn-wa" id="bottomWa" href="https://wa.me/393514175117" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i>WhatsApp</a>
+    <a class="bn bn-calc" href="https://app.abbracciocuredomiciliari.it/preventivo?utm_source=sito&utm_medium=cta&utm_campaign=app_mobile_bar"><i class="fas fa-calculator"></i>Preventivo</a>
   </nav>
 </div>
 
@@ -774,38 +916,39 @@ function renderContacts() {
   }));
 }
 
-// ── Hero + testi app (pagina 'app' nei defaults admin) ──
+// La foto e i testi della prima schermata condividono i campi dell'hero del sito.
 function renderHero() {
-  const app = pages['app'] || {};
-  if (strip(app.h1)) $('heroTitle').textContent = strip(app.h1);
-  if (strip(app.lead)) $('heroSub').textContent = strip(app.lead);
-  if (app.image) {
-    const heroSrc = app.image.includes('IMG-20260616-WA0026') ? 'images/hero-abbraccio-app.jpg' : app.image;
-    document.querySelector('.hero').style.setProperty('--hero-img', `url("${heroSrc}")`);
+  const title = strip(g.heroTitle);
+  if (title) {
+    const comma = title.indexOf(',');
+    $('heroTitle').replaceChildren(document.createTextNode(comma < 0 ? title : title.slice(0, comma + 1) + ' '));
+    if (comma >= 0) {
+      const em = document.createElement('em');
+      em.textContent = title.slice(comma + 1).trim();
+      $('heroTitle').appendChild(em);
+    }
   }
-  $('heroWa') && ($('heroWa').href = waUrl('Ciao, vorrei informazioni sui servizi Abbraccio.'));
-  const chips = (Array.isArray(app.activities) ? app.activities : []).slice(0, 4);
-  $('heroChips').replaceChildren(...(chips.length ? chips : ['Assistenza h24', 'A casa tua', 'Risposta rapida']).map(c => {
-    const el = document.createElement('span');
-    el.className = 'hero-chip';
-    el.textContent = c;
-    return el;
-  }));
-  const callA = document.querySelector('.hero-call');
-  if (callA) callA.href = 'tel:' + tel();
+  if (strip(g.heroSubtitle)) $('heroSub').textContent = strip(g.heroSubtitle);
+  if (strip(g.eyebrow)) $('appHeroEye').textContent = strip(g.eyebrow);
+  const img = $('appHeroImg');
+  img.onerror = () => { img.onerror = null; img.src = 'images/hero-assistenza-casa.jpg'; };
+  img.src = (Array.isArray(g.heroImages) && g.heroImages[0]) || g.heroImage || img.src;
+  $('heroWa').href = waUrl('Ciao, vorrei informazioni sui servizi Abbraccio.');
+  $('bottomWa').href = waUrl('Ciao, vorrei informazioni sui servizi Abbraccio.');
+  $('heroCall').href = 'tel:' + tel();
+  $('bottomCall').href = 'tel:' + tel();
 }
 
-// ── Bottom nav highlight ──
-const bnLinks = [...document.querySelectorAll('.bn')];
-const secIds = ['preventivo', 'home', 'rete', 'prenota', 'operatori', 'contatti'];
-window.addEventListener('scroll', () => {
-  let cur = 'home';
-  for (const id of secIds) {
-    const el = document.getElementById(id);
-    if (el && el.getBoundingClientRect().top < window.innerHeight * .45) cur = id;
-  }
-  bnLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + (cur === 'home' || cur === 'rete' ? 'top' : cur)));
-}, { passive: true });
+const menuButton = $('appMenuButton');
+const menu = $('appMenu');
+menuButton.addEventListener('click', () => {
+  const open = menu.classList.toggle('open');
+  menuButton.setAttribute('aria-expanded', String(open));
+});
+menu.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
+  menu.classList.remove('open');
+  menuButton.setAttribute('aria-expanded', 'false');
+}));
 
 // ── Caricamento contenuti (stessi dati dell'area riservata) ──
 Promise.all([
@@ -852,15 +995,15 @@ Promise.all([
       L.circleMarker([lat + Math.cos(a) * d, lng + Math.sin(a) * d], {
         radius: lz ? 4 : 3.4,
         color: '#ffffff', weight: 1.2,
-        fillColor: lz ? '#e8c46a' : '#0e7490',
+        fillColor: '#0e7490',
         fillOpacity: .95,
       }).addTo(map);
     }
   });
   // Roma: marker principale
   L.circleMarker([41.9028, 12.4964], {
-    radius: 9, color: '#fff', weight: 2.5, fillColor: '#e8c46a', fillOpacity: .9,
-  }).addTo(map);
+    radius: 9, color: '#fff', weight: 2.5, fillColor: '#0d345f', fillOpacity: .9,
+  }).bindTooltip('Sede Roma', { direction: 'top' }).addTo(map);
 
   // Professionisti reali dal gestionale — pallini oro (posizione sfalsata ~1-2 km per privacy)
   fetch('https://api.abbracciocuredomiciliari.it/api/albo/mappa')
@@ -871,7 +1014,7 @@ Promise.all([
         L.circleMarker([m.lat, m.lng], {
           radius: 5.5, color: '#ffffff', weight: 1.6,
           fillColor: '#c9a227', fillOpacity: 1,
-        }).bindTooltip(m.cat || 'Professionista', { direction: 'top' }).addTo(map);
+        }).bindTooltip(m.categoria || 'Professionista', { direction: 'top' }).addTo(map);
       });
       // niente conteggio pubblico finché la rete non è più numerosa
     })

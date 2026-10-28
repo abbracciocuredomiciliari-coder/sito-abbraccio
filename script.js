@@ -34,7 +34,7 @@ Promise.all([
     bar.className = 'mobile-cta-bar';
     bar.innerHTML = '<a id="ctaCall" href="tel:0601905242"><i class="fas fa-phone"></i>Chiama</a>' +
       '<a id="ctaWa" class="cta-wa" href="https://wa.me/393514175117" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i>WhatsApp</a>' +
-      '<a class="cta-req" href="https://app.abbracciocuredomiciliari.it/richiesta-assistenza"><i class="fas fa-paper-plane"></i>Richiedi</a>';
+      '<a class="cta-req" href="https://app.abbracciocuredomiciliari.it/preventivo?utm_source=sito&utm_medium=cta&utm_campaign=mobile_bar"><i class="fas fa-calculator"></i>Preventivo</a>';
     document.body.appendChild(bar);
   }
 })();
