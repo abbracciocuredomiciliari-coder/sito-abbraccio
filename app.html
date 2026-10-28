@@ -431,7 +431,7 @@
       <div class="net-title">Una rete capillare<br>in tutta Italia</div>
       <div class="net-txt">Badanti, colf, assistenti familiari, infermieri e operatori socio-sanitari <strong>verificati</strong> — copertura nazionale con <strong>forte presenza nel Lazio</strong>.</div>
       <div class="net-map"><div id="netMap" class="net-leaflet"></div></div>
-      <div class="net-cap">rete Abbraccio · forte presenza nel Lazio</div>
+      <div class="net-cap"><span style="color:#e8c46a;">●</span> professionisti verificati Abbraccio · <span style="color:#0e7490;">●</span> copertura della rete</div>
     </div>
   </section>
 
@@ -861,6 +861,22 @@ Promise.all([
   L.circleMarker([41.9028, 12.4964], {
     radius: 9, color: '#fff', weight: 2.5, fillColor: '#e8c46a', fillOpacity: .9,
   }).addTo(map);
+
+  // Professionisti reali dal gestionale — pallini oro (posizione sfalsata ~1-2 km per privacy)
+  fetch('https://api.abbracciocuredomiciliari.it/api/albo/mappa')
+    .then(r => r.ok ? r.json() : null)
+    .then(d => {
+      if (!d || !Array.isArray(d.marker)) return;
+      d.marker.forEach(m => {
+        L.circleMarker([m.lat, m.lng], {
+          radius: 5.5, color: '#ffffff', weight: 1.6,
+          fillColor: '#c9a227', fillOpacity: 1,
+        }).bindTooltip(m.cat || 'Professionista', { direction: 'top' }).addTo(map);
+      });
+      const cap = document.querySelector('.net-cap');
+      if (cap && d.totale) cap.innerHTML = `<span style="color:#e8c46a;">●</span> ${d.totale} professionisti verificati Abbraccio · <span style="color:#0e7490;">●</span> copertura della rete`;
+    })
+    .catch(() => {});
 })();
 $('searchInput').addEventListener('input', e => { query = e.target.value.trim(); renderTiles(); });
 </script>
