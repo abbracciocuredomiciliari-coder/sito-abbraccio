@@ -311,7 +311,7 @@ body.menu-open .hamburger span { background: #fff; }
 
 /* Formato uniforme dei box immagine: proporzione fissa così la rotazione
    delle foto non provoca sbalzi di layout (testo compreso) */
-.hero-image-wrap img { aspect-ratio: 4 / 3; object-fit: cover; object-position: center; }
+.hero-image-wrap img { aspect-ratio: 3 / 2; object-fit: contain; object-position: center; background: rgba(255,255,255,.06); }
 .tele-img img, .jobs-image img, .shop-promo-img img {
   aspect-ratio: 4 / 3; object-fit: contain; object-position: center;
   background: var(--bg-soft);
