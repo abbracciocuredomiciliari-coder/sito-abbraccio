@@ -615,3 +615,17 @@ applyEdits();
     }
   });
 })();
+
+// ─── Barra mobile fissa: Chiama / WhatsApp / Preventivo ─────────────────────
+(function mobileCtaBar() {
+  if (/admin\.html|app\.html|lavora-con-noi\.html/.test(location.pathname)) return;
+  if (document.querySelector('.mobile-cta-bar')) return;
+  const bar = document.createElement('div');
+  bar.className = 'mobile-cta-bar';
+  bar.innerHTML =
+    '<a href="tel:0601905242" aria-label="Chiama Abbraccio"><i class="fas fa-phone"></i>Chiama</a>' +
+    '<a class="cta-wa" href="https://wa.me/393514175117" target="_blank" rel="noopener" aria-label="Scrivici su WhatsApp"><i class="fab fa-whatsapp"></i>WhatsApp</a>' +
+    '<a class="cta-req" href="https://app.abbracciocuredomiciliari.it/preventivo" target="_blank" rel="noopener" aria-label="Calcola il tuo preventivo"><i class="fas fa-calculator"></i>Preventivo</a>';
+  document.body.appendChild(bar);
+  document.body.classList.add('has-cta-bar');
+})();

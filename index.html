@@ -12,12 +12,18 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script>
     // Da smartphone la homepage apre la versione in stile app (app.html).
-    // "?desktop=1" forza la versione desktop; si torna alla app con "?app=1".
+    // "?desktop=1" forza e RICORDA la versione desktop; "?app=1" torna alla app.
     (function () {
       var q = location.search;
-      if (/[?&]desktop=1/.test(q)) return;
-      if (window.matchMedia('(max-width: 860px)').matches || /[?&]app=1/.test(q)) {
+      if (/[?&]desktop=1/.test(q)) { try { localStorage.setItem('abb-view', 'desktop'); } catch (e) {} return; }
+      if (/[?&]app=1/.test(q)) {
+        try { localStorage.removeItem('abb-view'); } catch (e) {}
         location.replace('app.html' + q.replace(/[?&]app=1/, '') + location.hash);
+        return;
+      }
+      try { if (localStorage.getItem('abb-view') === 'desktop') return; } catch (e) {}
+      if (window.matchMedia('(max-width: 860px)').matches) {
+        location.replace('app.html' + q + location.hash);
       }
     })();
   </script>
@@ -28,11 +34,11 @@
   <meta property="og:title" content="Abbraccio Cure Domiciliari - Assistenza Sanitaria e Diagnostica a Domicilio">
   <meta property="og:description" content="Abbraccio Cure Domiciliari: assistenza infermieristica, figure assistenziali ed esami strumentali a domicilio.">
   <meta property="og:url" content="https://www.abbracciocuredomiciliari.it/">
-  <meta property="og:image" content="https://www.abbracciocuredomiciliari.it/images/IMG-20260617-WA0020.jpg">
+  <meta property="og:image" content="https://www.abbracciocuredomiciliari.it/images/hero-assistenza-casa.jpg">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Abbraccio Cure Domiciliari - Assistenza Sanitaria e Diagnostica a Domicilio">
   <meta name="twitter:description" content="Abbraccio Cure Domiciliari: assistenza infermieristica, figure assistenziali ed esami strumentali a domicilio.">
-  <meta name="twitter:image" content="https://www.abbracciocuredomiciliari.it/images/IMG-20260617-WA0020.jpg">
+  <meta name="twitter:image" content="https://www.abbracciocuredomiciliari.it/images/hero-assistenza-casa.jpg">
   <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"MedicalBusiness","@id":"https://www.abbracciocuredomiciliari.it/#business","name":"Abbraccio Cure Domiciliari","url":"https://www.abbracciocuredomiciliari.it/","telephone":"+39 06 01905242","email":"info@abbracciocuredomiciliari.it","address":{"@type":"PostalAddress","streetAddress":"Via di S. Maria Ausiliatrice 4/B","addressLocality":"Roma","postalCode":"00181","addressCountry":"IT"},"areaServed":["Roma","Provincia di Roma","Lazio"],"image":"https://www.abbracciocuredomiciliari.it/images/IMG-20260616-WA0026.jpg","logo":"https://www.abbracciocuredomiciliari.it/logo-abbraccio.png"},{"@type":"WebSite","name":"Abbraccio Cure Domiciliari","url":"https://www.abbracciocuredomiciliari.it/"}]}</script>
 </head>
 <body><!-- Top bar -->
@@ -111,7 +117,6 @@
         <li><a href="lavora-con-noi.html">LAVORA CON NOI</a></li>
         <li><a href="shop.html">SHOP</a></li>
         <li><a href="index.html#blog">BLOG</a></li>
-        <li><a href="news.html">NEWS</a></li>
       </ul>
     </nav>
     <button class="hamburger" id="hamburger" aria-label="Menu">
@@ -126,21 +131,25 @@
   <section class="hero" id="home">
     <div class="container hero-inner">
       <div class="hero-content">
-        <div class="eyebrow"><i class="fas fa-shield-heart"></i> Sanità d'eccellenza a domicilio</div>
+        <div class="eyebrow"><i class="fas fa-shield-heart"></i> Assistenza sanitaria a domicilio</div>
         <h1>La tua salute, <span>a casa tua.</span></h1>
-        <p>Hai bisogno di assistenza sanitaria, fisioterapia, OSS o esami a domicilio? <strong>Ti aiutiamo a Roma e provincia, senza farti perdere tempo.</strong></p>
+        <p class="hero-sub">Infermieri, OSS, fisioterapisti ed esami a domicilio <strong>a Roma e Provincia</strong>. Badanti, colf e assistenti familiari <strong>in tutta Italia</strong>.</p>
+        <a href="https://app.abbracciocuredomiciliari.it/preventivo?utm_source=sito&utm_medium=cta&utm_campaign=servizi&utm_content=hero_main" target="_blank" class="btn-hero-calc">
+          <i class="fas fa-calculator"></i>
+          <span>Calcola il tuo preventivo<small>Gratis e immediato, senza impegno</small></span>
+        </a>
         <div class="hero-ctas">
-          <a href="tel:0601905242" class="btn btn-primary"><i class="fas fa-phone"></i> Chiama ora: 06 01905242</a>
+          <a href="tel:0601905242" class="btn btn-primary"><i class="fas fa-phone"></i> Chiama: 06 01905242</a>
           <a href="https://wa.me/393514175117" class="btn btn-wa" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> WhatsApp</a>
-          <a href="https://app.abbracciocuredomiciliari.it/richiesta-assistenza" class="btn btn-outline"><i class="fas fa-paper-plane"></i> Invia richiesta</a>
-          <a href="https://app.abbracciocuredomiciliari.it/badante?utm_source=sito&utm_medium=cta&utm_campaign=badanti&utm_content=hero" target="_blank" class="btn btn-orange"><i class="fas fa-calculator"></i> Calcola il costo badante</a>
-          <a href="https://app.abbracciocuredomiciliari.it/preventivo?utm_source=sito&utm_medium=cta&utm_campaign=servizi&utm_content=hero_servizi" target="_blank" class="btn btn-calc"><i class="fas fa-calculator"></i> Calcola preventivo servizi</a>
         </div>
-        <div class="hero-h24"><i class="fas fa-clock"></i> Reperibilità telefonica tutti i giorni, 24 ore su 24</div>
-        <div class="hero-locality"><i class="fas fa-location-dot"></i> <strong>Operativi a Roma e Provincia</strong> — Assistenza direttamente a casa tua</div>
+        <a href="https://app.abbracciocuredomiciliari.it/richiesta-assistenza" class="hero-req-link">oppure invia una richiesta online <i class="fas fa-arrow-right"></i></a>
+        <div class="hero-badges">
+          <div class="hero-h24"><i class="fas fa-clock"></i> Reperibilità telefonica H24, tutti i giorni</div>
+          <div class="hero-locality"><i class="fas fa-location-dot"></i> <strong>Roma e Provincia</strong> · Intermediazione <strong>tutta Italia</strong></div>
+        </div>
       </div>
       <div class="hero-image-wrap">
-        <img src="images/IMG-20260617-WA0020.jpg" alt="Assistenza domiciliare professionale">
+        <img src="images/hero-assistenza-casa.jpg" alt="Infermiera Abbraccio assiste un'anziana a casa" fetchpriority="high">
       </div>
     </div>
   </section>
@@ -179,47 +188,54 @@
     <div class="container">
       <div class="section-header center">
         <span class="eyebrow">I Nostri Servizi</span>
-        <h2>9 servizi per la tua salute a domicilio</h2>
-        <p>Soluzioni sanitarie integrate: assistenza, riabilitazione, diagnostica e trasporto</p>
+        <h2>Sei aree di assistenza, un solo numero</h2>
+        <p>Scegli la categoria: trovi tutte le prestazioni nelle pagine dedicate</p>
       </div>
-      <div class="services-grid">
-        <a href="infermiere-a-domicilio.html" class="service-item" data-page="infermiere-a-domicilio"><span class="thumb-media"><i class="fas fa-syringe"></i><img src="images/infermieri.jpg" alt="" loading="lazy" onerror="this.remove()"></span><span class="thumb-title">Assistenza Infermieristica</span><span class="thumb-arrow"><i class="fas fa-chevron-right"></i></span></a>
-        <a href="fisioterapia-a-domicilio.html" class="service-item" data-page="fisioterapia-a-domicilio"><span class="thumb-media"><i class="fas fa-person-walking"></i><img src="images/fisioterapia-1.jpg" alt="" loading="lazy" onerror="this.remove()"></span><span class="thumb-title">Fisioterapia</span><span class="thumb-arrow"><i class="fas fa-chevron-right"></i></span></a>
-        <a href="assistenza-anziani.html" class="service-item" data-page="assistenza-anziani"><span class="thumb-media"><i class="fas fa-hand-holding-heart"></i><img src="images/IMG-20260616-WA0026.jpg" alt="" loading="lazy" onerror="this.remove()"></span><span class="thumb-title">Assistenza Anziani</span><span class="thumb-arrow"><i class="fas fa-chevron-right"></i></span></a>
-        <a href="cure-pazienti-cronici.html" class="service-item" data-page="cure-pazienti-cronici"><span class="thumb-media"><i class="fas fa-notes-medical"></i><img src="images/IMG-20260616-WA0038.jpg" alt="" loading="lazy" onerror="this.remove()"></span><span class="thumb-title">Cure Pazienti Cronici</span><span class="thumb-arrow"><i class="fas fa-chevron-right"></i></span></a>
-        <a href="assistenza-notturna.html" class="service-item" data-page="assistenza-notturna"><span class="thumb-media"><i class="fas fa-moon"></i><img src="images/IMG-20260616-WA0047.jpg" alt="" loading="lazy" onerror="this.remove()"></span><span class="thumb-title">Assistenza Notturna</span><span class="thumb-arrow"><i class="fas fa-chevron-right"></i></span></a>
-        <a href="cure-palliative.html" class="service-item" data-page="cure-palliative"><span class="thumb-media"><i class="fas fa-dove"></i><img src="images/IMG-20260616-WA0043.jpg" alt="" loading="lazy" onerror="this.remove()"></span><span class="thumb-title">Cure Palliative</span><span class="thumb-arrow"><i class="fas fa-chevron-right"></i></span></a>
-        <a href="visite-specialistiche.html" class="service-item" data-page="visite-specialistiche"><span class="thumb-media"><i class="fas fa-user-doctor"></i><img alt="" loading="lazy" onerror="this.remove()"></span><span class="thumb-title">Visite Specialistiche</span><span class="thumb-arrow"><i class="fas fa-chevron-right"></i></span></a>
-        <a href="servizio-ambulanza.html" class="service-item" data-page="servizio-ambulanza"><span class="thumb-media"><i class="fas fa-ambulance"></i><img src="images/ambulanza.png" alt="" loading="lazy" onerror="this.remove()"></span><span class="thumb-title">Ambulanza</span><span class="thumb-arrow"><i class="fas fa-chevron-right"></i></span></a>
-        <a href="intermediazione.html" class="service-item" data-page="intermediazione"><span class="thumb-media"><i class="fas fa-handshake"></i><img src="images/oss.jpg" alt="" loading="lazy" onerror="this.remove()"></span><span class="thumb-title">Badanti e Colf</span><span class="thumb-arrow"><i class="fas fa-chevron-right"></i></span></a>
+      <div class="cat-grid">
+        <a href="infermiere-a-domicilio.html" class="cat-card">
+          <span class="cat-icon"><i class="fas fa-user-nurse"></i></span>
+          <span class="cat-name">Infermieristica</span>
+          <span class="cat-desc">Prestazioni infermieristiche, terapie e medicazioni a domicilio</span>
+          <span class="cat-zone"><i class="fas fa-map-marker-alt"></i> Roma e Provincia</span>
+          <span class="cat-go"><i class="fas fa-arrow-right"></i></span>
+        </a>
+        <a href="intermediazione.html" class="cat-card">
+          <span class="cat-icon"><i class="fas fa-hand-holding-heart"></i></span>
+          <span class="cat-name">Badanti e OSS</span>
+          <span class="cat-desc">Badanti, colf, assistenti familiari e OSS selezionati</span>
+          <span class="cat-zone cat-zone-it"><i class="fas fa-map"></i> Tutta Italia</span>
+          <span class="cat-go"><i class="fas fa-arrow-right"></i></span>
+        </a>
+        <a href="visite-specialistiche.html" class="cat-card">
+          <span class="cat-icon"><i class="fas fa-user-doctor"></i></span>
+          <span class="cat-name">Visite Specialistiche</span>
+          <span class="cat-desc">Medici specialisti direttamente a casa tua</span>
+          <span class="cat-zone"><i class="fas fa-map-marker-alt"></i> Roma e Provincia</span>
+          <span class="cat-go"><i class="fas fa-arrow-right"></i></span>
+        </a>
+        <a href="esami-strumentali.html" class="cat-card">
+          <span class="cat-icon"><i class="fas fa-heart-pulse"></i></span>
+          <span class="cat-name">Diagnostica</span>
+          <span class="cat-desc">ECG, holter, ecografie, RX e prelievi a domicilio</span>
+          <span class="cat-zone"><i class="fas fa-map-marker-alt"></i> Roma e Provincia</span>
+          <span class="cat-go"><i class="fas fa-arrow-right"></i></span>
+        </a>
+        <a href="fisioterapia-a-domicilio.html" class="cat-card">
+          <span class="cat-icon"><i class="fas fa-person-walking"></i></span>
+          <span class="cat-name">Fisioterapia</span>
+          <span class="cat-desc">Riabilitazione e recupero funzionale a casa</span>
+          <span class="cat-zone"><i class="fas fa-map-marker-alt"></i> Roma e Provincia</span>
+          <span class="cat-go"><i class="fas fa-arrow-right"></i></span>
+        </a>
+        <a href="servizio-ambulanza.html" class="cat-card">
+          <span class="cat-icon"><i class="fas fa-ambulance"></i></span>
+          <span class="cat-name">Ambulanza</span>
+          <span class="cat-desc">Trasporto sanitario assistito per dimissioni e visite</span>
+          <span class="cat-zone"><i class="fas fa-map-marker-alt"></i> Roma e Provincia</span>
+          <span class="cat-go"><i class="fas fa-arrow-right"></i></span>
+        </a>
       </div>
-      <div style="text-align:center;margin-top:28px;"><a href="https://app.abbracciocuredomiciliari.it/preventivo?utm_source=sito&utm_medium=cta&utm_campaign=servizi&utm_content=home_servizi" target="_blank" class="btn btn-calc"><i class="fas fa-calculator"></i> Calcola preventivo servizi</a></div>
-    </div>
-  </section>
-
-  <!-- Exams strip -->
-  <section class="services" id="esami" style="background:var(--bg-soft);">
-    <div class="container">
-      <div class="section-header center">
-        <span class="eyebrow">Diagnostica a domicilio</span>
-        <h2>9 esami strumentali a domicilio</h2>
-        <p>Diagnostica completa direttamente a casa tua, con referti digitali</p>
-      </div>
-      <div class="services-grid">
-        <a href="holter-pressorio.html" class="service-item" data-page="holter-pressorio"><span class="thumb-media"><i class="fas fa-heart-pulse"></i><img src="images/IMG-20260616-WA0049.jpg" alt="" loading="lazy" onerror="this.remove()"></span><span class="thumb-title">Holter Pressorio</span><span class="thumb-arrow"><i class="fas fa-chevron-right"></i></span></a>
-        <a href="holter-ecg.html" class="service-item" data-page="holter-ecg"><span class="thumb-media"><i class="fas fa-wave-square"></i><img src="images/IMG-20260616-WA0049.jpg" alt="" loading="lazy" onerror="this.remove()"></span><span class="thumb-title">Holter ECG</span><span class="thumb-arrow"><i class="fas fa-chevron-right"></i></span></a>
-        <a href="apnee-sonno.html" class="service-item" data-page="apnee-sonno"><span class="thumb-media"><i class="fas fa-moon"></i><img src="images/IMG-20260616-WA0049.jpg" alt="" loading="lazy" onerror="this.remove()"></span><span class="thumb-title">Apnee del Sonno</span><span class="thumb-arrow"><i class="fas fa-chevron-right"></i></span></a>
-        <a href="screening-cardiaci.html" class="service-item" data-page="screening-cardiaci"><span class="thumb-media"><i class="fas fa-heart-circle-check"></i><img src="images/IMG-20260616-WA0049.jpg" alt="" loading="lazy" onerror="this.remove()"></span><span class="thumb-title">Screening Cardiaci</span><span class="thumb-arrow"><i class="fas fa-chevron-right"></i></span></a>
-        <a href="saturimetria-spirometria.html" class="service-item" data-page="saturimetria-spirometria"><span class="thumb-media"><i class="fas fa-lungs"></i><img src="images/IMG-20260616-WA0049.jpg" alt="" loading="lazy" onerror="this.remove()"></span><span class="thumb-title">Saturimetria e Spirometria</span><span class="thumb-arrow"><i class="fas fa-chevron-right"></i></span></a>
-        <a href="prelievi-ematici.html" class="service-item" data-page="prelievi-ematici"><span class="thumb-media"><i class="fas fa-droplet"></i><img src="images/IMG-20260616-WA0049.jpg" alt="" loading="lazy" onerror="this.remove()"></span><span class="thumb-title">Prelievi Ematici</span><span class="thumb-arrow"><i class="fas fa-chevron-right"></i></span></a>
-        <a href="emogasanalisi.html" class="service-item" data-page="emogasanalisi"><span class="thumb-media"><i class="fas fa-lungs-virus"></i><img src="images/IMG-20260616-WA0049.jpg" alt="" loading="lazy" onerror="this.remove()"></span><span class="thumb-title">Emogasanalisi</span><span class="thumb-arrow"><i class="fas fa-chevron-right"></i></span></a>
-        <a href="rx-domiciliare.html" class="service-item" data-page="rx-domiciliare"><span class="thumb-media"><i class="fas fa-x-ray"></i><img src="images/IMG-20260616-WA0049.jpg" alt="" loading="lazy" onerror="this.remove()"></span><span class="thumb-title">RX Domiciliare</span><span class="thumb-arrow"><i class="fas fa-chevron-right"></i></span></a>
-        <a href="ecografia-domiciliare.html" class="service-item" data-page="ecografia-domiciliare"><span class="thumb-media"><i class="fas fa-wave-square"></i><img src="images/IMG-20260616-WA0049.jpg" alt="" loading="lazy" onerror="this.remove()"></span><span class="thumb-title">Ecografia Domiciliare</span><span class="thumb-arrow"><i class="fas fa-chevron-right"></i></span></a>
-      </div>
-      <div style="text-align:center;margin-top:32px;">
-        <a href="https://app.abbracciocuredomiciliari.it/richiesta-servizio?tipo=esame_strumentale" class="btn btn-primary"><i class="fas fa-paper-plane"></i> Richiedi esame sul gestionale</a>
-        <a href="https://app.abbracciocuredomiciliari.it/preventivo?utm_source=sito&utm_medium=cta&utm_campaign=servizi&utm_content=home_esami" target="_blank" class="btn btn-calc" style="margin-left:10px;"><i class="fas fa-calculator"></i> Calcola preventivo servizi</a>
-      </div>
+      <div style="text-align:center;margin-top:32px;"><a href="servizi.html" class="btn btn-outline"><i class="fas fa-th-list"></i> Vedi tutti i servizi</a></div>
     </div>
   </section>
 
@@ -366,17 +382,6 @@
       <div id="reviewsList" class="reviews-grid"></div>
       <div class="reviews-cta">
         <button type="button" class="btn btn-primary" id="reviewOpenBtn"><i class="fas fa-pen"></i> Scrivi una recensione</button>
-        <button type="button" class="btn btn-outline" id="reviewQrBtn"><i class="fas fa-qrcode"></i> Invia QR recensione</button>
-      </div>
-      <p class="reviews-cta-note">Un unico pulsante: la recensione viene salvata sul sito e ti viene proposta anche la pubblicazione su Google.</p>
-      <div id="reviewShare" class="review-share hidden">
-        <img id="reviewQrImg" width="180" height="180" alt="QR code: inquadralo per lasciare una recensione ad Abbraccio">
-        <p class="review-share-text" id="reviewShareText">Fai inquadrare il QR code all'assistito oppure invialo via WhatsApp / Email: si apre il modulo per lasciare la recensione, che verrà salvata sul sito e proposta anche per la pubblicazione su Google.</p>
-        <div class="review-share-actions">
-          <button type="button" id="reviewShareWa" class="btn btn-wa"><i class="fab fa-whatsapp"></i> WhatsApp</button>
-          <a id="reviewShareMail" class="btn btn-outline"><i class="fas fa-envelope"></i> Email</a>
-          <a id="reviewQrDownload" class="btn btn-outline" target="_blank" rel="noopener"><i class="fas fa-download"></i> Scarica QR</a>
-        </div>
       </div>
       <form id="reviewForm" class="review-form hidden">
         <label for="reviewNome">Il tuo nome</label>
@@ -498,7 +503,7 @@
         <div class="footer-brand">
           <img src="logo-abbraccio.png" alt="Abbraccio" class="footer-logo">
           <p>Abbraccio Cure Domiciliari offre assistenza sanitaria, infermieristica, fisioterapia e esami a domicilio a Roma e provincia.</p>
-          <a href="https://app.abbracciocuredomiciliari.it/register" class="btn btn-primary">Registrati Ora</a>
+          <a href="https://app.abbracciocuredomiciliari.it/richiesta-assistenza" class="btn btn-primary"><i class="fas fa-paper-plane"></i> Richiedi assistenza</a>
         </div>
         <div class="footer-col footer-contacts">
           <h4>Contatti</h4>

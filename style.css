@@ -746,3 +746,99 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .faq-list .faq-item summary i { color: var(--blue); transition: transform .2s; flex-shrink: 0; }
 .faq-list .faq-item[open] summary i { transform: rotate(180deg); }
 .faq-list .faq-item p { padding: 0 20px 16px; margin: 0; color: var(--text-light); line-height: 1.65; font-size: 0.92rem; }
+
+/* ══════════════════════════════════════════════════════════════════════════
+   RESTYLING SANITARIO — homepage chiara, immediata, leggibile
+   ══════════════════════════════════════════════════════════════════════════ */
+:root {
+  --blue-san: #1578c9;
+  --blue-san-dark: #0f5f9e;
+  --azure: #eaf4fb;
+}
+
+/* Tipografia più grande e leggibile (anche per persone anziane) */
+body { font-size: 17px; }
+.btn { min-height: 50px; font-size: 1rem; padding: 13px 26px; }
+.nav ul { font-size: 0.88rem; }
+.section-header h2 { font-size: 2.15rem; }
+.section-header p { font-size: 1.1rem; }
+
+/* Pulsante primario in blu sanitario */
+.btn-primary { background: var(--blue-san); }
+.btn-primary:hover { background: var(--blue-san-dark); }
+
+/* ── Hero chiaro, sanitario, immediato ── */
+.hero { background: linear-gradient(160deg, #f7fbfe 0%, #eaf4fb 55%, #dcebf7 100%); color: var(--text-dark); padding: 84px 0; }
+.hero::before { background: radial-gradient(circle at 82% 18%, rgba(21,120,201,0.10) 0%, transparent 55%); }
+.hero .eyebrow { background: rgba(21,120,201,0.10); color: var(--blue-san-dark); }
+.hero h1 { color: var(--text-dark); font-size: 3.35rem; }
+.hero h1 span { color: var(--blue-san); }
+.hero .hero-sub, .hero p { color: #33475f; font-size: 1.18rem; }
+.hero-sub strong { color: var(--text-dark); }
+
+/* CTA protagonista: Calcola il preventivo — grande, blu, impossibile da non vedere */
+.btn-hero-calc {
+  display: flex; align-items: center; gap: 16px;
+  width: 100%; max-width: 460px;
+  padding: 16px 24px; margin-bottom: 16px;
+  background: var(--blue-san); color: #fff;
+  border-radius: 16px; font-weight: 800; font-size: 1.28rem;
+  box-shadow: 0 14px 34px rgba(21,120,201,0.38);
+  transition: transform .18s ease, box-shadow .18s ease, background .18s;
+}
+.btn-hero-calc i { font-size: 1.7rem; }
+.btn-hero-calc span { display: flex; flex-direction: column; line-height: 1.25; }
+.btn-hero-calc small { font-size: .82rem; font-weight: 600; opacity: .88; }
+.btn-hero-calc:hover { background: var(--blue-san-dark); transform: translateY(-2px); box-shadow: 0 18px 42px rgba(21,120,201,0.45); }
+
+.hero-ctas { gap: 12px; margin-bottom: 10px; }
+.hero-ctas .btn { min-height: 54px; font-size: 1.05rem; }
+.hero-req-link { display: inline-block; margin: 2px 0 18px; color: var(--blue-san-dark); font-weight: 700; font-size: .98rem; }
+.hero-req-link:hover { text-decoration: underline; }
+.hero-badges { display: flex; flex-direction: column; gap: 8px; }
+.hero-h24 { color: var(--green-dark); }
+.hero-locality { color: #4a5f78; }
+.hero-locality strong { color: var(--text-dark); }
+.hero-image-wrap img { background: #dcebf7; }
+
+/* ── Sei categorie con icone grandi ── */
+.cat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+.cat-card {
+  position: relative; display: flex; flex-direction: column; align-items: center; text-align: center;
+  gap: 10px; padding: 30px 22px 24px; background: #fff; border-radius: var(--radius);
+  border: 1px solid #e3ecf5; box-shadow: var(--shadow);
+  transition: transform .2s ease, box-shadow .2s ease, border-color .2s;
+}
+.cat-card:hover { transform: translateY(-5px); box-shadow: 0 18px 42px rgba(13,27,53,.16); border-color: var(--blue-san); }
+.cat-icon {
+  width: 78px; height: 78px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--azure); color: var(--blue-san); font-size: 2rem;
+  transition: background .2s, color .2s;
+}
+.cat-card:hover .cat-icon { background: var(--blue-san); color: #fff; }
+.cat-name { font-size: 1.25rem; font-weight: 800; color: var(--text-dark); }
+.cat-desc { font-size: .95rem; color: var(--text-light); line-height: 1.5; }
+.cat-zone {
+  display: inline-flex; align-items: center; gap: 6px; margin-top: 2px;
+  font-size: .78rem; font-weight: 700; padding: 5px 12px; border-radius: 20px;
+  background: rgba(21,120,201,.10); color: var(--blue-san-dark);
+}
+.cat-zone-it { background: rgba(201,162,39,.14); color: var(--green-dark); }
+.cat-go { position: absolute; top: 16px; right: 18px; color: #b8c7d8; transition: color .2s, transform .2s; }
+.cat-card:hover .cat-go { color: var(--blue-san); transform: translateX(4px); }
+
+@media (max-width: 960px) { .cat-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 620px) { .cat-grid { grid-template-columns: 1fr; } }
+
+/* ── Mobile: barra fissa + leggibilità ── */
+@media (max-width: 860px) {
+  body.has-cta-bar { padding-bottom: 62px; }
+  .hero { padding: 56px 0; }
+  .hero h1 { font-size: 2.3rem; }
+  .hero .hero-sub, .hero p { font-size: 1.06rem; }
+  .btn-hero-calc { font-size: 1.12rem; padding: 15px 20px; }
+  .btn-hero-calc i { font-size: 1.4rem; }
+  .hero-ctas { flex-direction: column; }
+  .hero-ctas .btn { width: 100%; justify-content: center; }
+}
