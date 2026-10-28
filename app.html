@@ -86,6 +86,7 @@
       text-decoration: none;
     }
     .hero h1 { font-size: 1.55rem; font-weight: 800; line-height: 1.25; margin-bottom: 8px; }
+    .hero h1 span { color: var(--gold-light); }
     .hero p { font-size: .9rem; opacity: .9; line-height: 1.5; max-width: 340px; }
     .hero-chips { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
     .hero-chip {
@@ -403,8 +404,8 @@
       </div>
       <a class="hero-call" href="tel:0601905242" aria-label="Chiama"><i class="fas fa-phone"></i></a>
     </div>
-    <h1 id="heroTitle">La salute a casa tua, sempre</h1>
-    <p id="heroSub">Assistenza sanitaria a domicilio a Roma e provincia. Badanti, colf e assistenti familiari in tutta Italia.</p>
+    <h1 id="heroTitle">L'assistenza di cui hai bisogno, <span>direttamente a casa tua.</span></h1>
+    <p id="heroSub">Infermieri, badanti, OSS, visite specialistiche, diagnostica e tanti altri servizi. <strong>Scopri i servizi e conosci il costo prima di richiederli.</strong></p>
     <div class="hero-chips" id="heroChips"></div>
   </header>
 
@@ -820,8 +821,11 @@ function renderContacts() {
 // ── Hero + testi app (pagina 'app' nei defaults admin) ──
 function renderHero() {
   const app = pages['app'] || {};
-  if (strip(app.h1)) $('heroTitle').textContent = strip(app.h1);
-  if (strip(app.lead)) $('heroSub').textContent = strip(app.lead);
+  // Stesso titolo e sottotitolo del sito (campi admin "Titolo/Sottotitolo hero")
+  if (g.heroTitle) $('heroTitle').innerHTML = g.heroTitle;
+  else if (strip(app.h1)) $('heroTitle').textContent = strip(app.h1);
+  if (g.heroSubtitle) $('heroSub').innerHTML = g.heroSubtitle;
+  else if (strip(app.lead)) $('heroSub').textContent = strip(app.lead);
   const legacyAppImage = !app.image || app.image === 'images/hero-abbraccio-app.jpg' || app.image.includes('IMG-20260616-WA0026');
   const heroSrc = (!legacyAppImage && app.image) ||
     (Array.isArray(g.heroImages) && g.heroImages[0]) || g.heroImage || 'images/hero-assistenza-casa.jpg';

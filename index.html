@@ -11,12 +11,21 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script>
-    // La homepage e responsive; la versione app resta disponibile su app.html.
+    // Su smartphone la homepage apre la versione app (app.html).
+    // ?desktop=1 mostra il sito per questa sessione; ?app=1 torna all'app.
     (function () {
       var q = location.search;
-      if (/[?&]app=1/.test(q)) {
-        location.replace('app.html' + q.replace(/[?&]app=1/, '') + location.hash);
-      }
+      try {
+        if (/[?&]app=1/.test(q)) {
+          sessionStorage.removeItem('abDesktop');
+          location.replace('app.html' + q.replace(/[?&]app=1/, '') + location.hash);
+          return;
+        }
+        if (/[?&]desktop=1/.test(q)) { sessionStorage.setItem('abDesktop', '1'); return; }
+        if (sessionStorage.getItem('abDesktop') !== '1' && window.matchMedia('(max-width: 820px)').matches) {
+          location.replace('app.html' + q + location.hash);
+        }
+      } catch (e) {}
     })();
   </script>
   <link rel="canonical" href="https://www.abbracciocuredomiciliari.it/">
