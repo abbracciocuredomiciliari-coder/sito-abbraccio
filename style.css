@@ -919,11 +919,11 @@ body { font-size: 17px; }
 .home-page .hero::before { display: none; }
 .home-page .hero-inner {
   display: grid; grid-template-columns: 52% 48%;
-  align-items: stretch; width: 100%; max-width: none;
+  align-items: stretch; width: 92%; max-width: 1200px; margin: 0 auto;
   min-height: 560px; gap: 0;
 }
 .home-page .hero-content {
-  align-self: center; max-width: none; padding: 55px 26px 55px max(24px,calc((100vw - 1220px)/2));
+  align-self: center; max-width: none; padding: 55px 30px 55px 0;
 }
 .home-page .hero .eyebrow,
 .home-page .home-services-heading .eyebrow {
@@ -1012,7 +1012,7 @@ body { font-size: 17px; }
   .home-page .nav.open a { display: block; padding: 12px 6px; color: #183655; border-bottom: 1px solid #e7eef5; }
   .home-page .nav.open a.nav-assistance { color: #fff; text-align: center; margin-top: 10px; border: 0; }
   .home-page .nav.open .mobile-menu-only { display: list-item; }
-  .home-page .hero-inner { display: flex; flex-direction: column; min-height: 0; }
+  .home-page .hero-inner { display: flex; flex-direction: column; min-height: 0; width: 100%; max-width: none; }
   .home-page .hero-image-wrap { order: -1; height: 335px; min-height: 0; flex: none; }
   .home-page .hero-image-wrap img { object-position: center; }
   .home-page .hero-image-wrap::after { display: none; }
