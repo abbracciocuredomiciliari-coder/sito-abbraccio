@@ -857,37 +857,40 @@ body { font-size: 17px; }
   .hero-ctas .btn { width: 100%; justify-content: center; }
 }
 
-/* ── Hero full-bleed come da grafica: foto a destra, contenuto a sinistra ── */
-.hero { padding: 60px 0 28px; }
+/* ── Hero full-bleed come da grafica: foto a TUTTO SCHERMO, contenuto a sinistra ── */
+.hero { padding: 66px 0 60px; }
 .hero::before { display: none; }
 .hero-inner { display: block; }
 .hero-image-wrap {
-  position: absolute; top: 0; right: 0; bottom: 0; width: 56%;
+  position: absolute; inset: 0; width: 100%;
   z-index: 0; overflow: hidden;
 }
 .hero-image-wrap img {
   width: 100%; height: 100%; aspect-ratio: auto;
-  object-fit: cover; object-position: center;
+  object-fit: cover; object-position: 68% center;
   border-radius: 0; box-shadow: none; border: none; background: none;
 }
 .hero-image-wrap::after {
   content: ''; position: absolute; inset: 0;
-  background: linear-gradient(to right, #eaf4fb 0%, rgba(234,244,251,.78) 20%, rgba(234,244,251,.30) 48%, rgba(234,244,251,0) 72%);
+  background:
+    linear-gradient(to right, rgba(216,232,245,.97) 0%, rgba(216,232,245,.92) 30%, rgba(216,232,245,.52) 54%, rgba(216,232,245,0) 76%),
+    linear-gradient(180deg, rgba(13,35,68,.14) 0%, rgba(13,35,68,0) 34%),
+    linear-gradient(0deg, rgba(13,35,68,.16) 0%, rgba(13,35,68,0) 30%);
 }
-.hero-content { position: relative; z-index: 2; max-width: 540px; }
-.hero-cats { position: relative; z-index: 2; margin-top: 30px; }
+.hero-content { position: relative; z-index: 2; max-width: 560px; }
+.hero-cats { position: relative; z-index: 2; margin-top: 34px; }
 .hero-cats-link { text-align: center; margin-top: 22px; }
 .hero-cats-link a { color: var(--blue-san-dark); font-weight: 700; font-size: .95rem; }
 .hero-cats-link a:hover { text-decoration: underline; }
 
 @media (max-width: 860px) {
-  .hero { padding: 46px 0 24px; }
+  .hero { padding: 46px 0 26px; }
   .hero-inner { display: flex; flex-direction: column; }
   .hero-image-wrap {
     position: relative; width: 100%; height: 240px; margin-top: 24px;
     border-radius: var(--radius);
   }
   .hero-image-wrap::after { display: none; }
-  .hero-image-wrap img { border-radius: var(--radius); }
+  .hero-image-wrap img { object-position: center; border-radius: var(--radius); }
   .hero-cats { margin-top: 22px; }
 }
