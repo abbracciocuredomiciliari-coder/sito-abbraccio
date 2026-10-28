@@ -723,3 +723,11 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .pv-card .pv-sub { font-size: 0.85rem; opacity: .92; }
 .pv-card .pv-arrow { margin-left: auto; font-size: 1.3rem; opacity: .85; }
 @media (max-width: 640px) { .pv-cards { grid-template-columns: 1fr; } }
+
+/* FAQ native accordion */
+.faq-list .faq-item { background: #fff; border: 1px solid #e6edf5; border-radius: 12px; margin-bottom: 10px; overflow: hidden; }
+.faq-list .faq-item summary { list-style: none; cursor: pointer; padding: 16px 20px; font-weight: 700; color: var(--text-dark); display: flex; align-items: center; justify-content: space-between; gap: 12px; font-size: 0.95rem; }
+.faq-list .faq-item summary::-webkit-details-marker { display: none; }
+.faq-list .faq-item summary i { color: var(--blue); transition: transform .2s; flex-shrink: 0; }
+.faq-list .faq-item[open] summary i { transform: rotate(180deg); }
+.faq-list .faq-item p { padding: 0 20px 16px; margin: 0; color: var(--text-light); line-height: 1.65; font-size: 0.92rem; }
