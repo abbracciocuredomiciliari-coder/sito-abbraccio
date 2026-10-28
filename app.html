@@ -9,6 +9,7 @@
   <link rel="icon" type="image/png" href="logo-abbraccio.png">
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
   <style>
     :root {
       --navy: #0d1b35;
@@ -192,7 +193,7 @@
     .tile .tile-txt { padding: 9px 11px 11px; }
     .tile .tile-cat { font-size: .6rem; font-weight: 700; text-transform: uppercase; letter-spacing: .6px; color: var(--teal); }
     .tile .tile-name { font-size: .85rem; font-weight: 800; line-height: 1.2; margin: 3px 0 4px; color: var(--navy); }
-    .tile .tile-desc { font-size: .68rem; line-height: 1.35; color: var(--text-light); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .tile .tile-desc { display: none; }
     .empty-msg { padding: 30px 20px; text-align: center; color: var(--text-light); font-size: .9rem; }
 
     /* ── Sezioni ── */
@@ -246,29 +247,13 @@
     .net-title { font-size: 1.45rem; font-weight: 800; color: var(--gold-light); line-height: 1.2; }
     .net-txt { font-size: .82rem; opacity: .92; line-height: 1.5; margin-top: 6px; }
     .net-txt strong { color: var(--gold-light); }
-    .net-map { display: block; margin: 14px auto 0; width: 100%; max-width: 300px; }
-    .net-map-wrap { position: relative; }
-    .net-map-wrap img { display: block; width: 100%; border-radius: 14px; background: #fff; }
-    .net-lazio {
-      position: absolute; left: 47%; top: 50%;
-      width: 14px; height: 14px; border-radius: 50%;
-      background: #e8c46a; border: 2.5px solid #fff;
-      box-shadow: 0 0 0 4px rgba(232,196,106,.35);
-      animation: netpulse 1.8s ease-out infinite;
-    }
-    @keyframes netpulse {
-      0% { box-shadow: 0 0 0 0 rgba(232,196,106,.55); }
-      70% { box-shadow: 0 0 0 12px rgba(232,196,106,0); }
-      100% { box-shadow: 0 0 0 0 rgba(232,196,106,0); }
+    .net-map { display: block; margin: 14px auto 0; width: 100%; }
+    .net-leaflet {
+      height: 320px; border-radius: 14px; overflow: hidden;
+      border: 2px solid rgba(255,255,255,.25);
     }
     .net-cap { text-align: center; font-size: .66rem; letter-spacing: .5px; text-transform: uppercase; opacity: .6; margin-top: 6px; }
-    .net-dot {
-      position: absolute; width: 6.5px; height: 6.5px; border-radius: 50%;
-      background: #14b8c9; border: 1.3px solid #fff;
-      box-shadow: 0 1px 3px rgba(0,0,0,.4);
-      transform: translate(-50%, -50%);
-    }
-    .net-dot.lz { background: #e8c46a; width: 8px; height: 8px; }
+    .leaflet-container { font: inherit; background: #dce8f4; }
 
     /* ── Form prenota ── */
     .form-grid { display: grid; gap: 10px; }
@@ -445,10 +430,7 @@
     <div class="net-card">
       <div class="net-title">Una rete capillare<br>in tutta Italia</div>
       <div class="net-txt">Badanti, colf, assistenti familiari, infermieri e operatori socio-sanitari <strong>verificati</strong> — copertura nazionale con <strong>forte presenza nel Lazio</strong>.</div>
-      <div class="net-map-wrap net-map">
-        <img src="images/mappa-italia.png" alt="Mappa dell'Italia con la rete di professionisti Abbraccio">
-        <span class="net-lazio" title="Lazio"></span>
-      </div>
+      <div class="net-map"><div id="netMap" class="net-leaflet"></div></div>
       <div class="net-cap">rete Abbraccio · forte presenza nel Lazio</div>
     </div>
   </section>
@@ -546,6 +528,7 @@
   </nav>
 </div>
 
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
 // ═══════════════════════════════════════════════════════════════════════
 // APP MOBILE — esperienza smartphone del sito (stile app).
@@ -593,7 +576,7 @@ const CAT_LABEL = { assistenza: 'Assistenza', visite: 'Visite mediche', diagnost
 // la tile e la scheda usano comunque un'immagine reale del sito.
 const FALLBACK_IMG = {
   'infermiere-a-domicilio': 'images/infermieri.jpg',
-  'assistenza-anziani': 'images/IMG-20260616-WA0026.jpg',
+  'assistenza-anziani': 'images/hero-abbraccio-app.jpg',
   'assistenza-notturna': 'images/IMG-20260616-WA0047.jpg',
   'cure-pazienti-cronici': 'images/IMG-20260616-WA0038.jpg',
   'cure-palliative': 'images/IMG-20260616-WA0043.jpg',
@@ -684,7 +667,7 @@ function renderTiles() {
     b.className = 'tile';
     b.type = 'button';
     b.innerHTML = `<img src="${d.img}" alt="${d.short}" loading="lazy" style="object-position:${posFor(d.img)}" onerror="this.onerror=null;this.src='${DEFAULT_IMG}'">` +
-      `<div class="tile-txt"><div class="tile-cat">${CAT_LABEL[s.cat]}</div><div class="tile-name">${d.short}</div><div class="tile-desc">${d.desc}</div></div>`;
+      `<div class="tile-txt"><div class="tile-cat">${CAT_LABEL[s.cat]}</div><div class="tile-name">${d.short}</div></div>`;
     b.addEventListener('click', () => openSheet(s));
     return b;
   }));
@@ -796,7 +779,10 @@ function renderHero() {
   const app = pages['app'] || {};
   if (strip(app.h1)) $('heroTitle').textContent = strip(app.h1);
   if (strip(app.lead)) $('heroSub').textContent = strip(app.lead);
-  if (app.image) document.querySelector('.hero').style.setProperty('--hero-img', `url("${app.image}")`);
+  if (app.image) {
+    const heroSrc = app.image.includes('IMG-20260616-WA0026') ? 'images/hero-abbraccio-app.jpg' : app.image;
+    document.querySelector('.hero').style.setProperty('--hero-img', `url("${heroSrc}")`);
+  }
   $('heroWa') && ($('heroWa').href = waUrl('Ciao, vorrei informazioni sui servizi Abbraccio.'));
   const chips = (Array.isArray(app.activities) ? app.activities : []).slice(0, 4);
   $('heroChips').replaceChildren(...(chips.length ? chips : ['Assistenza h24', 'A casa tua', 'Risposta rapida']).map(c => {
@@ -833,35 +819,54 @@ Promise.all([
   g = content.global || {};
   renderHero(); renderCats(); renderTiles(); renderPicker(); renderContacts();
 });
-// ── Pallini rete sulla mappa Italia (% x, % y, n°, dispersione%, lazio) ──
-(function renderNetDots() {
-  const wrap = document.querySelector('.net-map-wrap');
-  if (!wrap) return;
+// ── Mappa reale (OpenStreetMap) con marcatori rete — concentrazione Lazio ──
+(function renderNetMap() {
+  const el = document.getElementById('netMap');
+  if (!el || !window.L) return;
+  const map = L.map(el, {
+    zoomControl: false, scrollWheelZoom: false, dragging: false,
+    doubleClickZoom: false, boxZoom: false, keyboard: false, touchZoom: true,
+    attributionControl: true,
+  });
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; OpenStreetMap',
+  }).addTo(map);
+  map.fitBounds([[36.3, 6.4], [47.2, 18.9]], { padding: [10, 10] });
+  // [lat, lng, n°, dispersione°, lazio?]
   const clusters = [
-    [11, 18, 10, 4], [27, 13, 14, 5], [36, 5, 6, 3], [44, 16, 9, 4], [53, 10, 5, 3],
-    [16, 28, 5, 2], [35, 25, 12, 4],
-    [36, 39, 10, 4], [46, 40, 5, 3], [54, 36, 6, 3],
-    [46, 49, 12, 3, true], [44, 54, 8, 3, true], [49, 47, 7, 2, true], [47, 52, 5, 2, true],
-    [57, 45, 6, 3], [64, 52, 4, 2],
-    [61, 60, 8, 4], [79, 58, 9, 5], [72, 66, 4, 3], [74, 80, 7, 4],
-    [61, 92, 8, 5], [17, 70, 7, 4],
+    [45.3, 7.9, 9, .5], [45.6, 9.7, 13, .55], [46.1, 11.1, 5, .4], [45.6, 11.9, 9, .5],
+    [46.1, 13.1, 5, .4], [44.4, 8.9, 4, .3], [44.5, 10.8, 11, .5],
+    [43.5, 11.1, 9, .5], [43.0, 12.5, 4, .3], [43.4, 13.2, 6, .35],
+    [41.95, 12.5, 12, .3, true], [41.7, 12.9, 8, .3, true], [42.1, 12.3, 6, .3, true], [41.8, 12.6, 5, .25, true],
+    [42.3, 13.8, 6, .35], [41.7, 14.6, 4, .3],
+    [40.9, 14.7, 8, .4], [41.1, 16.5, 9, .5], [40.4, 16.0, 4, .35], [39.1, 16.6, 6, .5],
+    [37.6, 14.0, 8, .5], [40.0, 9.0, 6, .5],
   ];
   let n = 0;
   const rand = seed => { const x = Math.sin(seed * 9973) * 43758.5453; return x - Math.floor(x); };
-  clusters.forEach(([cx, cy, count, r, lz]) => {
+  clusters.forEach(([lat, lng, count, r, lz]) => {
     for (let i = 0; i < count; i++) {
       n++;
       const a = rand(n * 7.13) * Math.PI * 2;
       const d = Math.sqrt(rand(n * 3.71)) * r;
-      const dot = document.createElement('span');
-      dot.className = 'net-dot' + (lz ? ' lz' : '');
-      dot.style.left = (cx + Math.cos(a) * d) + '%';
-      dot.style.top = (cy + Math.sin(a) * d) + '%';
-      wrap.appendChild(dot);
+      L.circleMarker([lat + Math.cos(a) * d, lng + Math.sin(a) * d], {
+        radius: lz ? 4 : 3.4,
+        color: '#ffffff', weight: 1.2,
+        fillColor: lz ? '#e8c46a' : '#0e7490',
+        fillOpacity: .95,
+      }).addTo(map);
     }
   });
+  // Roma: marker principale
+  L.circleMarker([41.9028, 12.4964], {
+    radius: 9, color: '#fff', weight: 2.5, fillColor: '#e8c46a', fillOpacity: .9,
+  }).addTo(map);
 })();
 $('searchInput').addEventListener('input', e => { query = e.target.value.trim(); renderTiles(); });
 </script>
+  <!-- Vercel Web Analytics (privacy-friendly, no cookies) -->
+  <script>window.va=window.va||function(){(window.va.q=window.va.q||[]).push(arguments);};</script>
+  <script defer src="https://va.vercel-scripts.com/v1/script.js"></script>
+  <script>document.addEventListener('click',function(e){var a=e.target.closest('a');if(!a||!window.va)return;var h=a.getAttribute('href')||'';if(h.indexOf('tel:')===0)window.va('event',{name:'click_telefono',data:{numero:h.slice(4)}});else if(h.indexOf('https://wa.me/')===0)window.va('event',{name:'click_whatsapp'});else if(h.indexOf('app.abbracciocuredomiciliari.it/richiesta')>-1)window.va('event',{name:'click_richiesta'});else if(h.indexOf('app.abbracciocuredomiciliari.it/preventivo')>-1)window.va('event',{name:'click_preventivo'});else if(h.indexOf('app.abbracciocuredomiciliari.it/badante')>-1)window.va('event',{name:'click_calcola_badante'});});</script>
 </body>
 </html>

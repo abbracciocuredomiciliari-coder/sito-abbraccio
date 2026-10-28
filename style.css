@@ -655,3 +655,48 @@ body.shop-view-catalog #shop-catalogo .container { max-width: 1200px; }
 .sa-badge.annullato { background: #fee2e2; color: #b91c1c; }
 .sa-actions button { margin-right: 6px; padding: 6px 10px; font-size: .8rem; border-radius: 6px; border: 1px solid var(--border); background: #fff; cursor: pointer; }
 .sa-actions button:hover { background: var(--bg-soft); }
+
+/* ===== Restyling 2026 — raffinamento visivo ===== */
+:root { --bg-soft: #f7f5f0; }
+
+html { scroll-behavior: smooth; }
+
+/* Bottoni: profondità e feedback */
+.btn { border-radius: 10px; padding: 13px 26px; letter-spacing: 0.01em; }
+.btn-primary { background: var(--blue); box-shadow: 0 4px 14px rgba(42,74,138,0.35); }
+.btn-primary:hover { background: var(--blue-dark); transform: translateY(-2px); box-shadow: 0 8px 20px rgba(42,74,138,0.4); }
+.btn-wa { box-shadow: 0 4px 14px rgba(37,211,102,0.35); }
+.btn-wa:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(37,211,102,0.45); }
+.btn-outline { border-radius: 10px; }
+.btn:active { transform: translateY(0); }
+
+/* Accessibilità: focus visibile ovunque */
+a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible {
+  outline: 3px solid rgba(20,184,166,0.7); outline-offset: 2px; border-radius: 4px;
+}
+
+/* Eyebrow più raffinato */
+.eyebrow { letter-spacing: 0.08em; text-transform: uppercase; font-size: 0.78rem; }
+
+/* Card "perché noi" con hover */
+.why-card { transition: transform 0.25s, box-shadow 0.25s; }
+.why-card:hover { transform: translateY(-5px); box-shadow: 0 16px 34px rgba(16,42,80,0.14); }
+
+/* Footer: link con micro-interazione */
+.footer-col a { transition: color 0.2s, padding-left 0.2s; }
+.footer-col a:hover { color: #fff; padding-left: 4px; }
+
+/* Topbar più calda */
+.topbar { background: linear-gradient(90deg, var(--blue-dark), var(--blue)); }
+
+/* Header leggero effetto vetro su sticky */
+.header { box-shadow: 0 2px 14px rgba(13,27,53,0.08); }
+
+/* Mobile: CTA hero a tutta larghezza, più facili da toccare */
+@media (max-width: 640px) {
+  .hero { padding: 56px 0; }
+  .hero h1 { font-size: 2.3rem; }
+  .hero-ctas { flex-direction: column; }
+  .hero-ctas .btn { width: 100%; justify-content: center; padding: 15px 20px; font-size: 1rem; }
+  .btn { min-height: 44px; }
+}
