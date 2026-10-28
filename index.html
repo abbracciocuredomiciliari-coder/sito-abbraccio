@@ -247,8 +247,9 @@
           </ul>
           <a href="https://app.abbracciocuredomiciliari.it/richiesta-servizio?tipo=telemedicina" class="btn btn-primary"><i class="fas fa-video"></i> Prenota la tua teleconsulenza</a>
         </div>
-        <div class="tele-img">
-          <img src="images/telemedicina.png" alt="Telemedicina Abbraccio - Cure a distanza" loading="lazy">
+        <div class="tele-img" data-zoom>
+          <img src="images/telemedicina.png" alt="Telemedicina Abbraccio - Cure a distanza" loading="lazy" style="object-position:72% 18%;">
+          <span class="zoom-hint"><i class="fas fa-magnifying-glass-plus"></i> Vedi la locandina</span>
         </div>
       </div>
     </div>
@@ -260,8 +261,7 @@
       <div class="tele-inner">
         <div class="tele-text">
           <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:6px;">
-            <img src="images/logo-salus.png" alt="Salus Group" style="height:56px;width:auto;border-radius:8px;background:white;padding:4px 8px;box-shadow:0 1px 4px rgba(0,0,0,0.08);">
-            <span class="shop-badge">Nuova partnership</span>
+            <img src="images/logo-salus.png" alt="Salus Group — nuova partnership" style="height:56px;width:auto;border-radius:8px;background:white;padding:4px 8px;box-shadow:0 1px 4px rgba(0,0,0,0.08);">
           </div>
           <h2>Intermediazione Badanti, Colf e Assistenti Familiari</h2>
           <p>Con <strong>Salus Group — Divisione Datoriale Casimpresa</strong> offriamo ricerca, selezione e gestione di personale domiciliare qualificato, per assistenza a ore o H24, con il supporto del nostro centro in tutte le fasi.</p>
@@ -273,12 +273,15 @@
             <li><i class="fas fa-file-contract"></i> Gestione contrattuale</li>
             <li><i class="fas fa-users"></i> Supporto amministrativo</li>
           </ul>
-          <a href="https://app.abbracciocuredomiciliari.it/badante?modulo=1&utm_source=sito&utm_medium=cta&utm_campaign=badanti&utm_content=richiedi_badante_home" target="_blank" class="btn btn-primary"><i class="fas fa-paper-plane"></i> Richiedi badante o colf</a>
-          <a href="https://app.abbracciocuredomiciliari.it/badante?utm_source=sito&utm_medium=cta&utm_campaign=badanti&utm_content=home_intermediazione" target="_blank" class="btn btn-orange" style="margin-left:10px;"><i class="fas fa-calculator"></i> Calcola il costo</a>
-          <a href="intermediazione.html" class="btn btn-outline" style="margin-left:10px;"><i class="fas fa-info-circle"></i> Scopri di più</a>
+          <div class="tele-ctas">
+            <a href="https://app.abbracciocuredomiciliari.it/badante?modulo=1&utm_source=sito&utm_medium=cta&utm_campaign=badanti&utm_content=richiedi_badante_home" target="_blank" class="btn btn-primary"><i class="fas fa-paper-plane"></i> Richiedi badante o colf</a>
+            <a href="https://app.abbracciocuredomiciliari.it/badante?utm_source=sito&utm_medium=cta&utm_campaign=badanti&utm_content=home_intermediazione" target="_blank" class="btn btn-orange"><i class="fas fa-calculator"></i> Calcola il costo</a>
+            <a href="intermediazione.html" class="btn btn-outline"><i class="fas fa-info-circle"></i> Scopri di più</a>
+          </div>
         </div>
-        <div class="tele-img">
-          <img id="intermImage" src="images/partnership-salus.jpg" alt="Abbraccio x Salus Group - Intermediazione badanti e colf" loading="lazy">
+        <div class="tele-img" data-zoom>
+          <img id="intermImage" src="images/partnership-salus.jpg" alt="Abbraccio x Salus Group - Intermediazione badanti e colf" loading="lazy" style="object-position:70% 14%;">
+          <span class="zoom-hint"><i class="fas fa-magnifying-glass-plus"></i> Vedi la locandina</span>
         </div>
       </div>
     </div>
@@ -294,8 +297,9 @@
           <p>Scopri una vasta selezione di ausili, accessori e prodotti specializzati per anziani, malati e disabili. Accedi al nostro nuovo shop online e trova le soluzioni migliori per le tue esigenze.</p>
           <a href="shop.html" class="btn btn-primary"><i class="fas fa-store"></i> Visita shop</a>
         </div>
-        <div class="shop-promo-img">
-          <img id="shopImage" src="images/promo-servizi.jpg" alt="Shop ausili e prodotti sanitari" loading="lazy">
+        <div class="shop-promo-img" data-zoom>
+          <img id="shopImage" src="images/promo-servizi.jpg" alt="Shop ausili e prodotti sanitari" loading="lazy" style="object-position:72% 12%;">
+          <span class="zoom-hint"><i class="fas fa-magnifying-glass-plus"></i> Vedi la locandina</span>
         </div>
       </div>
     </div>
@@ -375,8 +379,9 @@
           <a href="https://app.abbracciocuredomiciliari.it/iscriviti-intermediazione" class="btn btn-primary" style="margin-top:10px;"><i class="fas fa-hand-holding-heart"></i> Registrati come badante, colf o assistente familiare</a>
           <p style="margin-top:10px;font-size:0.85rem;opacity:0.9;">Badanti, colf e assistenti familiari: entra nella nostra rete in tutta Italia.</p>
         </div>
-        <div class="jobs-image">
+        <div class="jobs-image" data-zoom>
           <img id="jobsImage" src="images/team-abbraccio.jpg" alt="Il team Abbraccio al lavoro" loading="lazy">
+          <span class="zoom-hint"><i class="fas fa-magnifying-glass-plus"></i> Ingrandisci</span>
         </div>
       </div>
     </div>
@@ -504,6 +509,26 @@
   <!-- Vercel Web Analytics (privacy-friendly, no cookies) -->
   <script>window.va=window.va||function(){(window.va.q=window.va.q||[]).push(arguments);};</script>
   <script defer src="https://va.vercel-scripts.com/v1/script.js"></script>
+  <!-- Lightbox locandine: click sull'immagine → versione completa -->
+  <div class="lb-overlay" id="lbOverlay" hidden>
+    <img id="lbImg" src="" alt="">
+    <button class="lb-close" id="lbClose" aria-label="Chiudi"><i class="fas fa-xmark"></i></button>
+  </div>
+  <script>
+  (function(){
+    var ov=document.getElementById('lbOverlay'),im=document.getElementById('lbImg');
+    function close(){ov.hidden=true;document.body.style.overflow='';}
+    document.addEventListener('click',function(e){
+      var z=e.target.closest('[data-zoom]');
+      if(!z)return;
+      var s=z.querySelector('img');if(!s||!s.src)return;
+      im.src=s.src;im.alt=s.alt||'';ov.hidden=false;document.body.style.overflow='hidden';
+    });
+    document.getElementById('lbClose').addEventListener('click',close);
+    ov.addEventListener('click',function(e){if(e.target===ov)close();});
+    document.addEventListener('keydown',function(e){if(e.key==='Escape')close();});
+  })();
+  </script>
   <script>document.addEventListener('click',function(e){var a=e.target.closest('a');if(!a||!window.va)return;var h=a.getAttribute('href')||'';if(h.indexOf('tel:')===0)window.va('event',{name:'click_telefono',data:{numero:h.slice(4)}});else if(h.indexOf('https://wa.me/')===0)window.va('event',{name:'click_whatsapp'});else if(h.indexOf('app.abbracciocuredomiciliari.it/richiesta')>-1)window.va('event',{name:'click_richiesta'});else if(h.indexOf('app.abbracciocuredomiciliari.it/preventivo')>-1)window.va('event',{name:'click_preventivo'});else if(h.indexOf('app.abbracciocuredomiciliari.it/badante')>-1)window.va('event',{name:'click_calcola_badante'});});</script>
 </body>
 </html>

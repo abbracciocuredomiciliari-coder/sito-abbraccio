@@ -54,13 +54,31 @@ function deepMerge(base, over) {
 
 let siteData = null;
 
+// Posizione di ritaglio delle locandine: con object-fit:cover ogni immagine
+// mostra la sua parte fotografica; la locandina completa si apre cliccando.
+const FLYER_POS = [
+  ['telemedicina.png', '72% 18%'],
+  ['partnership-salus', '70% 14%'],
+  ['promo-servizi', '72% 12%'],
+  ['IMG-20260616-WA0047', 'center 15%'],
+  ['IMG-20260616-WA0049', 'center 18%'],
+  ['oss.jpg', '66% 22%'],
+  ['infermieri.jpg', '24% 38%'],
+];
+function flyerPos(src) {
+  const m = FLYER_POS.find(([k]) => src && src.includes(k));
+  return m ? m[1] : null;
+}
+
 // Rotazione ciclica delle immagini (hero, telemedicina, lavora con noi, shop)
 function startRotator(img, srcs) {
   if (!img || !Array.isArray(srcs) || !srcs.length) return;
   const tag = srcs.join('|');
   if (img.dataset.rotating === tag) return;
   img.dataset.rotating = tag;
+  const defPos = img.style.objectPosition || '';
   img.src = srcs[0];
+  img.style.objectPosition = flyerPos(srcs[0]) || defPos;
   if (srcs.length < 2) return;
   let i = 0;
   img.style.transition = 'opacity .55s ease';
@@ -68,7 +86,11 @@ function startRotator(img, srcs) {
     i = (i + 1) % srcs.length;
     const next = srcs[i];
     img.style.opacity = '0';
-    setTimeout(() => { img.src = next; img.style.opacity = '1'; }, 560);
+    setTimeout(() => {
+      img.src = next;
+      img.style.objectPosition = flyerPos(next) || defPos;
+      img.style.opacity = '1';
+    }, 560);
   }, 3000);
 }
 

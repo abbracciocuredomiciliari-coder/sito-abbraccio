@@ -47,12 +47,12 @@
       box-shadow: 0 0 60px rgba(0,0,0,.4);
     }
 
-    /* ── Hero ── */
+    /* ── Hero chiaro: foto visibile come sul sito, testo sopra ── */
     .hero {
       position: relative;
-      background: var(--grad-hero);
-      color: #fff;
-      padding: calc(env(safe-area-inset-top, 0px) + 20px) 20px 30px;
+      background: #eaf4fb;
+      color: var(--navy);
+      padding: calc(env(safe-area-inset-top, 0px) + 14px) 20px 30px;
       border-radius: 0 0 26px 26px;
       overflow: hidden;
     }
@@ -61,39 +61,43 @@
       position: absolute; inset: 0;
       background-image: var(--hero-img, none);
       background-size: cover;
-      background-position: 74% 30%;
-      opacity: .48;
+      background-position: 74% 20%;
+      opacity: 1;
     }
     .hero::after {
       content: '';
       position: absolute; inset: 0;
-      background: linear-gradient(180deg, rgba(13,27,53,.25) 0%, rgba(13,27,53,.55) 100%);
+      background: linear-gradient(180deg, rgba(255,255,255,.30) 0%, rgba(255,255,255,.05) 30%, rgba(241,245,249,.82) 56%, var(--bg) 94%);
     }
     .hero > * { position: relative; z-index: 1; }
-    .hero-top { display: flex; align-items: center; gap: 10px; margin-bottom: 18px; }
+    .hero-top {
+      display: flex; align-items: center; gap: 10px; margin-bottom: 34px;
+      background: rgba(255,255,255,.62); backdrop-filter: blur(8px);
+      border-radius: 14px; padding: 6px 8px;
+    }
     .hero-top img { height: 38px; width: auto; border-radius: 10px; background: #fff; padding: 5px 9px; object-fit: contain; }
-    .hero-top .brand strong { display: block; font-size: 1.05rem; letter-spacing: .2px; }
-    .hero-top .brand span { font-size: .72rem; opacity: .85; }
+    .hero-top .brand strong { display: block; font-size: 1.05rem; letter-spacing: .2px; color: var(--navy); }
+    .hero-top .brand span { font-size: .72rem; color: #4a5f80; }
     .hero-top .hero-call {
       margin-left: auto;
-      background: rgba(255,255,255,.16);
-      backdrop-filter: blur(6px);
-      border: 1px solid rgba(255,255,255,.3);
+      background: #1578c9;
       color: #fff;
       width: 40px; height: 40px;
       border-radius: 12px;
       display: flex; align-items: center; justify-content: center;
       text-decoration: none;
+      box-shadow: 0 4px 12px rgba(21,120,201,.35);
     }
-    .hero h1 { font-size: 1.55rem; font-weight: 800; line-height: 1.25; margin-bottom: 8px; }
-    .hero h1 span { color: var(--gold-light); }
-    .hero p { font-size: .9rem; opacity: .9; line-height: 1.5; max-width: 340px; }
+    .hero h1 { font-size: 1.55rem; font-weight: 800; line-height: 1.25; margin-bottom: 8px; color: #0d3c73; }
+    .hero h1 span { color: #a8801d; }
+    .hero p { font-size: .9rem; line-height: 1.5; max-width: 340px; color: #33507a; }
+    .hero p strong { color: #0d3c73; }
     .hero-chips { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
     .hero-chip {
-      background: rgba(255,255,255,.15);
-      border: 1px solid rgba(255,255,255,.25);
+      background: rgba(255,255,255,.8);
+      border: 1px solid rgba(21,120,201,.22);
       backdrop-filter: blur(4px);
-      color: #fff; font-size: .72rem; font-weight: 600;
+      color: #0f5f9e; font-size: .72rem; font-weight: 700;
       padding: 5px 11px; border-radius: 999px;
     }
 
@@ -278,13 +282,24 @@
     .form-grid input:focus, .form-grid select:focus, .form-grid textarea:focus { border-color: var(--teal-light); outline: none; }
     .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 
-    /* Elenco prestazioni selezionabili (come il calcolatore preventivi) */
+    /* Elenco prestazioni a tendina: categorie apribili, senza scorrimento infinito */
     .svc-picker {
       border: 1.5px solid #e2e8f0; border-radius: 14px;
       background: #fff; overflow: hidden;
-      max-height: 300px; overflow-y: auto;
+      max-height: 340px; overflow-y: auto;
     }
-    .svc-group { padding: 9px 12px 4px; font-size: .66rem; font-weight: 800; text-transform: uppercase; letter-spacing: .7px; color: var(--teal); background: #f8fafc; }
+    .svc-group {
+      width: 100%; cursor: pointer; border: none; font-family: inherit;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 12px 13px; font-size: .74rem; font-weight: 800; text-transform: uppercase;
+      letter-spacing: .7px; color: var(--teal); background: #f8fafc;
+      border-bottom: 1px solid #eef2f7; text-align: left;
+    }
+    .svc-group i { font-size: .72rem; color: var(--text-light); transition: transform .2s; }
+    .svc-cat.open .svc-group i { transform: rotate(180deg); }
+    .svc-group b { color: var(--gold); font-weight: 800; }
+    .svc-rows { display: none; }
+    .svc-cat.open .svc-rows { display: block; }
     .svc-row {
       display: flex; align-items: center; gap: 10px;
       padding: 10px 12px; cursor: pointer;
@@ -338,7 +353,12 @@
       padding: 6px 2px; border-radius: 10px;
     }
     .bn i { display: block; font-size: 1.15rem; margin-bottom: 3px; }
-    .bn.active { color: var(--teal); }
+    .bn:nth-child(1) i { color: #0e7490; }
+    .bn:nth-child(2) i { color: #1578c9; }
+    .bn:nth-child(3) i { color: #a8801d; }
+    .bn:nth-child(4) i { color: #2a4a8a; }
+    .bn:nth-child(5) i { color: #2a7a4e; }
+    .bn.active { color: var(--navy); background: #eef3fc; }
 
     /* ── Dettaglio servizio (sheet a foto intera) ── */
     .sheet {
@@ -757,16 +777,30 @@ function closeSheet() {
 }
 $('sheetClose').addEventListener('click', closeSheet);
 
-// ── Prenota: elenco prestazioni (stile calcolatore, senza tariffe) ──
+// ── Prenota: categorie a tendina con le prestazioni dentro ──
 function renderPicker() {
   const wrap = $('svcPicker');
   const nodes = [];
   CATS.filter(c => c.id !== 'tutti').forEach(c => {
-    const hd = document.createElement('div');
+    const catEl = document.createElement('div');
+    catEl.className = 'svc-cat';
+    const inCat = SERVICES.filter(s => s.cat === c.id);
+    const nSel = inCat.filter(s => picked.has(s.key)).length;
+    if (nSel) catEl.classList.add('open');
+    const hd = document.createElement('button');
+    hd.type = 'button';
     hd.className = 'svc-group';
-    hd.textContent = c.label;
-    nodes.push(hd);
-    SERVICES.filter(s => s.cat === c.id).forEach(s => {
+    const setLabel = () => {
+      const n = inCat.filter(s => picked.has(s.key)).length;
+      hd.firstElementChild.innerHTML = `${c.label}${n ? ` · <b>${n} selezionat${n > 1 ? 'i' : 'o'}</b>` : ''}`;
+    };
+    hd.innerHTML = `<span></span><i class="fas fa-chevron-down"></i>`;
+    setLabel();
+    hd.addEventListener('click', () => catEl.classList.toggle('open'));
+    catEl.appendChild(hd);
+    const rows = document.createElement('div');
+    rows.className = 'svc-rows';
+    inCat.forEach(s => {
       const d = serviceData(s);
       const row = document.createElement('div');
       row.className = 'svc-row' + (picked.has(s.key) ? ' on' : '');
@@ -774,9 +808,12 @@ function renderPicker() {
       row.addEventListener('click', () => {
         picked.has(s.key) ? picked.delete(s.key) : picked.add(s.key);
         row.classList.toggle('on');
+        setLabel();
       });
-      nodes.push(row);
+      rows.appendChild(row);
     });
+    catEl.appendChild(rows);
+    nodes.push(catEl);
   });
   wrap.replaceChildren(...nodes);
 }
