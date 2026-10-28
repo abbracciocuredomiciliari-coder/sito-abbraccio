@@ -7,7 +7,13 @@ Promise.all([
   fetch(SB_URL + '/rest/v1/site_content?content_key=eq.vetrina_content&select=content_value', {
     headers: { apikey: SB_KEY, Authorization: 'Bearer ' + SB_KEY }
   }).then(r => r.json()).then(d => (d && d[0] && d[0].content_value) ? JSON.parse(d[0].content_value) : null).catch(() => null)
-]).then(([d, remote]) => { defaultsData = d; remoteContent = remote; applyEdits(); });
+]).then(([d, remote]) => {
+  defaultsData = d;
+  remoteContent = remote;
+  // Sincronizza la copia in localStorage: mai contenuti stantii come fallback
+  if (remote) try { localStorage.setItem('vetrina-content', JSON.stringify(remote)); } catch (e) {}
+  applyEdits();
+});
 
 // WhatsApp flottante + barra azioni mobile (presenti su tutte le pagine)
 (function injectCta() {
