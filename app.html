@@ -136,7 +136,7 @@
       background: rgba(255,255,255,.12);
     }
 
-    /* ── Categorie + ricerca ── */
+    /* ── Ricerca + card categoria (come la home del sito) ── */
     .search-wrap { padding: 20px 16px 4px; }
     .search {
       display: flex; align-items: center; gap: 10px;
@@ -146,28 +146,12 @@
     }
     .search i { color: var(--text-light); }
     .search input { border: none; outline: none; flex: 1; font: inherit; font-size: .95rem; background: none; }
-    .cats {
-      display: flex; gap: 8px; padding: 14px 16px 6px;
-      overflow-x: auto; scrollbar-width: none;
-      position: sticky; top: 0; z-index: 20;
-      background: var(--bg);
+    .back-cats {
+      grid-column: 1 / -1; border: none; background: none; cursor: pointer;
+      font: inherit; font-size: .82rem; font-weight: 800; color: var(--teal);
+      display: flex; align-items: center; gap: 7px; padding: 2px 2px 4px;
+      text-align: left;
     }
-    .cats::-webkit-scrollbar { display: none; }
-    .cat {
-      border: 1.5px solid #cbd5e1; background: var(--card);
-      color: var(--text-light); font-weight: 700; font-size: .8rem;
-      padding: 8px 15px; border-radius: 999px; white-space: nowrap;
-      cursor: pointer; transition: .15s;
-    }
-    .cat.active { background: var(--grad-teal); border-color: transparent; color: #fff; }
-    .cat.c-assistenza { color: #0e7490; border-color: #7cc4d4; background: #effafc; }
-    .cat.c-visite { color: #2a4a8a; border-color: #9db4e0; background: #f0f5fd; }
-    .cat.c-diagnostica { color: #6d28d9; border-color: #c4b5f0; background: #f6f2fe; }
-    .cat.c-altro { color: #a8801d; border-color: #dcc06a; background: #fdf7e6; }
-    .cat.c-assistenza.active { background: var(--grad-teal); color: #fff; border-color: transparent; }
-    .cat.c-visite.active { background: linear-gradient(135deg,#2a4a8a,#0d1b35); color: #fff; border-color: transparent; }
-    .cat.c-diagnostica.active { background: linear-gradient(135deg,#7c3aed,#4c1d95); color: #fff; border-color: transparent; }
-    .cat.c-altro.active { background: var(--grad-gold); color: #fff; border-color: transparent; }
 
     /* ── Card servizi: stesso stile delle card del sito (icona + testo, senza foto) ── */
     .grid {
@@ -453,7 +437,6 @@
         <input id="searchInput" type="search" placeholder="Cerca un servizio o un esame..." autocomplete="off">
       </div>
     </div>
-    <div class="cats" id="cats"></div>
     <div class="grid" id="grid"></div>
     <div class="empty-msg" id="emptyMsg" style="display:none">Nessun servizio trovato. Prova a cambiare ricerca.</div>
   </div>
@@ -597,11 +580,26 @@ const SERVICES = [
 ];
 
 const CATS = [
-  { id: 'tutti', label: 'Tutti' },
   { id: 'assistenza', label: 'Assistenza' },
   { id: 'visite', label: 'Visite' },
   { id: 'diagnostica', label: 'Diagnostica' },
   { id: 'altro', label: 'Altri servizi' },
+];
+
+// Le 6 categorie della home del sito: ogni card apre i suoi servizi
+const HOME_CATS = [
+  { label: 'Infermieristica', icon: 'fa-user-nurse', desc: 'Prestazioni infermieristiche, terapie e medicazioni a domicilio', zone: 'Roma e Provincia',
+    keys: ['infermiere-a-domicilio', 'assistenza-anziani', 'assistenza-notturna', 'cure-pazienti-cronici', 'cure-palliative', 'psicologia-a-domicilio'] },
+  { label: 'Badanti e OSS', icon: 'fa-hand-holding-heart', desc: 'Badanti, colf, assistenti familiari e OSS selezionati', zone: 'Tutta Italia', it: true,
+    keys: ['intermediazione'] },
+  { label: 'Visite Specialistiche', icon: 'fa-user-doctor', desc: 'Medici specialisti direttamente a casa tua', zone: 'Roma e Provincia',
+    keys: ['visite-specialistiche'] },
+  { label: 'Diagnostica', icon: 'fa-heart-pulse', desc: 'ECG, holter, ecografie, RX e prelievi a domicilio', zone: 'Roma e Provincia',
+    keys: ['prelievi-ematici', 'holter-pressorio', 'holter-ecg', 'ecografia-domiciliare', 'rx-domiciliare', 'emogasanalisi', 'saturimetria-spirometria', 'apnee-sonno', 'screening-cardiaci'] },
+  { label: 'Fisioterapia', icon: 'fa-person-walking', desc: 'Riabilitazione e recupero funzionale a casa', zone: 'Roma e Provincia',
+    keys: ['fisioterapia-a-domicilio'] },
+  { label: 'Ambulanza', icon: 'fa-ambulance', desc: 'Trasporto sanitario assistito per dimissioni e visite', zone: 'Roma e Provincia',
+    keys: ['servizio-ambulanza'] },
 ];
 const CAT_LABEL = { assistenza: 'Assistenza', visite: 'Visite mediche', diagnostica: 'Diagnostica', altro: 'Servizi' };
 
@@ -672,7 +670,7 @@ const strip = h => String(h || '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ')
 let content = { pages: {}, global: {} };
 let pages = {};
 let g = {};
-let activeCat = 'tutti';
+let homeSel = null;
 let query = '';
 const picked = new Set();
 
@@ -708,44 +706,49 @@ function serviceData(s) {
   };
 }
 
-function filtered() {
-  const q = query.toLocaleLowerCase('it');
-  return SERVICES.filter(s => (activeCat === 'tutti' || s.cat === activeCat)).filter(s => {
-    if (!q) return true;
-    const d = serviceData(s);
-    return (d.name + ' ' + d.desc + ' ' + CAT_LABEL[s.cat]).toLocaleLowerCase('it').includes(q);
-  });
+function tileCard(icon, name, desc, zone, onTap) {
+  const b = document.createElement('button');
+  b.className = 'tile';
+  b.type = 'button';
+  b.innerHTML =
+    `<span class="tile-icon"><i class="fas ${icon}"></i></span>` +
+    `<span class="tile-name">${name}</span>` +
+    (desc ? `<span class="tile-desc">${desc}</span>` : '') +
+    `<span class="tile-zone${zone.it ? ' tile-zone-it' : ''}"><i class="fas ${zone.it ? 'fa-map' : 'fa-map-marker-alt'}"></i> ${zone.label}</span>` +
+    `<span class="tile-go"><i class="fas fa-arrow-right"></i></span>`;
+  b.addEventListener('click', onTap);
+  return b;
 }
 
 function renderTiles() {
-  const list = filtered();
+  const q = query.toLocaleLowerCase('it');
+  const grid = $('grid');
+  // Nessuna ricerca e nessuna categoria aperta → solo le 6 card del sito
+  if (!q && homeSel === null) {
+    $('emptyMsg').style.display = 'none';
+    grid.replaceChildren(...HOME_CATS.map((c, ix) =>
+      tileCard(c.icon, c.label, c.desc, { label: c.zone, it: !!c.it }, () => { homeSel = ix; renderTiles(); })));
+    return;
+  }
+  const list = q
+    ? SERVICES.filter(s => { const d = serviceData(s); return (d.name + ' ' + d.desc + ' ' + CAT_LABEL[s.cat]).toLocaleLowerCase('it').includes(q); })
+    : SERVICES.filter(s => HOME_CATS[homeSel].keys.includes(s.key));
   $('emptyMsg').style.display = list.length ? 'none' : 'block';
-  $('grid').replaceChildren(...list.map(s => {
+  const nodes = [];
+  if (!q) {
+    const back = document.createElement('button');
+    back.className = 'back-cats';
+    back.type = 'button';
+    back.innerHTML = `<i class="fas fa-arrow-left"></i> Tutte le categorie · ${HOME_CATS[homeSel].label}`;
+    back.addEventListener('click', () => { homeSel = null; renderTiles(); });
+    nodes.push(back);
+  }
+  nodes.push(...list.map(s => {
     const d = serviceData(s);
     const zone = SVC_ZONE[s.key] || { label: 'Roma e Provincia' };
-    const b = document.createElement('button');
-    b.className = 'tile';
-    b.type = 'button';
-    b.innerHTML =
-      `<span class="tile-icon"><i class="fas ${SVC_ICON[s.key] || 'fa-briefcase-medical'}"></i></span>` +
-      `<span class="tile-name">${d.short}</span>` +
-      (d.desc ? `<span class="tile-desc">${d.desc}</span>` : '') +
-      `<span class="tile-zone${zone.it ? ' tile-zone-it' : ''}"><i class="fas ${zone.it ? 'fa-map' : 'fa-map-marker-alt'}"></i> ${zone.label}</span>` +
-      `<span class="tile-go"><i class="fas fa-arrow-right"></i></span>`;
-    b.addEventListener('click', () => openSheet(s));
-    return b;
+    return tileCard(SVC_ICON[s.key] || 'fa-briefcase-medical', d.short, d.desc, zone, () => openSheet(s));
   }));
-}
-
-function renderCats() {
-  $('cats').replaceChildren(...CATS.map(c => {
-    const b = document.createElement('button');
-    b.className = 'cat c-' + c.id + (c.id === activeCat ? ' active' : '');
-    b.textContent = c.label;
-    b.type = 'button';
-    b.addEventListener('click', () => { activeCat = c.id; renderCats(); renderTiles(); });
-    return b;
-  }));
+  grid.replaceChildren(...nodes);
 }
 
 // ── Sheet dettaglio ──
@@ -781,7 +784,7 @@ $('sheetClose').addEventListener('click', closeSheet);
 function renderPicker() {
   const wrap = $('svcPicker');
   const nodes = [];
-  CATS.filter(c => c.id !== 'tutti').forEach(c => {
+  CATS.forEach(c => {
     const catEl = document.createElement('div');
     catEl.className = 'svc-cat';
     const inCat = SERVICES.filter(s => s.cat === c.id);
@@ -901,7 +904,7 @@ Promise.all([
   content = deepMerge(defaults || {}, remote || {});
   pages = content.pages || {};
   g = content.global || {};
-  renderHero(); renderCats(); renderTiles(); renderPicker(); renderContacts();
+  renderHero(); renderTiles(); renderPicker(); renderContacts();
 });
 // ── Mappa reale (OpenStreetMap) con marcatori rete — concentrazione Lazio ──
 (function renderNetMap() {
@@ -961,7 +964,7 @@ Promise.all([
     })
     .catch(() => {});
 })();
-$('searchInput').addEventListener('input', e => { query = e.target.value.trim(); renderTiles(); });
+$('searchInput').addEventListener('input', e => { query = e.target.value.trim(); if (query) homeSel = null; renderTiles(); });
 </script>
   <!-- Vercel Web Analytics (privacy-friendly, no cookies) -->
   <script>window.va=window.va||function(){(window.va.q=window.va.q||[]).push(arguments);};</script>
