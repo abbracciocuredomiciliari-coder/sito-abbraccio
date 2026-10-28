@@ -220,6 +220,18 @@ function applyEdits() {
     if (g.heroSubtitle && heroP) heroP.innerHTML = g.heroSubtitle;
     const eyeb = document.querySelector('.hero .eyebrow');
     if (g.eyebrow && eyeb) eyeb.innerHTML = g.eyebrow;
+    // modifiche libere (admin → Modifica libera): applicate PRIMA dei rotatori,
+    // così le immagini gestite da "Immagini rotanti" hanno sempre la precedenza
+    const pageFile = location.pathname.split('/').pop() || 'index.html';
+    const ov = (c.overrides || {})[pageFile];
+    if (ov) ov.forEach(o => {
+      try {
+        const el = document.querySelector(o.sel);
+        if (!el) return;
+        if (o.type === 'src') el.src = o.value; else el.innerHTML = o.value;
+      } catch (e) {}
+    });
+
     // Immagini rotanti: SOLO da Supabase fresco o dai defaults locali —
     // mai dal localStorage (copia potenzialmente stantia con vecchie locandine)
     const gi = (remoteContent && remoteContent.global) || (defaultsData && defaultsData.global) || {};
@@ -361,17 +373,6 @@ function applyEdits() {
         });
       }
     }
-
-    // modifiche libere (admin → Modifica libera): valgono per qualsiasi elemento
-    const pageFile = location.pathname.split('/').pop() || 'index.html';
-    const ov = (c.overrides || {})[pageFile];
-    if (ov) ov.forEach(o => {
-      try {
-        const el = document.querySelector(o.sel);
-        if (!el) return;
-        if (o.type === 'src') el.src = o.value; else el.innerHTML = o.value;
-      } catch (e) {}
-    });
   } catch (err) {}
 }
 applyEdits();
