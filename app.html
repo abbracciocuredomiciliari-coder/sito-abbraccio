@@ -47,34 +47,27 @@
       box-shadow: 0 0 60px rgba(0,0,0,.4);
     }
 
-    /* ── Hero chiaro: foto visibile come sul sito, testo sopra ── */
+    /* ── Hero come il sito mobile: foto pulita sopra, testo sotto su chiaro ── */
     .hero {
       position: relative;
-      background: #eaf4fb;
+      background: var(--bg);
       color: var(--navy);
-      padding: calc(env(safe-area-inset-top, 0px) + 14px) 20px 30px;
+      padding: calc(env(safe-area-inset-top, 0px) + 12px) 0 26px;
       border-radius: 0 0 26px 26px;
       overflow: hidden;
     }
-    .hero::before {
-      content: '';
-      position: absolute; inset: 0;
+    .hero-top {
+      display: flex; align-items: center; gap: 10px;
+      margin: 0 16px 12px; padding: 6px 8px;
+      background: #fff; border-radius: 14px; box-shadow: var(--shadow);
+    }
+    .hero-photo {
+      height: 215px;
       background-image: var(--hero-img, none);
       background-size: cover;
-      background-position: 74% 20%;
-      opacity: 1;
+      background-position: center 24%;
     }
-    .hero::after {
-      content: '';
-      position: absolute; inset: 0;
-      background: linear-gradient(180deg, rgba(255,255,255,.30) 0%, rgba(255,255,255,.05) 30%, rgba(241,245,249,.82) 56%, var(--bg) 94%);
-    }
-    .hero > * { position: relative; z-index: 1; }
-    .hero-top {
-      display: flex; align-items: center; gap: 10px; margin-bottom: 34px;
-      background: rgba(255,255,255,.62); backdrop-filter: blur(8px);
-      border-radius: 14px; padding: 6px 8px;
-    }
+    .hero-text { padding: 18px 20px 0; }
     .hero-top img { height: 38px; width: auto; border-radius: 10px; background: #fff; padding: 5px 9px; object-fit: contain; }
     .hero-top .brand strong { display: block; font-size: 1.05rem; letter-spacing: .2px; color: var(--navy); }
     .hero-top .brand span { font-size: .72rem; color: #4a5f80; }
@@ -90,13 +83,12 @@
     }
     .hero h1 { font-size: 1.55rem; font-weight: 800; line-height: 1.25; margin-bottom: 8px; color: #0d3c73; }
     .hero h1 span { color: #a8801d; }
-    .hero p { font-size: .9rem; line-height: 1.5; max-width: 340px; color: #33507a; }
+    .hero p { font-size: .9rem; line-height: 1.5; color: #33507a; }
     .hero p strong { color: #0d3c73; }
     .hero-chips { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
     .hero-chip {
-      background: rgba(255,255,255,.8);
+      background: #fff;
       border: 1px solid rgba(21,120,201,.22);
-      backdrop-filter: blur(4px);
       color: #0f5f9e; font-size: .72rem; font-weight: 700;
       padding: 5px 11px; border-radius: 999px;
     }
@@ -408,9 +400,12 @@
       </div>
       <a class="hero-call" href="tel:0601905242" aria-label="Chiama"><i class="fas fa-phone"></i></a>
     </div>
-    <h1 id="heroTitle">L'assistenza di cui hai bisogno, <span>direttamente a casa tua.</span></h1>
-    <p id="heroSub">Infermieri, badanti, OSS, visite specialistiche, diagnostica e tanti altri servizi. <strong>Scopri i servizi e conosci il costo prima di richiederli.</strong></p>
-    <div class="hero-chips" id="heroChips"></div>
+    <div class="hero-photo" role="img" aria-label="Infermiera Abbraccio assiste un'anziana a casa"></div>
+    <div class="hero-text">
+      <h1 id="heroTitle">L'assistenza di cui hai bisogno, <span>direttamente a casa tua.</span></h1>
+      <p id="heroSub">Infermieri, badanti, OSS, visite specialistiche, diagnostica e tanti altri servizi. <strong>Scopri i servizi e conosci il costo prima di richiederli.</strong></p>
+      <div class="hero-chips" id="heroChips"></div>
+    </div>
   </header>
 
   <!-- ═══════════ PREVENTIVI RAPIDI (in alto) ═══════════ -->
