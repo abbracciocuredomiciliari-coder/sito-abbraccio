@@ -873,8 +873,7 @@ Promise.all([
           fillColor: '#c9a227', fillOpacity: 1,
         }).bindTooltip(m.cat || 'Professionista', { direction: 'top' }).addTo(map);
       });
-      const cap = document.querySelector('.net-cap');
-      if (cap && d.totale) cap.innerHTML = `<span style="color:#e8c46a;">●</span> ${d.totale} professionisti verificati Abbraccio · <span style="color:#0e7490;">●</span> copertura della rete`;
+      // niente conteggio pubblico finché la rete non è più numerosa
     })
     .catch(() => {});
 })();

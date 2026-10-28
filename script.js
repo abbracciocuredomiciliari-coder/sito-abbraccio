@@ -590,8 +590,7 @@ applyEdits();
             fillColor: '#c9a227', fillOpacity: 1,
           }).bindTooltip(m.cat || 'Professionista', { direction: 'top' }).addTo(map);
         });
-        const el = document.getElementById('opsCount');
-        if (el && d.totale) el.textContent = d.totale + ' professionisti verificati Abbraccio';
+        // niente conteggio pubblico finché la rete non è più numerosa
       })
       .catch(() => {});
   };
