@@ -227,8 +227,22 @@ function applyEdits() {
     const wa = document.querySelector('.topbar .fa-whatsapp');
     if (g.whatsapp && wa) wa.parentNode.innerHTML = `<i class="fab fa-whatsapp"></i> ${g.whatsapp}`;
     const email = document.querySelector('.footer .fa-envelope');
+    const emailP = email && email.closest('p');
     if (g.email && email) email.parentNode.innerHTML = `<i class="fas fa-envelope"></i> ${g.email}`;
-    if (g.email) document.querySelectorAll('a[href^="mailto:"]').forEach(a => a.href = 'mailto:' + g.email);
+    if (g.email) document.querySelectorAll('a[href^="mailto:"]').forEach(a => { if (!a.classList.contains('email2-link')) a.href = 'mailto:' + g.email; });
+    // Seconda email (es. gmail storica) mostrata accanto alla principale
+    if (emailP) {
+      let a2 = emailP.querySelector('a.email2-link');
+      if (g.email2) {
+        if (!a2) {
+          a2 = document.createElement('a');
+          a2.className = 'email2-link';
+          emailP.appendChild(a2);
+        }
+        a2.href = 'mailto:' + g.email2;
+        a2.innerHTML = `<i class="fas fa-envelope"></i> ${g.email2}`;
+      } else if (a2) a2.remove();
+    }
     const addr = document.querySelector('.footer .fa-map-marker-alt');
     if (g.address && addr) addr.parentNode.innerHTML = `<i class="fas fa-map-marker-alt"></i> ${g.address}`;
     const waNum = (g.whatsappNumber || '').replace(/\D/g, '');
@@ -509,5 +523,96 @@ applyEdits();
     }).finally(() => {
       if (submitBtn) submitBtn.disabled = false;
     });
+  });
+})();
+// ─── Mappa "Operatori attivi" in home: rete reale (oro) + copertura (turchese) ─
+(function opsMap() {
+  const btn = document.getElementById('opsBtn');
+  const wrap = document.getElementById('opsWrap');
+  if (!btn || !wrap) return;
+
+  let initialized = false;
+  let opsMapObj = null;
+  const loadLeaflet = () => new Promise((resolve, reject) => {
+    if (window.L) return resolve();
+    const s = document.createElement('script');
+    s.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
+    s.onload = resolve; s.onerror = reject;
+    document.head.appendChild(s);
+  });
+
+  const init = () => {
+    const map = opsMapObj = L.map('opsMap', {
+      zoomControl: true, scrollWheelZoom: false,
+      attributionControl: true,
+    });
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap',
+    }).addTo(map);
+    map.fitBounds([[36.3, 6.4], [47.2, 18.9]], { padding: [14, 14] });
+
+    // Punti illustrativi: densità della rete (turchese)
+    const clusters = [
+      [45.3, 7.9, 9, .5], [45.6, 9.7, 13, .55], [46.1, 11.1, 5, .4], [45.6, 11.9, 9, .5],
+      [46.1, 13.1, 5, .4], [44.4, 8.9, 4, .3], [44.5, 10.8, 11, .5],
+      [43.5, 11.1, 9, .5], [43.0, 12.5, 4, .3], [43.4, 13.2, 6, .35],
+      [42.3, 13.8, 6, .35], [41.7, 14.6, 4, .3],
+      [40.9, 14.7, 8, .4], [41.1, 16.5, 9, .5], [40.4, 16.0, 4, .35], [39.1, 16.6, 6, .5],
+      [37.6, 14.0, 8, .5], [40.0, 9.0, 6, .5],
+    ];
+    let n = 0;
+    const rand = seed => { const x = Math.sin(seed * 9973) * 43758.5453; return x - Math.floor(x); };
+    clusters.forEach(([lat, lng, count, r]) => {
+      for (let i = 0; i < count; i++) {
+        n++;
+        const a = rand(n * 7.13) * Math.PI * 2;
+        const d = Math.sqrt(rand(n * 3.71)) * r;
+        L.circleMarker([lat + Math.cos(a) * d, lng + Math.sin(a) * d], {
+          radius: 4, color: '#ffffff', weight: 1.2,
+          fillColor: '#0e7490', fillOpacity: .9,
+        }).addTo(map);
+      }
+    });
+
+    // Sede Roma
+    L.circleMarker([41.9028, 12.4964], {
+      radius: 9, color: '#fff', weight: 2.5, fillColor: '#e8c46a', fillOpacity: .9,
+    }).bindTooltip('Sede Abbraccio - Roma', { direction: 'top' }).addTo(map);
+
+    // Professionisti reali dal gestionale (oro) — posizione sfalsata ~1-2 km per privacy
+    fetch('https://api.abbracciocuredomiciliari.it/api/albo/mappa')
+      .then(r => r.ok ? r.json() : null)
+      .then(d => {
+        if (!d || !Array.isArray(d.marker)) return;
+        d.marker.forEach(m => {
+          L.circleMarker([m.lat, m.lng], {
+            radius: 6, color: '#ffffff', weight: 1.6,
+            fillColor: '#c9a227', fillOpacity: 1,
+          }).bindTooltip(m.cat || 'Professionista', { direction: 'top' }).addTo(map);
+        });
+        const el = document.getElementById('opsCount');
+        if (el && d.totale) el.textContent = d.totale + ' professionisti verificati Abbraccio';
+      })
+      .catch(() => {});
+  };
+
+  btn.addEventListener('click', () => {
+    const opening = wrap.hidden;
+    wrap.hidden = !opening;
+    btn.innerHTML = opening
+      ? '<i class="fas fa-eye-slash"></i> Nascondi operatori'
+      : '<i class="fas fa-user-nurse"></i> Vedi operatori attivi';
+    if (opening) {
+      if (!initialized) {
+        initialized = true;
+        loadLeaflet().then(init).catch(() => {
+          wrap.hidden = true;
+          btn.innerHTML = '<i class="fas fa-user-nurse"></i> Vedi operatori attivi';
+        });
+      } else if (opsMapObj) {
+        // la mappa in un div nascosto va ridisegnata quando torna visibile
+        setTimeout(() => opsMapObj.invalidateSize(), 60);
+      }
+    }
   });
 })();

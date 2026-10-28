@@ -7,6 +7,7 @@
   <meta name="description" content="Abbraccio Cure Domiciliari: assistenza infermieristica, figure assistenziali ed esami strumentali a domicilio.">
   <link rel="icon" type="image/png" href="logo-abbraccio.png">
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script>
@@ -443,6 +444,13 @@
         <div class="sede-map">
           <iframe id="sedeMap" src="https://maps.google.com/maps?q=Via%20di%20S.%20Maria%20Ausiliatrice%204%2FB%2C%2000181%20Roma&z=14&output=embed" loading="lazy" title="Sede Abbraccio - Roma"></iframe>
         </div>
+        <div class="ops-toggle">
+          <button type="button" id="opsBtn" class="btn btn-primary"><i class="fas fa-user-nurse"></i> Vedi operatori attivi</button>
+        </div>
+        <div class="ops-wrap" id="opsWrap" hidden>
+          <div id="opsMap"></div>
+          <div class="ops-legend"><span style="color:#c9a227;">●</span> <span id="opsCount">professionisti verificati Abbraccio</span> &nbsp;·&nbsp; <span style="color:#0e7490;">●</span> copertura della rete</div>
+        </div>
       </div>
     </div>
   </section>
@@ -496,7 +504,7 @@
           <h4>Contatti</h4>
           <p><a href="tel:0601905242"><i class="fas fa-phone"></i> 06 01905242</a></p>
           <p><a href="tel:+393514175117"><i class="fas fa-mobile-alt"></i> 351.4175117</a></p>
-          <p><a href="mailto:info@abbracciocuredomiciliari.it"><i class="fas fa-envelope"></i> info@abbracciocuredomiciliari.it</a></p>
+          <p><a href="mailto:info@abbracciocuredomiciliari.it"><i class="fas fa-envelope"></i> info@abbracciocuredomiciliari.it</a> <a class="email2-link" href="mailto:abbracciocuredomiciliari@gmail.com"><i class="fas fa-envelope"></i> abbracciocuredomiciliari@gmail.com</a></p>
           <p><a href="https://maps.google.com/?q=Via+di+S.+Maria+Ausiliatrice+4%2FB+00181+Roma" target="_blank" rel="noopener"><i class="fas fa-map-marker-alt"></i> Via di S. Maria Ausiliatrice n° 4/B, 00181 Roma</a></p>
         </div>
         <div class="footer-col">

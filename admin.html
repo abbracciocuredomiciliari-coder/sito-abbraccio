@@ -112,6 +112,10 @@
           <input type="text" id="global-email">
         </div>
         <div class="form-group">
+          <label>Email secondaria (opzionale, mostrata accanto alla principale)</label>
+          <input type="text" id="global-email2">
+        </div>
+        <div class="form-group">
           <label>Indirizzo</label>
           <input type="text" id="global-address">
         </div>
@@ -423,6 +427,7 @@
       document.getElementById('global-whatsapp').value = g.whatsapp || '';
       document.getElementById('global-whatsappNumber').value = g.whatsappNumber || '';
       document.getElementById('global-email').value = g.email || '';
+      document.getElementById('global-email2').value = g.email2 || '';
       document.getElementById('global-address').value = g.address || '';
       document.getElementById('global-heroTitle').value = g.heroTitle || '';
       document.getElementById('global-heroSubtitle').value = g.heroSubtitle || '';
@@ -446,6 +451,7 @@
       content.global.whatsapp = document.getElementById('global-whatsapp').value;
       content.global.whatsappNumber = document.getElementById('global-whatsappNumber').value;
       content.global.email = document.getElementById('global-email').value;
+      content.global.email2 = document.getElementById('global-email2').value.trim();
       content.global.address = document.getElementById('global-address').value;
       content.global.heroTitle = document.getElementById('global-heroTitle').value;
       content.global.heroSubtitle = document.getElementById('global-heroSubtitle').value;
