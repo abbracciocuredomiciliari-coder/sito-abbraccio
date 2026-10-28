@@ -220,8 +220,11 @@ function applyEdits() {
     if (g.heroSubtitle && heroP) heroP.innerHTML = g.heroSubtitle;
     const eyeb = document.querySelector('.hero .eyebrow');
     if (g.eyebrow && eyeb) eyeb.innerHTML = g.eyebrow;
+    // Immagini rotanti: SOLO da Supabase fresco o dai defaults locali —
+    // mai dal localStorage (copia potenzialmente stantia con vecchie locandine)
+    const gi = (remoteContent && remoteContent.global) || (defaultsData && defaultsData.global) || {};
     const heroImg = document.querySelector('.hero-image-wrap img') || document.querySelector('.hero-image img');
-    startRotator(heroImg, (g.heroImages && g.heroImages.length) ? g.heroImages : (g.heroImage ? [g.heroImage] : []));
+    startRotator(heroImg, (gi.heroImages && gi.heroImages.length) ? gi.heroImages : (gi.heroImage ? [gi.heroImage] : []));
     const logo = document.querySelector('.logo img');
     if (g.logo && logo) logo.src = g.logo;
     if (g.phone) {
@@ -262,13 +265,13 @@ function applyEdits() {
       if (addrLink) addrLink.href = 'https://maps.google.com/?q=' + encodeURIComponent(g.address);
     }
     const jobsImg = document.getElementById('jobsImage');
-    startRotator(jobsImg, (g.jobsImages && g.jobsImages.length) ? g.jobsImages : (g.jobsImage ? [g.jobsImage] : []));
+    startRotator(jobsImg, (gi.jobsImages && gi.jobsImages.length) ? gi.jobsImages : (gi.jobsImage ? [gi.jobsImage] : []));
     const shopImg = document.getElementById('shopImage');
-    startRotator(shopImg, (g.shopImages && g.shopImages.length) ? g.shopImages : (g.shopImage ? [g.shopImage] : []));
+    startRotator(shopImg, (gi.shopImages && gi.shopImages.length) ? gi.shopImages : (gi.shopImage ? [gi.shopImage] : []));
     const teleImg = document.querySelector('.tele-img img') || document.getElementById('teleImage');
-    startRotator(teleImg, (g.telemedicinaImages && g.telemedicinaImages.length) ? g.telemedicinaImages : (g.telemedicinaImage ? [g.telemedicinaImage] : []));
+    startRotator(teleImg, (gi.telemedicinaImages && gi.telemedicinaImages.length) ? gi.telemedicinaImages : (gi.telemedicinaImage ? [gi.telemedicinaImage] : []));
     const intermImg = document.getElementById('intermImage');
-    startRotator(intermImg, (g.intermediazioneImages && g.intermediazioneImages.length) ? g.intermediazioneImages : (g.intermediazioneImage ? [g.intermediazioneImage] : []));
+    startRotator(intermImg, (gi.intermediazioneImages && gi.intermediazioneImages.length) ? gi.intermediazioneImages : (gi.intermediazioneImage ? [gi.intermediazioneImage] : []));
 
     // pages
     const p = (c.pages || {})[key];
