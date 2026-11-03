@@ -7,15 +7,19 @@
 
   var css = document.createElement('style');
   css.textContent = [
-    '.ab-btn{position:fixed;bottom:18px;right:18px;width:62px;height:62px;border-radius:50%;border:none;background:#fff;box-shadow:0 6px 22px rgba(30,77,140,.4);z-index:99999;cursor:pointer;padding:4px;box-sizing:border-box}',
-    '.ab-btn img{width:100%;height:100%;border-radius:50%;object-fit:cover;display:block}',
-    '.ab-lbl{position:fixed;right:49px;transform:translateX(50%);z-index:99999;border-radius:999px;padding:5px 12px;font-size:12px;font-weight:800;box-shadow:0 3px 10px rgba(0,0,0,.12);cursor:pointer;border:none;font-family:inherit;white-space:nowrap}',
-    '.ab-lbl-top{bottom:84px;background:#fff;color:#1e4d8c;border:1.5px solid #dbeafe}',
-    '.ab-lbl-btm{bottom:2px;background:linear-gradient(135deg,#1e3a5f,#1e4d8c);color:#fff}',
-    '.ab-panel{position:fixed;bottom:90px;right:14px;width:min(360px,calc(100vw - 28px));max-height:70vh;background:#fff;border-radius:18px;box-shadow:0 10px 40px rgba(0,0,0,.22);z-index:99999;display:flex;flex-direction:column;overflow:hidden;border:1px solid #dbeafe;font-family:"Segoe UI",system-ui,sans-serif}',
+    '@keyframes abHeartBeat{0%,100%{transform:scale(1)}14%{transform:scale(1.18)}28%{transform:scale(1)}42%{transform:scale(1.18)}70%{transform:scale(1)}}',
+    '@keyframes abGlow{0%,100%{box-shadow:0 4px 16px rgba(242,181,42,.3),0 0 0 0 rgba(242,181,42,.45)}50%{box-shadow:0 4px 20px rgba(242,181,42,.7),0 0 0 10px rgba(242,181,42,0)}}',
+    /* colonna ancorata sopra la barra di navigazione mobile (~60px) */
+    '.ab-col{position:fixed;right:14px;bottom:70px;z-index:99998;display:flex;flex-direction:column;align-items:center;gap:5px}',
+    '.ab-btn{width:62px;height:62px;border-radius:50%;border:none;background:#fff;cursor:pointer;padding:5px;box-sizing:border-box;display:flex;align-items:center;justify-content:center;animation:abGlow 1.8s ease-in-out infinite}',
+    '.ab-btn img{width:100%;height:100%;border-radius:50%;object-fit:cover;display:block;animation:abHeartBeat 1.8s ease-in-out infinite;transform-origin:center}',
+    '.ab-lbl{border-radius:999px;padding:5px 12px;font-size:12px;font-weight:800;box-shadow:0 3px 10px rgba(0,0,0,.12);cursor:pointer;border:none;font-family:inherit;white-space:nowrap}',
+    '.ab-lbl-top{background:#fff;color:#1e4d8c;border:1.5px solid #dbeafe}',
+    '.ab-lbl-btm{background:linear-gradient(135deg,#1e3a5f,#1e4d8c);color:#fff}',
+    '.ab-panel{position:fixed;bottom:190px;right:14px;width:min(360px,calc(100vw - 28px));max-height:62vh;background:#fff;border-radius:18px;box-shadow:0 10px 40px rgba(0,0,0,.22);z-index:99999;display:flex;flex-direction:column;overflow:hidden;border:1px solid #dbeafe;font-family:"Segoe UI",system-ui,sans-serif}',
     '.ab-head{background:linear-gradient(135deg,#1e3a5f,#1e4d8c);color:#fff;padding:12px 16px;font-weight:800;font-size:.95rem;display:flex;align-items:center;gap:8px}',
     '.ab-head img{width:26px;height:26px;border-radius:50%;object-fit:cover}',
-    '.ab-msgs{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:8px;min-height:200px;max-height:46vh}',
+    '.ab-msgs{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:8px;min-height:160px;max-height:44vh}',
     '.ab-msg{max-width:85%;border-radius:14px;padding:9px 12px;font-size:.85rem;line-height:1.45;white-space:pre-wrap}',
     '.ab-msg.bot{align-self:flex-start;background:#f1f5f9;color:#1e293b}',
     '.ab-msg.io{align-self:flex-end;background:#1e4d8c;color:#fff}',
@@ -25,12 +29,11 @@
     '.ab-form button{width:40px;height:40px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:15px}',
     '.ab-send{background:#1e4d8c;color:#fff}',
     '.ab-mic{background:#e2e8f0;color:#475569}',
-    '.ab-mic.on{background:#dc2626;color:#fff;animation:abPulse 1.2s infinite}',
-    '@keyframes abPulse{0%,100%{box-shadow:0 0 0 0 rgba(220,38,38,.4)}50%{box-shadow:0 0 0 8px rgba(220,38,38,0)}}'
+    '.ab-mic.on{background:#dc2626;color:#fff;animation:abHeartBeat 1.2s infinite}'
   ].join('\n');
   document.head.appendChild(css);
 
-  var open = false, busy = false, voci = null, msgsEl, inputEl, micBtn, panel, btn, lblTop, lblBtm;
+  var open = false, busy = false, voci = null, msgsEl, inputEl, micBtn, panel, col, closeBtn;
 
   function addMsg(text, who, link, labelLink) {
     var d = document.createElement('div');
@@ -102,30 +105,28 @@
     }));
   }
 
-  function toggle() {
-    open = !open;
+  function setOpen(v) {
+    open = v;
     panel.style.display = open ? 'flex' : 'none';
-    lblTop.style.display = open ? 'none' : 'block';
-    lblBtm.style.display = open ? 'none' : 'block';
+    col.style.display = open ? 'none' : 'flex';
+    closeBtn.style.display = open ? 'flex' : 'none';
     if (open) { loadVoci(); inputEl.focus(); }
   }
 
   function build() {
-    lblTop = document.createElement('button');
-    lblTop.className = 'ab-lbl ab-lbl-top';
-    lblTop.textContent = 'Sono Abbraccino';
-    lblTop.onclick = toggle;
+    col = document.createElement('div');
+    col.className = 'ab-col';
+    col.innerHTML =
+      '<button class="ab-lbl ab-lbl-top">Sono Abbraccino</button>' +
+      '<button class="ab-btn" aria-label="Chiedi ad Abbraccino"><img src="' + ICON + '" alt="Abbraccino"></button>' +
+      '<button class="ab-lbl ab-lbl-btm">Chiedi aiuto</button>';
+    col.querySelectorAll('button').forEach(function (b) { b.onclick = function () { setOpen(true); }; });
 
-    lblBtm = document.createElement('button');
-    lblBtm.className = 'ab-lbl ab-lbl-btm';
-    lblBtm.textContent = 'Chiedi aiuto';
-    lblBtm.onclick = toggle;
-
-    btn = document.createElement('button');
-    btn.className = 'ab-btn';
-    btn.setAttribute('aria-label', 'Chiedi ad Abbraccino');
-    btn.innerHTML = '<img src="' + ICON + '" alt="Abbraccino">';
-    btn.onclick = toggle;
+    closeBtn = document.createElement('button');
+    closeBtn.className = 'ab-btn';
+    closeBtn.style.cssText += ';position:fixed;right:14px;bottom:70px;z-index:99999;display:none;background:linear-gradient(135deg,#1e3a5f,#1e4d8c);color:#fff;font-size:24px;animation:none';
+    closeBtn.textContent = '✕';
+    closeBtn.onclick = function () { setOpen(false); };
 
     panel = document.createElement('div');
     panel.className = 'ab-panel';
@@ -139,9 +140,8 @@
       '<button type="submit" class="ab-send" title="Invia">➤</button>' +
       '</form>';
 
-    document.body.appendChild(lblTop);
-    document.body.appendChild(lblBtm);
-    document.body.appendChild(btn);
+    document.body.appendChild(col);
+    document.body.appendChild(closeBtn);
     document.body.appendChild(panel);
 
     msgsEl = panel.querySelector('.ab-msgs');
@@ -152,7 +152,6 @@
 
     addMsg('Ciao! Sono Abbraccino 💛 Posso aiutarti a trovare il servizio giusto, spiegarti come funziona e dirti i costi. Di cosa hai bisogno?', 'bot');
 
-    // microfono
     var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (SR) {
       micBtn.style.display = 'flex';
