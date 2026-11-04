@@ -60,7 +60,7 @@
         var cats = d.categorie || d || [];
         voci = [];
         (cats.categorie || cats).forEach(function (c) {
-          (c.voci || []).forEach(function (v) { voci.push({ id: v.id, descrizione: v.descrizione, prezzo: v.prezzo, categoria: c.nome }); });
+          (c.voci || []).forEach(function (v) { voci.push({ id: v.id, descrizione: v.nome || v.descrizione, prezzo: v.prezzo, categoria: c.label || c.nome }); });
         });
       } catch (e) { voci = []; }
     };
@@ -117,9 +117,9 @@
     col = document.createElement('div');
     col.className = 'ab-col';
     col.innerHTML =
-      '<button class="ab-lbl ab-lbl-top">Sono Abbraccino</button>' +
+      '<button class="ab-lbl ab-lbl-top">Sono Abbraccino 💛</button>' +
       '<button class="ab-btn" aria-label="Chiedi ad Abbraccino"><img src="' + ICON + '" alt="Abbraccino"></button>' +
-      '<button class="ab-lbl ab-lbl-btm">Chiedi aiuto</button>';
+      '<button class="ab-lbl ab-lbl-btm">Chiedimi un aiutino</button>';
     col.querySelectorAll('button').forEach(function (b) { b.onclick = function () { setOpen(true); }; });
 
     closeBtn = document.createElement('button');
