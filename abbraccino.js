@@ -29,7 +29,9 @@
     '.ab-form button{width:40px;height:40px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:15px}',
     '.ab-send{background:#1e4d8c;color:#fff}',
     '.ab-mic{background:#e2e8f0;color:#475569}',
-    '.ab-mic.on{background:#dc2626;color:#fff;animation:abHeartBeat 1.2s infinite}'
+    '.ab-mic.on{background:#dc2626;color:#fff;animation:abHeartBeat 1.2s infinite}',
+    /* Su smartphone il lanciatore e' compatto: una sola pill + icona piccola */
+    '@media (max-width:640px){.ab-col{right:10px;bottom:88px;gap:4px}.ab-lbl-top{display:none}.ab-btn{width:46px;height:46px}.ab-lbl-btm{font-size:11px;padding:4px 10px}}'
   ].join('\n');
   document.head.appendChild(css);
 
@@ -119,7 +121,7 @@
     col.innerHTML =
       '<button class="ab-lbl ab-lbl-top">Sono Abbraccino 💛</button>' +
       '<button class="ab-btn" aria-label="Chiedi ad Abbraccino"><img src="' + ICON + '" alt="Abbraccino"></button>' +
-      '<button class="ab-lbl ab-lbl-btm">Chiedimi un aiutino</button>';
+      '<button class="ab-lbl ab-lbl-btm">Abbraccino Aiutino</button>';
     col.querySelectorAll('button').forEach(function (b) { b.onclick = function () { setOpen(true); }; });
 
     closeBtn = document.createElement('button');
