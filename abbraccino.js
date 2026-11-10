@@ -19,6 +19,7 @@
     '.ab-lbl-btm{background:linear-gradient(135deg,#1e3a5f,#1e4d8c);color:#fff}',
     '.ab-panel{position:fixed;bottom:212px;right:14px;width:min(360px,calc(100vw - 28px));max-height:62vh;background:#fff;border-radius:18px;box-shadow:0 10px 40px rgba(0,0,0,.22);z-index:99999;display:flex;flex-direction:column;overflow:hidden;border:1px solid #dbeafe;font-family:"Segoe UI",system-ui,sans-serif}',
     '.ab-head{background:linear-gradient(135deg,#1e3a5f,#1e4d8c);color:#fff;padding:12px 16px;font-weight:800;font-size:.95rem;display:flex;align-items:center;gap:8px}',
+    '.ab-close{margin-left:auto;background:transparent;border:none;color:#fff;font-size:22px;line-height:1;padding:4px 8px;cursor:pointer;min-width:36px;min-height:36px}',
     '.ab-head img{width:26px;height:26px;border-radius:50%;object-fit:cover}',
     '.ab-msgs{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:8px;min-height:160px;max-height:44vh}',
     '.ab-msg{max-width:85%;border-radius:14px;padding:9px 12px;font-size:.85rem;line-height:1.45;white-space:pre-wrap}',
@@ -31,8 +32,9 @@
     '.ab-send{background:#1e4d8c;color:#fff}',
     '.ab-mic{background:#e2e8f0;color:#475569}',
     '.ab-mic.on{background:#dc2626;color:#fff;animation:abHeartBeat 1.2s infinite}',
-    /* Su smartphone il lanciatore e' compatto: una sola pill + icona piccola */
-    '@media (max-width:640px){.ab-col{right:10px;bottom:88px;gap:4px}.ab-lbl-top{display:none}.ab-btn{width:46px;height:46px}.ab-lbl-btm{font-size:11px;padding:4px 10px}}'
+    /* Su smartphone il lanciatore e' compatto: una sola pill + icona piccola;
+       il pannello diventa bottom-sheet a tutta larghezza con la X in alto */
+    '@media (max-width:640px){.ab-col{right:10px;bottom:88px;gap:4px}.ab-lbl-top{display:none}.ab-btn{width:46px;height:46px}.ab-lbl-btm{font-size:11px;padding:4px 10px}.ab-panel{left:0;right:0;bottom:0;width:100%;max-height:88vh;border-radius:18px 18px 0 0}}'
   ].join('\n');
   document.head.appendChild(css);
 
@@ -113,7 +115,8 @@
     panel.style.display = open ? 'flex' : 'none';
     col.style.display = open ? 'none' : 'flex';
     closeBtn.style.display = open ? 'flex' : 'none';
-    if (open) { loadVoci(); inputEl.focus(); }
+    // su touch non diamo il focus: la tastiera coprirebbe meta' pannello
+    if (open) { loadVoci(); if (!('ontouchstart' in window)) inputEl.focus(); }
   }
 
   function chiudi() {
@@ -147,7 +150,8 @@
     panel.className = 'ab-panel';
     panel.style.display = 'none';
     panel.innerHTML =
-      '<div class="ab-head"><img src="' + ICON + '" alt=""> Abbraccino — assistente</div>' +
+      '<div class="ab-head"><img src="' + ICON + '" alt=""> Abbraccino — assistente' +
+      '<button type="button" class="ab-close" aria-label="Chiudi Abbraccino">✕</button></div>' +
       '<div class="ab-msgs"></div>' +
       '<form class="ab-form">' +
       '<input type="text" placeholder="Scrivi o detta cosa ti serve…">' +
@@ -163,6 +167,7 @@
     inputEl = panel.querySelector('input');
     micBtn = panel.querySelector('.ab-mic');
 
+    panel.querySelector('.ab-close').onclick = function () { setOpen(false); };
     panel.querySelector('form').addEventListener('submit', function (e) { e.preventDefault(); invia(); });
 
     addMsg('Ciao! Sono Abbraccino 💛 Posso aiutarti a trovare il servizio giusto, spiegarti come funziona e dirti i costi. Di cosa hai bisogno?', 'bot');
