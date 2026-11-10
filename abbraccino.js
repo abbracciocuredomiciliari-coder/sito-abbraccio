@@ -19,7 +19,8 @@
     '.ab-lbl-btm{background:linear-gradient(135deg,#1e3a5f,#1e4d8c);color:#fff}',
     '.ab-panel{position:fixed;bottom:212px;right:14px;width:min(360px,calc(100vw - 28px));max-height:62vh;background:#fff;border-radius:18px;box-shadow:0 10px 40px rgba(0,0,0,.22);z-index:99999;display:flex;flex-direction:column;overflow:hidden;border:1px solid #dbeafe;font-family:"Segoe UI",system-ui,sans-serif}',
     '.ab-head{background:linear-gradient(135deg,#1e3a5f,#1e4d8c);color:#fff;padding:12px 16px;font-weight:800;font-size:.95rem;display:flex;align-items:center;gap:8px}',
-    '.ab-close{margin-left:auto;background:transparent;border:none;color:#fff;font-size:22px;line-height:1;padding:4px 8px;cursor:pointer;min-width:36px;min-height:36px}',
+    '.ab-close{margin-left:auto;background:transparent;border:none;color:#fff;font-size:22px;line-height:1;padding:4px 8px;cursor:pointer;min-width:36px;min-height:36px;touch-action:manipulation}',
+    '@media (max-width:640px){#ab-xfloat{display:none !important}}',
     '.ab-head img{width:26px;height:26px;border-radius:50%;object-fit:cover}',
     '.ab-msgs{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:8px;min-height:160px;max-height:44vh}',
     '.ab-msg{max-width:85%;border-radius:14px;padding:9px 12px;font-size:.85rem;line-height:1.45;white-space:pre-wrap}',
@@ -142,9 +143,9 @@
 
     closeBtn = document.createElement('button');
     closeBtn.className = 'ab-btn';
-    closeBtn.style.cssText += ';position:fixed;right:14px;bottom:92px;z-index:99999;display:none;background:linear-gradient(135deg,#1e3a5f,#1e4d8c);color:#fff;font-size:24px;animation:none';
+    closeBtn.id = 'ab-xfloat';
+    closeBtn.style.cssText += ';position:fixed;right:14px;bottom:92px;z-index:100001;display:none;background:linear-gradient(135deg,#1e3a5f,#1e4d8c);color:#fff;font-size:24px;animation:none';
     closeBtn.textContent = '✕';
-    closeBtn.onclick = function () { setOpen(false); };
 
     panel = document.createElement('div');
     panel.className = 'ab-panel';
@@ -167,7 +168,22 @@
     inputEl = panel.querySelector('input');
     micBtn = panel.querySelector('.ab-mic');
 
-    panel.querySelector('.ab-close').onclick = function () { setOpen(false); };
+    // chiusura robusta: click e touchend, sia sulla X dell'header sia sul bottone flottante
+    function bindClose(el) {
+      ['click', 'touchend'].forEach(function (ev) {
+        el.addEventListener(ev, function (e) { e.preventDefault(); e.stopPropagation(); setOpen(false); }, { passive: false });
+      });
+    }
+    bindClose(panel.querySelector('.ab-close'));
+    bindClose(closeBtn);
+    // tocco fuori dal pannello (o tasto Esc) chiude la chat
+    document.addEventListener('pointerdown', function (e) {
+      if (!open) return;
+      if (panel.contains(e.target) || closeBtn.contains(e.target)) return;
+      setOpen(false);
+    }, true);
+    document.addEventListener('keydown', function (e) { if (open && e.key === 'Escape') setOpen(false); });
+
     panel.querySelector('form').addEventListener('submit', function (e) { e.preventDefault(); invia(); });
 
     addMsg('Ciao! Sono Abbraccino 💛 Posso aiutarti a trovare il servizio giusto, spiegarti come funziona e dirti i costi. Di cosa hai bisogno?', 'bot');
