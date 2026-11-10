@@ -11,6 +11,7 @@
     '@keyframes abGlow{0%,100%{box-shadow:0 4px 16px rgba(242,181,42,.3),0 0 0 0 rgba(242,181,42,.45)}50%{box-shadow:0 4px 20px rgba(242,181,42,.7),0 0 0 10px rgba(242,181,42,0)}}',
     /* colonna ancorata sopra la barra di navigazione mobile (~60px) */
     '.ab-col{position:fixed;right:14px;bottom:92px;z-index:99998;display:flex;flex-direction:column;align-items:center;gap:5px}',
+    '.ab-x{position:absolute;top:-8px;right:-6px;width:22px;height:22px;border-radius:50%;border:none;background:#1e3a5f;color:#fff;font-size:12px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.3)}',
     '.ab-btn{width:62px;height:62px;border-radius:50%;border:none;background:#fff;cursor:pointer;padding:5px;box-sizing:border-box;display:flex;align-items:center;justify-content:center;animation:abGlow 1.8s ease-in-out infinite}',
     '.ab-btn img{width:100%;height:100%;border-radius:50%;object-fit:cover;display:block;animation:abHeartBeat 1.8s ease-in-out infinite;transform-origin:center}',
     '.ab-lbl{border-radius:999px;padding:5px 12px;font-size:12px;font-weight:800;box-shadow:0 3px 10px rgba(0,0,0,.12);cursor:pointer;border:none;font-family:inherit;white-space:nowrap}',
@@ -115,14 +116,26 @@
     if (open) { loadVoci(); inputEl.focus(); }
   }
 
+  function chiudi() {
+    // nasconde il lanciatore (e il pannello se aperto) per tutta la visita
+    try { sessionStorage.setItem('ab-nascosto', '1'); } catch (e) {}
+    col.style.display = 'none';
+    closeBtn.style.display = 'none';
+    panel.style.display = 'none';
+    open = false;
+  }
+
   function build() {
+    if (typeof sessionStorage !== 'undefined' && sessionStorage.getItem('ab-nascosto')) return;
     col = document.createElement('div');
     col.className = 'ab-col';
     col.innerHTML =
       '<button class="ab-lbl ab-lbl-top">Sono Abbraccino 💛</button>' +
+      '<button class="ab-x" aria-label="Chiudi Abbraccino">✕</button>' +
       '<button class="ab-btn" aria-label="Chiedi ad Abbraccino"><img src="' + ICON + '" alt="Abbraccino"></button>' +
       '<button class="ab-lbl ab-lbl-btm">Abbraccino Aiutino</button>';
-    col.querySelectorAll('button').forEach(function (b) { b.onclick = function () { setOpen(true); }; });
+    col.querySelectorAll('.ab-btn, .ab-lbl').forEach(function (b) { b.onclick = function () { setOpen(true); }; });
+    col.querySelector('.ab-x').onclick = function (e) { e.stopPropagation(); chiudi(); };
 
     closeBtn = document.createElement('button');
     closeBtn.className = 'ab-btn';
