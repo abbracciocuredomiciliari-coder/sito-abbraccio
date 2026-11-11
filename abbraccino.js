@@ -9,8 +9,8 @@
   css.textContent = [
     '@keyframes abHeartBeat{0%,100%{transform:scale(1)}14%{transform:scale(1.18)}28%{transform:scale(1)}42%{transform:scale(1.18)}70%{transform:scale(1)}}',
     '@keyframes abGlow{0%,100%{box-shadow:0 4px 16px rgba(242,181,42,.3),0 0 0 0 rgba(242,181,42,.45)}50%{box-shadow:0 4px 20px rgba(242,181,42,.7),0 0 0 10px rgba(242,181,42,0)}}',
-    /* colonna ancorata sopra la barra di navigazione mobile (~60px) */
-    '.ab-col{position:fixed;right:14px;bottom:92px;z-index:99998;display:flex;flex-direction:column;align-items:center;gap:5px}',
+    /* colonna mascotte: si sposta dolcemente sul sito (come LUX) */
+    '.ab-col{position:fixed;left:0;top:0;z-index:99998;display:flex;flex-direction:column;align-items:center;gap:5px;will-change:transform;transform:translate3d(var(--abx,calc(100vw - 80px)),var(--aby,calc(100dvh - 205px)),0)}',
     '.ab-x{position:absolute;top:-8px;right:-6px;width:22px;height:22px;border-radius:50%;border:none;background:#1e3a5f;color:#fff;font-size:12px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.3)}',
     '.ab-btn{width:62px;height:62px;border-radius:50%;border:none;background:#fff;cursor:pointer;padding:5px;box-sizing:border-box;display:flex;align-items:center;justify-content:center;animation:abGlow 1.8s ease-in-out infinite}',
     '.ab-btn img{width:100%;height:100%;border-radius:50%;object-fit:cover;display:block;animation:abHeartBeat 1.8s ease-in-out infinite;transform-origin:center}',
@@ -33,9 +33,14 @@
     '.ab-send{background:#1e4d8c;color:#fff}',
     '.ab-mic{background:#e2e8f0;color:#475569}',
     '.ab-mic.on{background:#dc2626;color:#fff;animation:abHeartBeat 1.2s infinite}',
+    '.ab-voice{margin-left:auto;background:transparent;border:none;color:#fff;font-size:18px;line-height:1;padding:4px 6px;cursor:pointer;opacity:.75}',
+    '.ab-voice[aria-pressed=true]{opacity:1;color:#fbbf24}',
+    '.ab-motion{border:none;border-top:1px solid #e2e8f0;background:#f8fafc;color:#64748b;font-size:11px;padding:8px;cursor:pointer;font-family:inherit}',
+    '.ab-motion:hover{background:#f1f5f9}',
     /* Su smartphone il lanciatore e' compatto: una sola pill + icona piccola;
        il pannello diventa bottom-sheet a tutta larghezza con la X in alto */
-    '@media (max-width:640px){.ab-col{right:10px;bottom:88px;gap:4px}.ab-lbl-top{display:none}.ab-btn{width:46px;height:46px}.ab-lbl-btm{font-size:11px;padding:4px 10px}.ab-panel{left:0;right:0;bottom:0;width:100%;max-height:88vh;border-radius:18px 18px 0 0}}'
+    '@media (max-width:640px){.ab-col{gap:4px;transform:translate3d(var(--abx,calc(100vw - 62px)),var(--aby,calc(100dvh - 190px)),0)}.ab-lbl-top{display:none}.ab-btn{width:46px;height:46px}.ab-lbl-btm{font-size:11px;padding:4px 10px}.ab-panel{left:0;right:0;bottom:0;width:100%;max-height:88vh;border-radius:18px 18px 0 0}}',
+    '@media (prefers-reduced-motion:reduce){.ab-col{will-change:auto}}'
   ].join('\n');
   document.head.appendChild(css);
 
@@ -54,6 +59,111 @@
       msgsEl.appendChild(a);
     }
     msgsEl.scrollTop = msgsEl.scrollHeight;
+  }
+
+  /* ── voce TTS ── */
+  var voiceOn = false;
+  function stopSpeech() { if ('speechSynthesis' in window) speechSynthesis.cancel(); }
+  function speak(text) {
+    if (!voiceOn || !('speechSynthesis' in window) || !text) return;
+    stopSpeech();
+    var u = new SpeechSynthesisUtterance(String(text).slice(0, 600));
+    u.lang = 'it-IT';
+    var it = speechSynthesis.getVoices().filter(function (v) { return v.lang.indexOf('it') === 0; });
+    if (it.length) u.voice = it[0];
+    u.rate = .97;
+    speechSynthesis.speak(u);
+  }
+
+  /* ── mascotte che si sposta dolcemente (port di lux-wander) ── */
+  function startWander(host, isChatOpen, chatEl) {
+    var clamp = function (x, a, b) { return Math.min(b, Math.max(a, x)); };
+    var ease = function (t) { return t < .5 ? 2 * t * t : 1 - (-2 * t + 2) * (-2 * t + 2) / 2; };
+    function overlap(a, b) { return Math.max(0, Math.min(a.x + a.w, b.x + b.w) - Math.max(a.x, b.x)) * Math.max(0, Math.min(a.y + a.h, b.y + b.h) - Math.max(a.y, b.y)); }
+    function bounds(w, h) {
+      var v = { width: innerWidth, height: window.visualViewport ? window.visualViewport.height : innerHeight };
+      var header = document.querySelector('.site-header,header,nav') ? document.querySelector('.site-header,header,nav').getBoundingClientRect() : null;
+      var headerEnd = header && header.bottom > 0 && header.bottom < v.height / 3 ? header.bottom : 0;
+      var bottom = 0;
+      document.querySelectorAll('.mobilebar,.mobile-nav,.bottom-nav,nav.fixed-bottom,[data-lux-avoid-bottom]').forEach(function (e) {
+        var r = e.getBoundingClientRect();
+        if (r.height && r.bottom >= v.height - 10 && r.top >= v.height * .65) bottom = Math.max(bottom, v.height - r.top);
+      });
+      var left = 8, right = Math.max(left, v.width - w - 8), top = Math.max(8, Math.min(headerEnd + 8, v.height - h - 8)), foot = Math.max(top, v.height - h - bottom - 10);
+      return { left: left, right: right, top: top, bottom: foot, w: w, h: h };
+    }
+    function route(b) {
+      var span = b.bottom - b.top;
+      return [{ x: b.right, y: b.bottom }, { x: b.left, y: b.bottom }, { x: b.right, y: b.top + span * .15 }, { x: b.left, y: b.top + span * .45 }, { x: (b.left + b.right) / 2, y: b.bottom }];
+    }
+    function safePoint(point, b, obstacles) {
+      var cands = [point].concat(route(b)).map(function (p) { return { x: clamp(p.x, b.left, b.right), y: clamp(p.y, b.top, b.bottom) }; });
+      var best = cands[0], bestScore = Infinity;
+      cands.forEach(function (p) {
+        var s = 0;
+        obstacles.forEach(function (o) { s += overlap({ x: p.x, y: p.y, w: b.w, h: b.h }, o); });
+        if (s < bestScore) { bestScore = s; best = p; }
+      });
+      return best;
+    }
+    function obstacles() {
+      var out = [], v = { height: window.visualViewport ? window.visualViewport.height : innerHeight };
+      document.querySelectorAll('a,button,input,textarea,select,[data-lux-avoid]').forEach(function (e) {
+        if (host.contains(e) || chatEl.contains(e)) return;
+        var r = e.getBoundingClientRect();
+        if (!r.width || !r.height || r.bottom < 0 || r.top > v.height) return;
+        out.push({ x: r.left - 7, y: r.top - 7, w: r.width + 14, h: r.height + 14 });
+      });
+      return out;
+    }
+    var reduce = matchMedia('(prefers-reduced-motion: reduce)'), paused = false;
+    try { paused = localStorage.getItem('ab-wander-paused') === '1'; } catch (e) {}
+    var hover = false, focused = false, typing = false, scrollUntil = 0, last = performance.now(), wait = 4800, progress = 0, trip = null, index = 0, wasDocked = false, position = null;
+    var rect0 = host.getBoundingClientRect();
+    function draw() { host.style.setProperty('--abx', Math.round(position.x) + 'px'); host.style.setProperty('--aby', Math.round(position.y) + 'px'); }
+    function place() { var b = bounds(rect0.width, rect0.height); position = safePoint(position || { x: b.right, y: b.bottom }, b, obstacles()); draw(); }
+    var motionToggle = chatEl.querySelector('.ab-motion');
+    function updateToggle() { if (motionToggle) { motionToggle.setAttribute('aria-pressed', String(paused)); motionToggle.textContent = paused ? 'Riattiva gli spostamenti di Abbraccino' : 'Ferma gli spostamenti di Abbraccino'; } }
+    updateToggle();
+    if (motionToggle) motionToggle.onclick = function () { paused = !paused; try { localStorage.setItem('ab-wander-paused', paused ? '1' : '0'); } catch (e) {} updateToggle(); trip = null; wait = 4800; };
+    host.addEventListener('pointerenter', function (e) { if (e.pointerType === 'mouse') hover = true; });
+    host.addEventListener('pointerleave', function () { hover = false; });
+    host.addEventListener('focusin', function () { focused = true; });
+    host.addEventListener('focusout', function () { focused = false; });
+    document.addEventListener('focusin', function (e) { typing = !!(e.target.closest && e.target.closest('input,textarea,select')); });
+    document.addEventListener('focusout', function () { typing = false; });
+    window.addEventListener('scroll', function () { scrollUntil = performance.now() + 1200; }, { passive: true });
+    function resized() { trip = null; wait = 1800; if (position) { rect0 = host.getBoundingClientRect(); place(); } }
+    window.addEventListener('resize', resized);
+    if (window.visualViewport) window.visualViewport.addEventListener('resize', resized);
+    function frame(now) {
+      requestAnimationFrame(frame);
+      var dt = Math.min(1000, Math.max(0, now - last)); last = now;
+      var docked = isChatOpen();
+      if (!position) place();
+      if (docked) {
+        var r = chatEl.getBoundingClientRect(), cr = host.getBoundingClientRect();
+        position = { x: Math.max(4, r.left + 4), y: Math.max(2, r.top - cr.height - 4) };
+        draw(); trip = null; wait = 6000; wasDocked = true; return;
+      }
+      if (wasDocked) { wasDocked = false; trip = null; wait = 4500; place(); }
+      if (document.hidden || paused || reduce.matches || hover || focused || typing || now < scrollUntil) return;
+      if (!trip) {
+        wait -= dt; if (wait > 0) return;
+        var b = bounds(rect0.width, rect0.height), points = route(b), target = position;
+        for (var n = 0; n < points.length; n++) { index = (index + 1) % points.length; target = safePoint(points[index], b, obstacles()); if (Math.hypot(target.x - position.x, target.y - position.y) > 35) break; }
+        if (Math.hypot(target.x - position.x, target.y - position.y) < 20) { wait = 6000; return; }
+        trip = { from: { x: position.x, y: position.y }, to: target, duration: Math.max(3000, Math.min(6500, Math.hypot(target.x - position.x, target.y - position.y) * 7)) };
+        progress = 0;
+      }
+      progress += dt;
+      var f = Math.min(1, progress / trip.duration), t = ease(f);
+      position = { x: trip.from.x + (trip.to.x - trip.from.x) * t, y: trip.from.y + (trip.to.y - trip.from.y) * t };
+      draw();
+      if (f === 1) { trip = null; wait = 6500; }
+    }
+    place();
+    requestAnimationFrame(frame);
   }
 
   function loadVoci() {
@@ -95,6 +205,7 @@
       try {
         var d = JSON.parse(x.responseText);
         addMsg(d.risposta || 'Puoi chiamarci al 06 01905242.', 'bot', d.link, d.labelLink);
+        speak(d.risposta);
       } catch (e) {
         addMsg('Ops, ho qualche difficoltà tecnica. Chiamaci al 06 01905242.', 'bot');
       }
@@ -114,10 +225,11 @@
   function setOpen(v) {
     open = v;
     panel.style.display = open ? 'flex' : 'none';
-    col.style.display = open ? 'none' : 'flex';
+    col.style.display = 'flex';
     closeBtn.style.display = open ? 'flex' : 'none';
     // su touch non diamo il focus: la tastiera coprirebbe meta' pannello
     if (open) { loadVoci(); if (!('ontouchstart' in window)) inputEl.focus(); }
+    else stopSpeech();
   }
 
   function chiudi() {
@@ -152,13 +264,15 @@
     panel.style.display = 'none';
     panel.innerHTML =
       '<div class="ab-head"><img src="' + ICON + '" alt=""> Abbraccino — assistente' +
+      '<button type="button" class="ab-voice" aria-pressed="false" aria-label="Attiva risposte vocali" title="Risposte vocali">♪</button>' +
       '<button type="button" class="ab-close" aria-label="Chiudi Abbraccino">✕</button></div>' +
       '<div class="ab-msgs"></div>' +
       '<form class="ab-form">' +
       '<input type="text" placeholder="Scrivi o detta cosa ti serve…">' +
       '<button type="button" class="ab-mic" title="Parla" style="display:none">🎤</button>' +
       '<button type="submit" class="ab-send" title="Invia">➤</button>' +
-      '</form>';
+      '</form>' +
+      '<button type="button" class="ab-motion" aria-pressed="false">Ferma gli spostamenti</button>';
 
     document.body.appendChild(col);
     document.body.appendChild(closeBtn);
@@ -186,6 +300,20 @@
 
     panel.querySelector('form').addEventListener('submit', function (e) { e.preventDefault(); invia(); });
 
+    // voce TTS: ♪ nell'header attiva/disattiva le risposte vocali
+    var voiceBtn = panel.querySelector('.ab-voice');
+    voiceBtn.onclick = function () {
+      if (!('speechSynthesis' in window)) { voiceBtn.style.display = 'none'; return; }
+      voiceOn = !voiceOn;
+      voiceBtn.setAttribute('aria-pressed', String(voiceOn));
+      voiceBtn.setAttribute('aria-label', voiceOn ? 'Disattiva risposte vocali' : 'Attiva risposte vocali');
+      if (voiceOn) speak('Ciao! Sono Abbraccino, il tuo aiutino.');
+      else stopSpeech();
+    };
+
+    // la mascotte si sposta dolcemente sul sito (si ferma su hover, scrittura, scroll)
+    startWander(col, function () { return open; }, panel);
+
     addMsg('Ciao! Sono Abbraccino 💛 Posso aiutarti a trovare il servizio giusto, spiegarti come funziona e dirti i costi. Di cosa hai bisogno?', 'bot');
 
     var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -197,7 +325,7 @@
         rec = new SR();
         rec.lang = 'it-IT';
         rec.interimResults = false;
-        rec.onresult = function (e) { inputEl.value = (inputEl.value + ' ' + e.results[0][0].transcript).trim(); };
+        rec.onresult = function (e) { inputEl.value = (inputEl.value + ' ' + e.results[0][0].transcript).trim(); invia(); };
         rec.onend = function () { listening = false; micBtn.classList.remove('on'); };
         rec.onerror = function () { listening = false; micBtn.classList.remove('on'); };
         listening = true;
