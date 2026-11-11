@@ -1,4 +1,141 @@
 /* Abbraccino — assistente virtuale Abbraccio (widget sito) */
+
+/* ═══ ABABRACCINO FACE — mascotte animata SVG ═══
+   Occhi che seguono il puntatore e sbattono, sorriso che si allarga,
+   braccia che si aprono in un abbraccio, bocca che si muove quando parla.
+   Uso: AbbraccinoFace.mount(el) -> { el, hug(), setSmile(big), setTalking(on) }
+*/
+(function () {
+  'use strict';
+  var reduce = false;
+  try { reduce = matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
+
+  var faces = [];
+  var cssInjected = false;
+
+  function injectCss() {
+    if (cssInjected) return; cssInjected = true;
+    var s = document.createElement('style');
+    s.textContent =
+      '.abf-svg{display:block;width:100%;height:100%;overflow:visible}' +
+      '.abf-lid{transform-box:fill-box;transform-origin:center top;transform:scaleY(0);transition:transform .11s ease-in}' +
+      '.abf-look{transition:transform .12s ease-out}' +
+      '.abf-arm{transform-box:fill-box;transition:transform .45s cubic-bezier(.34,1.56,.64,1)}' +
+      '.abf-al{transform-origin:100% 100%}' +
+      '.abf-ar{transform-origin:0% 100%}' +
+      '.abf-svg.abf-hug .abf-al{transform:rotate(-42deg) translate(-2px,-6px)}' +
+      '.abf-svg.abf-hug .abf-ar{transform:rotate(42deg) translate(2px,-6px)}' +
+      '.abf-mouth-open{transform-box:fill-box;transform-origin:center top;opacity:0;transition:opacity .12s}' +
+      '.abf-svg.abf-talk .abf-mouth-smile{opacity:0}' +
+      '.abf-svg.abf-talk .abf-mouth-open{opacity:1;animation:abfTalk .26s ease-in-out infinite alternate}' +
+      '@keyframes abfTalk{from{transform:scaleY(.35)}to{transform:scaleY(1.05)}}' +
+      '@media (prefers-reduced-motion:reduce){.abf-lid,.abf-look,.abf-arm,.abf-mouth-open{transition:none}.abf-svg.abf-talk .abf-mouth-open{animation:none}}';
+    document.head.appendChild(s);
+  }
+
+  var SVG_INNER =
+    '<path class="abf-arm abf-al" d="M31 82 Q15 78 11 64" stroke="#e8a93e" stroke-width="8.5" stroke-linecap="round" fill="none"/>' +
+    '<path class="abf-arm abf-ar" d="M89 82 Q105 78 109 64" stroke="#e8a93e" stroke-width="8.5" stroke-linecap="round" fill="none"/>' +
+    '<circle class="abf-hand" cx="10" cy="62" r="7.5" fill="#ffd98e" stroke="#e8a93e" stroke-width="2.5"/>' +
+    '<circle class="abf-hand" cx="110" cy="62" r="7.5" fill="#ffd98e" stroke="#e8a93e" stroke-width="2.5"/>' +
+    '<circle cx="60" cy="62" r="40" fill="#ffd98e" stroke="#e8a93e" stroke-width="3"/>' +
+    '<circle cx="39" cy="71" r="7" fill="#ffa6a6" opacity=".7"/>' +
+    '<circle cx="81" cy="71" r="7" fill="#ffa6a6" opacity=".7"/>' +
+    '<g class="abf-look">' +
+    '<circle cx="44" cy="54" r="7.6" fill="#fff"/>' +
+    '<circle cx="76" cy="54" r="7.6" fill="#fff"/>' +
+    '<circle cx="44" cy="55.5" r="3.6" fill="#3d2e1e"/>' +
+    '<circle cx="76" cy="55.5" r="3.6" fill="#3d2e1e"/>' +
+    '<circle cx="45.3" cy="54" r="1.15" fill="#fff"/>' +
+    '<circle cx="77.3" cy="54" r="1.15" fill="#fff"/>' +
+    '</g>' +
+    '<ellipse class="abf-lid" cx="44" cy="54" rx="8.2" ry="8.6" fill="#ffd98e"/>' +
+    '<ellipse class="abf-lid" cx="76" cy="54" rx="8.2" ry="8.6" fill="#ffd98e"/>' +
+    '<path class="abf-mouth-smile" d="M45 74 Q60 83 75 74" stroke="#8a5420" stroke-width="3.6" fill="none" stroke-linecap="round"/>' +
+    '<ellipse class="abf-mouth-open" cx="60" cy="78" rx="7" ry="4.6" fill="#8a5420"/>';
+
+  function mount(container) {
+    injectCss();
+    var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('viewBox', '0 0 120 120');
+    svg.setAttribute('class', 'abf-svg');
+    svg.setAttribute('aria-hidden', 'true');
+    svg.innerHTML = SVG_INNER;
+    container.appendChild(svg);
+
+    var look = svg.querySelector('.abf-look');
+    var lids = svg.querySelectorAll('.abf-lid');
+    var mouth = svg.querySelector('.abf-mouth-smile');
+    var face = { svg: svg };
+
+    /* occhi che seguono il puntatore (o vagano dolcemente su touch) */
+    var tx = 0, ty = 0, idleT = 0;
+    function onPointer(e) {
+      if (reduce) return;
+      var r = svg.getBoundingClientRect();
+      if (!r.width) return;
+      var cx = r.left + r.width / 2, cy = r.top + r.height * .46;
+      var dx = (e.clientX - cx) / 160, dy = (e.clientY - cy) / 160;
+      tx = Math.max(-3, Math.min(3, dx * 3));
+      ty = Math.max(-2.2, Math.min(2.2, dy * 2.2));
+      look.style.transform = 'translate(' + tx + 'px,' + ty + 'px)';
+    }
+    document.addEventListener('pointermove', onPointer, { passive: true });
+
+    /* deriva degli occhi quando nessuno muove il mouse (touch) */
+    function idleEyes() {
+      if (reduce) return;
+      var now = Date.now();
+      if (now - idleT > 2600) {
+        idleT = now;
+        look.style.transform = 'translate(' + (Math.random() * 4 - 2) + 'px,' + (Math.random() * 2 - 1) + 'px)';
+      }
+    }
+    var idleInt = setInterval(idleEyes, 2400);
+
+    /* battito di ciglia casuale */
+    function blink() {
+      if (reduce || !svg.isConnected) return;
+      lids.forEach(function (l) { l.style.transform = 'scaleY(1)'; });
+      setTimeout(function () { lids.forEach(function (l) { l.style.transform = 'scaleY(0)'; }); }, 150);
+    }
+    var blinkInt = setInterval(function () { if (Math.random() < .8) blink(); }, 3400);
+    setTimeout(blink, 700);
+
+    /* abbraccio: braccia che si aprono — ogni tanto da solo + al passaggio del mouse */
+    function hug() {
+      if (reduce || !svg.isConnected) return;
+      svg.classList.add('abf-hug');
+      setTimeout(function () { svg.classList.remove('abf-hug'); }, 1100);
+    }
+    var hugInt = setInterval(hug, 9000);
+    container.addEventListener('pointerenter', hug);
+    setTimeout(hug, 1200);
+
+    face.hug = hug;
+    face.setSmile = function (big) {
+      mouth.setAttribute('d', big ? 'M41 72 Q60 92 79 72' : 'M45 74 Q60 83 75 74');
+      if (big) hug();
+    };
+    face.setTalking = function (on) { svg.classList.toggle('abf-talk', !!on); };
+    face.destroy = function () {
+      document.removeEventListener('pointermove', onPointer);
+      clearInterval(idleInt); clearInterval(blinkInt); clearInterval(hugInt);
+      svg.remove();
+      var i = faces.indexOf(face); if (i > -1) faces.splice(i, 1);
+    };
+    faces.push(face);
+    return face;
+  }
+
+  window.AbbraccinoFace = {
+    mount: mount,
+    setTalking: function (on) { faces.forEach(function (f) { f.setTalking(on); }); },
+    hug: function () { faces.forEach(function (f) { f.hug(); }); },
+    setSmile: function (big) { faces.forEach(function (f) { f.setSmile(big); }); }
+  };
+})();
+
 (function () {
   var API = 'https://api.abbracciocuredomiciliari.it/api';
   var ICON = 'https://app.abbracciocuredomiciliari.it/abbraccino.jpg';
@@ -14,6 +151,7 @@
     '.ab-x{position:absolute;top:-8px;right:-6px;width:22px;height:22px;border-radius:50%;border:none;background:#1e3a5f;color:#fff;font-size:12px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.3)}',
     '.ab-btn{width:62px;height:62px;border-radius:50%;border:none;background:#fff;cursor:pointer;padding:5px;box-sizing:border-box;display:flex;align-items:center;justify-content:center;animation:abGlow 1.8s ease-in-out infinite}',
     '.ab-btn img{width:100%;height:100%;border-radius:50%;object-fit:cover;display:block;animation:abHeartBeat 1.8s ease-in-out infinite;transform-origin:center}',
+    '.ab-face-slot{display:block;width:100%;height:100%;animation:abHeartBeat 1.8s ease-in-out infinite;transform-origin:center}',
     '.ab-lbl{border-radius:999px;padding:5px 12px;font-size:12px;font-weight:800;box-shadow:0 3px 10px rgba(0,0,0,.12);cursor:pointer;border:none;font-family:inherit;white-space:nowrap}',
     '.ab-lbl-top{background:#fff;color:#1e4d8c;border:1.5px solid #dbeafe}',
     '.ab-lbl-btm{background:linear-gradient(135deg,#1e3a5f,#1e4d8c);color:#fff}',
@@ -22,6 +160,7 @@
     '.ab-close{margin-left:auto;background:transparent;border:none;color:#fff;font-size:22px;line-height:1;padding:4px 8px;cursor:pointer;min-width:36px;min-height:36px;touch-action:manipulation}',
     '@media (max-width:640px){#ab-xfloat{display:none !important}}',
     '.ab-head img{width:26px;height:26px;border-radius:50%;object-fit:cover}',
+    '.ab-head .ab-face-slot{width:30px;height:30px;flex:none;animation:none}',
     '.ab-msgs{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:8px;min-height:160px;max-height:44vh}',
     '.ab-msg{max-width:85%;border-radius:14px;padding:9px 12px;font-size:.85rem;line-height:1.45;white-space:pre-wrap}',
     '.ab-msg.bot{align-self:flex-start;background:#f1f5f9;color:#1e293b}',
@@ -61,9 +200,10 @@
     msgsEl.scrollTop = msgsEl.scrollHeight;
   }
 
-  /* ── voce TTS ── */
-  var voiceOn = false;
-  function stopSpeech() { if ('speechSynthesis' in window) speechSynthesis.cancel(); }
+  /* ── voce TTS: attiva di default, si sospende dal tasto ♪ ── */
+  var voiceOn = true;
+  try { voiceOn = localStorage.getItem('ab-voice') !== '0'; } catch (e) {}
+  function stopSpeech() { if ('speechSynthesis' in window) speechSynthesis.cancel(); if (window.AbbraccinoFace) AbbraccinoFace.setTalking(false); }
   function speak(text) {
     if (!voiceOn || !('speechSynthesis' in window) || !text) return;
     stopSpeech();
@@ -72,6 +212,8 @@
     var it = speechSynthesis.getVoices().filter(function (v) { return v.lang.indexOf('it') === 0; });
     if (it.length) u.voice = it[0];
     u.rate = .97;
+    u.onstart = function () { if (window.AbbraccinoFace) AbbraccinoFace.setTalking(true); };
+    u.onend = u.onerror = function () { if (window.AbbraccinoFace) AbbraccinoFace.setTalking(false); };
     speechSynthesis.speak(u);
   }
 
@@ -222,13 +364,19 @@
     }));
   }
 
+  var greeted = false;
   function setOpen(v) {
     open = v;
     panel.style.display = open ? 'flex' : 'none';
     col.style.display = 'flex';
     closeBtn.style.display = open ? 'flex' : 'none';
+    if (window.AbbraccinoFace) AbbraccinoFace.setSmile(open);
     // su touch non diamo il focus: la tastiera coprirebbe meta' pannello
-    if (open) { loadVoci(); if (!('ontouchstart' in window)) inputEl.focus(); }
+    if (open) {
+      loadVoci();
+      if (!('ontouchstart' in window)) inputEl.focus();
+      if (!greeted) { greeted = true; speak('Ciao! Sono Abbraccino. Posso aiutarti a trovare il servizio giusto e dirti i costi. Di cosa hai bisogno?'); }
+    }
     else stopSpeech();
   }
 
@@ -248,7 +396,7 @@
     col.innerHTML =
       '<button class="ab-lbl ab-lbl-top">Sono Abbraccino 💛</button>' +
       '<button class="ab-x" aria-label="Chiudi Abbraccino">✕</button>' +
-      '<button class="ab-btn" aria-label="Chiedi ad Abbraccino"><img src="' + ICON + '" alt="Abbraccino"></button>' +
+      '<button class="ab-btn" aria-label="Chiedi ad Abbraccino"><span class="ab-face-slot"></span></button>' +
       '<button class="ab-lbl ab-lbl-btm">Abbraccino Aiutino</button>';
     col.querySelectorAll('.ab-btn, .ab-lbl').forEach(function (b) { b.onclick = function () { setOpen(true); }; });
     col.querySelector('.ab-x').onclick = function (e) { e.stopPropagation(); chiudi(); };
@@ -263,8 +411,8 @@
     panel.className = 'ab-panel';
     panel.style.display = 'none';
     panel.innerHTML =
-      '<div class="ab-head"><img src="' + ICON + '" alt=""> Abbraccino — assistente' +
-      '<button type="button" class="ab-voice" aria-pressed="false" aria-label="Attiva risposte vocali" title="Risposte vocali">♪</button>' +
+      '<div class="ab-head"><span class="ab-face-slot"></span> Abbraccino — assistente' +
+      '<button type="button" class="ab-voice" aria-pressed="' + voiceOn + '" aria-label="' + (voiceOn ? 'Sospendi risposte vocali' : 'Attiva risposte vocali') + '" title="Risposte vocali">♪</button>' +
       '<button type="button" class="ab-close" aria-label="Chiudi Abbraccino">✕</button></div>' +
       '<div class="ab-msgs"></div>' +
       '<form class="ab-form">' +
@@ -281,6 +429,12 @@
     msgsEl = panel.querySelector('.ab-msgs');
     inputEl = panel.querySelector('input');
     micBtn = panel.querySelector('.ab-mic');
+
+    // mascotte animata: occhi che seguono, sorriso, braccia ad abbraccio
+    if (window.AbbraccinoFace) {
+      AbbraccinoFace.mount(col.querySelector('.ab-face-slot'));
+      AbbraccinoFace.mount(panel.querySelector('.ab-face-slot'));
+    }
 
     // chiusura robusta: click e touchend, sia sulla X dell'header sia sul bottone flottante
     function bindClose(el) {
@@ -302,12 +456,14 @@
 
     // voce TTS: ♪ nell'header attiva/disattiva le risposte vocali
     var voiceBtn = panel.querySelector('.ab-voice');
+    if (!('speechSynthesis' in window)) voiceBtn.style.display = 'none';
     voiceBtn.onclick = function () {
       if (!('speechSynthesis' in window)) { voiceBtn.style.display = 'none'; return; }
       voiceOn = !voiceOn;
+      try { localStorage.setItem('ab-voice', voiceOn ? '1' : '0'); } catch (e) {}
       voiceBtn.setAttribute('aria-pressed', String(voiceOn));
-      voiceBtn.setAttribute('aria-label', voiceOn ? 'Disattiva risposte vocali' : 'Attiva risposte vocali');
-      if (voiceOn) speak('Ciao! Sono Abbraccino, il tuo aiutino.');
+      voiceBtn.setAttribute('aria-label', voiceOn ? 'Sospendi risposte vocali' : 'Attiva risposte vocali');
+      if (voiceOn) speak('Voce attiva! Sono Abbraccino, il tuo aiutino.');
       else stopSpeech();
     };
 
