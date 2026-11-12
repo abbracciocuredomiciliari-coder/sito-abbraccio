@@ -315,7 +315,7 @@
     '.ab-motion:hover{background:#f1f5f9}',
     /* Su smartphone il lanciatore e' compatto: una sola pill + icona piccola;
        il pannello diventa bottom-sheet a tutta larghezza con la X in alto */
-    '@media (max-width:640px){.ab-col{gap:4px;transform:translate3d(var(--abx,calc(100vw - 62px)),var(--aby,calc(100dvh - 190px)),0)}.ab-lbl-top{display:none}.ab-btn{width:46px;height:46px}.ab-lbl-btm{font-size:11px;padding:4px 10px}.ab-panel{left:0;right:0;bottom:0;width:100%;max-height:88vh;border-radius:18px 18px 0 0}}',
+    '@media (max-width:760px){.ab-col{gap:4px;left:12px!important;top:auto!important;right:auto!important;bottom:calc(84px + env(safe-area-inset-bottom,0px))!important;transform:none!important;will-change:auto}.ab-motion{display:none!important}}@media (max-width:640px){.ab-lbl-top{display:none}.ab-btn{width:46px;height:46px}.ab-lbl-btm{font-size:11px;padding:4px 10px}.ab-panel{left:0;right:0;bottom:0;width:100%;max-height:88vh;border-radius:18px 18px 0 0}}',
     '@media (prefers-reduced-motion:reduce){.ab-col{will-change:auto}}'
   ].join('\n');
   document.head.appendChild(css);
@@ -415,8 +415,10 @@
     function resized() { trip = null; wait = 1800; if (position) { rect0 = host.getBoundingClientRect(); place(); } }
     window.addEventListener('resize', resized);
     if (window.visualViewport) window.visualViewport.addEventListener('resize', resized);
+    var mobileMQ = matchMedia('(max-width:760px)');
     function frame(now) {
       requestAnimationFrame(frame);
+      if (mobileMQ.matches) { last = now; return; }
       var dt = Math.min(1000, Math.max(0, now - last)); last = now;
       var docked = isChatOpen();
       if (!position) place();

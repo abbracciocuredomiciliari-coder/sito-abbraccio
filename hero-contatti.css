@@ -1,0 +1,17 @@
+/* Contatti rapidi vicino all'hero: WhatsApp + telefoni (principale, famiglia, shop) */
+.hero-contact{display:flex;flex-wrap:wrap;align-items:center;gap:10px 12px;margin:22px 0 0;position:relative;z-index:2}
+.hero-contact a{display:inline-flex;align-items:center;gap:8px;text-decoration:none;font:600 14px/1.2 system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;border-radius:999px;padding:11px 18px;white-space:nowrap;transition:transform .15s,box-shadow .15s}
+.hero-contact a:hover{transform:translateY(-1px)}
+.hero-contact .hc-wa{background:#1fa855;color:#fff!important;box-shadow:0 6px 16px rgba(31,168,85,.30);border:0}
+.hero-contact .hc-wa svg{width:19px;height:19px;fill:#fff;flex:none}
+.hero-contact .hc-tel{background:#fff;color:#153d55!important;border:1.5px solid #153d55}
+.hero-contact .hc-tel svg{width:16px;height:16px;fill:#153d55;flex:none}
+@media(max-width:760px){
+ .hero-contact{gap:8px;margin-top:18px}
+ .hero-contact a{font-size:14px;padding:12px 14px;flex:1 1 auto;justify-content:center}
+ .hero-contact .hc-wa{flex-basis:100%}
+ /* sezione contatti e strip "Da dove cominciamo": sempre leggibili e allineati */
+ .contact>div{display:flex!important;flex-direction:column!important;align-items:stretch!important;gap:12px!important;width:100%}
+ .contact>div>a,.contact>div>button{width:100%!important;box-sizing:border-box;justify-content:center;text-align:center;margin:0!important}
+ .start-strip button{background:transparent!important;color:#fff!important;border:0;border-bottom:1px solid rgba(255,255,255,.28)!important;width:100%;text-align:left;-webkit-appearance:none;appearance:none}
+}

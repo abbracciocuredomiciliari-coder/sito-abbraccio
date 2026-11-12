@@ -1,9 +1,10 @@
-/* Evita che la mascotte vagante copra testo/CTA su smartphone. Desktop invariato. */
+/* Abbraccino su smartphone: fermo in basso a SINISTRA, sopra la barra inferiore. Desktop invariato (si muove). */
 @media(max-width:760px){
- body .ab-col{left:auto!important;top:auto!important;right:12px!important;bottom:calc(98px + env(safe-area-inset-bottom,0px))!important;transform:none!important;will-change:auto!important;gap:3px!important;z-index:900!important}
+ body .ab-col{left:12px!important;right:auto!important;top:auto!important;bottom:calc(84px + env(safe-area-inset-bottom,0px))!important;transform:none!important;will-change:auto!important;gap:3px!important;z-index:900!important}
  body .ab-col .ab-btn{width:48px!important;height:48px!important}
  body .ab-col .ab-lbl-top{display:none!important}
  body .ab-col .ab-lbl-btm{font-size:11px!important;padding:5px 9px!important;max-width:110px;white-space:normal}
- body .ab-col #ab-xfloat{display:flex!important;width:32px!important;height:32px!important;top:-16px!important;right:-5px!important}
+ body .ab-col .ab-x{top:-6px!important;right:-8px!important}
+ body .ab-motion{display:none!important}
  body .ab-panel{z-index:99999!important}
 }
