@@ -1,0 +1,33 @@
+/* Abbraccio - video mobile. Caricare DOPO hero-photo.css e gli altri override.
+   Ripristina il formato nativo 480x788. Non cambia il file MP4 o il desktop. */
+@media (max-width: 760px) {
+  .lux-hero .lux-stage {
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+  }
+  .lux-hero .lux-triptych {
+    grid-template-columns: minmax(0, 1fr) !important;
+    justify-items: center;
+  }
+  .lux-hero .lux-frame.central {
+    width: 100% !important;
+    max-width: 330px !important;
+    margin-inline: auto;
+    box-sizing: border-box;
+  }
+  .lux-hero .lux-frame.central #heroVideo {
+    display: block !important;
+    width: 100% !important;
+    height: auto !important;
+    max-height: none !important;
+    aspect-ratio: 480 / 788 !important;
+    object-fit: contain !important;
+    object-position: center !important;
+    transform: none !important;
+    background: #102e40;
+  }
+  .lux-hero .lux-frame.lux-mirror {
+    display: none !important;
+  }
+}

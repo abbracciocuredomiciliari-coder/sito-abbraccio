@@ -3,12 +3,12 @@
 .lux-triptych{grid-template-columns:1fr!important;gap:0!important;padding:0!important}
 .lux-frame.lux-mirror{display:none!important}
 .lux-frame.central{margin-top:0!important}
-.lux-frame video{aspect-ratio:16/9!important}
+.lux-frame video{aspect-ratio:480/788!important}.lux-frame.central{max-width:540px;margin-inline:auto}
 .lux-hero{min-height:700px!important}
 .lux-hero .hero-copy:after{background:linear-gradient(100deg,rgba(255,253,247,.86),rgba(255,253,247,.52) 62%,rgba(255,253,247,.30))!important}
 .lux-hero .hero-copy:before{background-position:center 30%!important}
 @media(max-width:760px){
  .lux-frame.central{width:100%!important;max-width:560px!important}
- .lux-frame video{aspect-ratio:16/9!important}
+ .lux-frame video{aspect-ratio:480/788!important}.lux-frame.central{max-width:540px;margin-inline:auto}
  .lux-hero{min-height:0!important}
 }
