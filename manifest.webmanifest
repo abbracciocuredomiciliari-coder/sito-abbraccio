@@ -1,0 +1,1 @@
+{"name": "Abbraccio Cure Domiciliari", "short_name": "Abbraccio", "lang": "it", "start_url": "./", "scope": "./", "display": "standalone", "background_color": "#f6f3ec", "theme_color": "#075a91", "icons": [{"src": "app-icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any"}]}
