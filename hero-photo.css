@@ -15,8 +15,8 @@
 
 /* ── Desktop: hero "pieno" — foto a tutta sezione, video grande a fianco ── */
 @media(min-width:761px){
- .lux-hero{position:relative;isolation:isolate;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr)!important;align-items:center!important;min-height:calc(100vh - 140px)!important;padding:28px 5% 28px!important;background:url(assets/hero.jpg) 30% center/cover no-repeat!important;overflow:hidden}
- .lux-hero:before{content:'';position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(255,253,247,.93) 0%,rgba(255,253,247,.80) 38%,rgba(255,253,247,.35) 62%,rgba(21,61,85,.55) 100%)}
+ .lux-hero{position:relative;isolation:isolate;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr)!important;align-items:center!important;min-height:calc(100vh - 140px)!important;padding:28px 5% 28px!important;background:url(assets/hero.jpg) 65% center/122% auto no-repeat!important;overflow:hidden}
+ .lux-hero:before{content:'';position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(255,253,247,.93) 0%,rgba(255,253,247,.80) 38%,rgba(255,253,247,.35) 62%,rgba(21,61,85,.42) 100%)}
  .lux-hero .hero-copy{padding:20px 40px 20px 10px!important;overflow:visible}
  .lux-hero .hero-copy:before,.lux-hero .hero-copy:after{display:none!important}
  .lux-hero h1{font-size:clamp(64px,6.4vw,104px)!important}
