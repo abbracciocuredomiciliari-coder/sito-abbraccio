@@ -49,8 +49,51 @@
         });
       }
     }
+    // Blocchi liberi gestiti dal gestionale: data-cms="chiave" per i testi,
+    // data-cms-img per le <img>, data-cms-bg per sfondi CSS, data-cms-video per <video>.
+    const esc = s => String(s || '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    const items = site && site.items && typeof site.items === 'object' ? site.items : {};
+    Object.keys(items).forEach(k => {
+      const it = items[k]; if (!it || blank(String(it.v))) return;
+      if (it.t === 'testo') {
+        document.querySelectorAll('[data-cms="' + k + '"]').forEach(el => { el.innerHTML = esc(String(it.v).trim()).replace(/\r?\n/g, '<br>'); });
+      } else if (it.t === 'foto') {
+        const url = safeURL(it.v, IMG_EXT); if (!url) return;
+        const probe = new Image();
+        probe.onload = () => {
+          document.querySelectorAll('[data-cms-img="' + k + '"]').forEach(el => { el.src = url; });
+          document.querySelectorAll('[data-cms-bg="' + k + '"]').forEach(el => { el.style.backgroundImage = 'url(' + url + ')'; });
+        };
+        probe.src = url;
+      } else if (it.t === 'video') {
+        const url = safeURL(it.v, VID_EXT); if (!url) return;
+        document.querySelectorAll('[data-cms-video="' + k + '"]').forEach(v => {
+          const prev = v.currentSrc || v.src || '';
+          v.addEventListener('error', () => { if (prev) { v.src = prev; v.load(); } }, { once: true });
+          v.src = url; v.load(); v.play().catch(() => {});
+        });
+      }
+    });
+    // Recensioni del sito (approvate nel gestionale). Sezione nascosta se vuota.
+    const revBox = document.querySelector('[data-cms-reviews]');
+    if (revBox) {
+      const revs = (Array.isArray(data.reviews) ? data.reviews : []).filter(r => r && r.site === config.site && !blank(r.testo) && !blank(r.nome));
+      if (revs.length) {
+        const stars = n => '★★★★★☆☆☆☆☆'.slice(5 - Math.max(1, Math.min(5, Math.round(n) || 5)), 10 - Math.max(1, Math.min(5, Math.round(n) || 5)));
+        revBox.innerHTML = revs.slice(0, 12).map(r =>
+          '<article class="cms-review"><div class="cms-review-stars" aria-label="' + esc(String(r.rating)) + ' su 5">' + stars(r.rating) + '</div><p class="cms-review-text">' + esc(r.testo) + '</p><footer><b>' + esc(r.nome) + '</b>' + (r.ruolo ? '<span>' + esc(r.ruolo) + '</span>' : '') + '</footer></article>'
+        ).join('');
+        const sec0 = revBox.closest('section');
+        if (sec0) sec0.hidden = false;
+        const st = document.createElement('style');
+        st.textContent = '.cms-review{background:#fff;border:1px solid #d7e6ee;border-radius:20px;padding:26px;display:flex;flex-direction:column;gap:12px;box-shadow:0 14px 34px -22px rgba(7,91,150,.28)}.cms-review-stars{color:#e8a33d;font-size:18px;letter-spacing:2px}.cms-review-text{margin:0;font:400 15px/1.65 Poppins,sans-serif;color:#33566d;font-style:italic}.cms-review footer{margin-top:auto;display:flex;flex-direction:column;gap:2px}.cms-review footer b{font:700 14px Poppins,sans-serif;color:#0e3a5a}.cms-review footer span{font:500 12px Poppins,sans-serif;color:#7fa0b3}[data-cms-reviews]{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;max-width:1100px;margin:0 auto}@media(max-width:720px){[data-cms-reviews]{grid-template-columns:1fr}}';
+        document.head.append(st);
+      } else {
+        const sec = revBox.closest('section');
+        if (sec) sec.style.display = 'none';
+      }
+    }
     if (config.site === 'shop' && typeof products !== 'undefined') {
-      const esc = s => String(s || '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
       const valid = p => p && p.id && !blank(p.name) && (p.active === undefined || p.active === true);
       const list = (Array.isArray(data.products) ? data.products : []).filter(valid);
       products.splice(0, products.length, ...list.map(p => ({ ...p, id: p.id, name: esc(p.name), category: esc(p.category), desc: esc(p.desc), image: esc(p.image) })));
