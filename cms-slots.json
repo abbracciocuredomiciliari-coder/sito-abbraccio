@@ -1,0 +1,2327 @@
+{
+  "site": "main",
+  "slots": [
+    {
+      "chiave": "apnee-sonno.img1",
+      "tipo": "foto",
+      "label": "apnee-sonno: Abbraccio Cure Domiciliari",
+      "pagina": "apnee-sonno"
+    },
+    {
+      "chiave": "apnee-sonno.img10",
+      "tipo": "foto",
+      "label": "apnee-sonno · immagine 10",
+      "pagina": "apnee-sonno"
+    },
+    {
+      "chiave": "apnee-sonno.img11",
+      "tipo": "foto",
+      "label": "apnee-sonno · immagine 11",
+      "pagina": "apnee-sonno"
+    },
+    {
+      "chiave": "apnee-sonno.img2",
+      "tipo": "foto",
+      "label": "apnee-sonno: Apnee del Sonno a domicilio",
+      "pagina": "apnee-sonno"
+    },
+    {
+      "chiave": "apnee-sonno.img3",
+      "tipo": "foto",
+      "label": "apnee-sonno · immagine 3",
+      "pagina": "apnee-sonno"
+    },
+    {
+      "chiave": "apnee-sonno.img4",
+      "tipo": "foto",
+      "label": "apnee-sonno · immagine 4",
+      "pagina": "apnee-sonno"
+    },
+    {
+      "chiave": "apnee-sonno.img5",
+      "tipo": "foto",
+      "label": "apnee-sonno · immagine 5",
+      "pagina": "apnee-sonno"
+    },
+    {
+      "chiave": "apnee-sonno.img6",
+      "tipo": "foto",
+      "label": "apnee-sonno · immagine 6",
+      "pagina": "apnee-sonno"
+    },
+    {
+      "chiave": "apnee-sonno.img7",
+      "tipo": "foto",
+      "label": "apnee-sonno · immagine 7",
+      "pagina": "apnee-sonno"
+    },
+    {
+      "chiave": "apnee-sonno.img8",
+      "tipo": "foto",
+      "label": "apnee-sonno · immagine 8",
+      "pagina": "apnee-sonno"
+    },
+    {
+      "chiave": "apnee-sonno.img9",
+      "tipo": "foto",
+      "label": "apnee-sonno · immagine 9",
+      "pagina": "apnee-sonno"
+    },
+    {
+      "chiave": "apnee-sonno.txt1",
+      "tipo": "testo",
+      "label": "apnee-sonno: Apnee del Sonno a domicilio",
+      "pagina": "apnee-sonno"
+    },
+    {
+      "chiave": "apnee-sonno.txt2",
+      "tipo": "testo",
+      "label": "apnee-sonno: La Apnee del Sonno di Abbraccio è un esame strumentale a dom",
+      "pagina": "apnee-sonno"
+    },
+    {
+      "chiave": "apnee-sonno.txt3",
+      "tipo": "testo",
+      "label": "apnee-sonno: Cosa include l'esame",
+      "pagina": "apnee-sonno"
+    },
+    {
+      "chiave": "apnee-sonno.txt4",
+      "tipo": "testo",
+      "label": "apnee-sonno: Scopri tutti gli esami a domicilio",
+      "pagina": "apnee-sonno"
+    },
+    {
+      "chiave": "apnee-sonno.txt5",
+      "tipo": "testo",
+      "label": "apnee-sonno: FAQ — Apnee del Sonno",
+      "pagina": "apnee-sonno"
+    },
+    {
+      "chiave": "assistenza-anziani.img1",
+      "tipo": "foto",
+      "label": "assistenza-anziani: Abbraccio Cure Domiciliari",
+      "pagina": "assistenza-anziani"
+    },
+    {
+      "chiave": "assistenza-anziani.img10",
+      "tipo": "foto",
+      "label": "assistenza-anziani · immagine 10",
+      "pagina": "assistenza-anziani"
+    },
+    {
+      "chiave": "assistenza-anziani.img2",
+      "tipo": "foto",
+      "label": "assistenza-anziani: Assistenza Anziani a domicilio",
+      "pagina": "assistenza-anziani"
+    },
+    {
+      "chiave": "assistenza-anziani.img3",
+      "tipo": "foto",
+      "label": "assistenza-anziani · immagine 3",
+      "pagina": "assistenza-anziani"
+    },
+    {
+      "chiave": "assistenza-anziani.img4",
+      "tipo": "foto",
+      "label": "assistenza-anziani · immagine 4",
+      "pagina": "assistenza-anziani"
+    },
+    {
+      "chiave": "assistenza-anziani.img5",
+      "tipo": "foto",
+      "label": "assistenza-anziani · immagine 5",
+      "pagina": "assistenza-anziani"
+    },
+    {
+      "chiave": "assistenza-anziani.img6",
+      "tipo": "foto",
+      "label": "assistenza-anziani · immagine 6",
+      "pagina": "assistenza-anziani"
+    },
+    {
+      "chiave": "assistenza-anziani.img7",
+      "tipo": "foto",
+      "label": "assistenza-anziani · immagine 7",
+      "pagina": "assistenza-anziani"
+    },
+    {
+      "chiave": "assistenza-anziani.img8",
+      "tipo": "foto",
+      "label": "assistenza-anziani · immagine 8",
+      "pagina": "assistenza-anziani"
+    },
+    {
+      "chiave": "assistenza-anziani.img9",
+      "tipo": "foto",
+      "label": "assistenza-anziani · immagine 9",
+      "pagina": "assistenza-anziani"
+    },
+    {
+      "chiave": "assistenza-anziani.txt1",
+      "tipo": "testo",
+      "label": "assistenza-anziani: Assistenza Anziani a domicilio",
+      "pagina": "assistenza-anziani"
+    },
+    {
+      "chiave": "assistenza-anziani.txt2",
+      "tipo": "testo",
+      "label": "assistenza-anziani: L' assistenza anziani di Abbraccio offre supporto completo p",
+      "pagina": "assistenza-anziani"
+    },
+    {
+      "chiave": "assistenza-anziani.txt3",
+      "tipo": "testo",
+      "label": "assistenza-anziani: Attività previste dal nostro servizio di Assistenza Anziani ",
+      "pagina": "assistenza-anziani"
+    },
+    {
+      "chiave": "assistenza-anziani.txt4",
+      "tipo": "testo",
+      "label": "assistenza-anziani: Scopri tutti i servizi a domicilio",
+      "pagina": "assistenza-anziani"
+    },
+    {
+      "chiave": "assistenza-anziani.txt5",
+      "tipo": "testo",
+      "label": "assistenza-anziani: FAQ — Assistenza Anziani",
+      "pagina": "assistenza-anziani"
+    },
+    {
+      "chiave": "assistenza-notturna.img1",
+      "tipo": "foto",
+      "label": "assistenza-notturna: Abbraccio Cure Domiciliari",
+      "pagina": "assistenza-notturna"
+    },
+    {
+      "chiave": "assistenza-notturna.img10",
+      "tipo": "foto",
+      "label": "assistenza-notturna · immagine 10",
+      "pagina": "assistenza-notturna"
+    },
+    {
+      "chiave": "assistenza-notturna.img2",
+      "tipo": "foto",
+      "label": "assistenza-notturna: Assistenza Notturna",
+      "pagina": "assistenza-notturna"
+    },
+    {
+      "chiave": "assistenza-notturna.img3",
+      "tipo": "foto",
+      "label": "assistenza-notturna · immagine 3",
+      "pagina": "assistenza-notturna"
+    },
+    {
+      "chiave": "assistenza-notturna.img4",
+      "tipo": "foto",
+      "label": "assistenza-notturna · immagine 4",
+      "pagina": "assistenza-notturna"
+    },
+    {
+      "chiave": "assistenza-notturna.img5",
+      "tipo": "foto",
+      "label": "assistenza-notturna · immagine 5",
+      "pagina": "assistenza-notturna"
+    },
+    {
+      "chiave": "assistenza-notturna.img6",
+      "tipo": "foto",
+      "label": "assistenza-notturna · immagine 6",
+      "pagina": "assistenza-notturna"
+    },
+    {
+      "chiave": "assistenza-notturna.img7",
+      "tipo": "foto",
+      "label": "assistenza-notturna · immagine 7",
+      "pagina": "assistenza-notturna"
+    },
+    {
+      "chiave": "assistenza-notturna.img8",
+      "tipo": "foto",
+      "label": "assistenza-notturna · immagine 8",
+      "pagina": "assistenza-notturna"
+    },
+    {
+      "chiave": "assistenza-notturna.img9",
+      "tipo": "foto",
+      "label": "assistenza-notturna · immagine 9",
+      "pagina": "assistenza-notturna"
+    },
+    {
+      "chiave": "assistenza-notturna.txt1",
+      "tipo": "testo",
+      "label": "assistenza-notturna: Assistenza Notturna",
+      "pagina": "assistenza-notturna"
+    },
+    {
+      "chiave": "assistenza-notturna.txt2",
+      "tipo": "testo",
+      "label": "assistenza-notturna: L' assistenza notturna di Abbraccio garantisce presenza qual",
+      "pagina": "assistenza-notturna"
+    },
+    {
+      "chiave": "assistenza-notturna.txt3",
+      "tipo": "testo",
+      "label": "assistenza-notturna: Attività previste dal nostro servizio di Assistenza Notturna",
+      "pagina": "assistenza-notturna"
+    },
+    {
+      "chiave": "assistenza-notturna.txt4",
+      "tipo": "testo",
+      "label": "assistenza-notturna: Scopri tutti i servizi a domicilio",
+      "pagina": "assistenza-notturna"
+    },
+    {
+      "chiave": "assistenza-notturna.txt5",
+      "tipo": "testo",
+      "label": "assistenza-notturna: FAQ — Assistenza Notturna",
+      "pagina": "assistenza-notturna"
+    },
+    {
+      "chiave": "cure-palliative.img1",
+      "tipo": "foto",
+      "label": "cure-palliative: Abbraccio Cure Domiciliari",
+      "pagina": "cure-palliative"
+    },
+    {
+      "chiave": "cure-palliative.img10",
+      "tipo": "foto",
+      "label": "cure-palliative · immagine 10",
+      "pagina": "cure-palliative"
+    },
+    {
+      "chiave": "cure-palliative.img2",
+      "tipo": "foto",
+      "label": "cure-palliative: Cure Palliative",
+      "pagina": "cure-palliative"
+    },
+    {
+      "chiave": "cure-palliative.img3",
+      "tipo": "foto",
+      "label": "cure-palliative · immagine 3",
+      "pagina": "cure-palliative"
+    },
+    {
+      "chiave": "cure-palliative.img4",
+      "tipo": "foto",
+      "label": "cure-palliative · immagine 4",
+      "pagina": "cure-palliative"
+    },
+    {
+      "chiave": "cure-palliative.img5",
+      "tipo": "foto",
+      "label": "cure-palliative · immagine 5",
+      "pagina": "cure-palliative"
+    },
+    {
+      "chiave": "cure-palliative.img6",
+      "tipo": "foto",
+      "label": "cure-palliative · immagine 6",
+      "pagina": "cure-palliative"
+    },
+    {
+      "chiave": "cure-palliative.img7",
+      "tipo": "foto",
+      "label": "cure-palliative · immagine 7",
+      "pagina": "cure-palliative"
+    },
+    {
+      "chiave": "cure-palliative.img8",
+      "tipo": "foto",
+      "label": "cure-palliative · immagine 8",
+      "pagina": "cure-palliative"
+    },
+    {
+      "chiave": "cure-palliative.img9",
+      "tipo": "foto",
+      "label": "cure-palliative · immagine 9",
+      "pagina": "cure-palliative"
+    },
+    {
+      "chiave": "cure-palliative.txt1",
+      "tipo": "testo",
+      "label": "cure-palliative: Cure Palliative",
+      "pagina": "cure-palliative"
+    },
+    {
+      "chiave": "cure-palliative.txt2",
+      "tipo": "testo",
+      "label": "cure-palliative: Le cure palliative di Abbraccio offrono supporto compassione",
+      "pagina": "cure-palliative"
+    },
+    {
+      "chiave": "cure-palliative.txt3",
+      "tipo": "testo",
+      "label": "cure-palliative: Attività previste dal nostro servizio di Cure Palliative:",
+      "pagina": "cure-palliative"
+    },
+    {
+      "chiave": "cure-palliative.txt4",
+      "tipo": "testo",
+      "label": "cure-palliative: Scopri tutti i servizi a domicilio",
+      "pagina": "cure-palliative"
+    },
+    {
+      "chiave": "cure-palliative.txt5",
+      "tipo": "testo",
+      "label": "cure-palliative: FAQ — Cure Palliative",
+      "pagina": "cure-palliative"
+    },
+    {
+      "chiave": "cure-pazienti-cronici.img1",
+      "tipo": "foto",
+      "label": "cure-pazienti-cronici: Abbraccio Cure Domiciliari",
+      "pagina": "cure-pazienti-cronici"
+    },
+    {
+      "chiave": "cure-pazienti-cronici.img10",
+      "tipo": "foto",
+      "label": "cure-pazienti-cronici · immagine 10",
+      "pagina": "cure-pazienti-cronici"
+    },
+    {
+      "chiave": "cure-pazienti-cronici.img2",
+      "tipo": "foto",
+      "label": "cure-pazienti-cronici: Cure Pazienti Cronici",
+      "pagina": "cure-pazienti-cronici"
+    },
+    {
+      "chiave": "cure-pazienti-cronici.img3",
+      "tipo": "foto",
+      "label": "cure-pazienti-cronici · immagine 3",
+      "pagina": "cure-pazienti-cronici"
+    },
+    {
+      "chiave": "cure-pazienti-cronici.img4",
+      "tipo": "foto",
+      "label": "cure-pazienti-cronici · immagine 4",
+      "pagina": "cure-pazienti-cronici"
+    },
+    {
+      "chiave": "cure-pazienti-cronici.img5",
+      "tipo": "foto",
+      "label": "cure-pazienti-cronici · immagine 5",
+      "pagina": "cure-pazienti-cronici"
+    },
+    {
+      "chiave": "cure-pazienti-cronici.img6",
+      "tipo": "foto",
+      "label": "cure-pazienti-cronici · immagine 6",
+      "pagina": "cure-pazienti-cronici"
+    },
+    {
+      "chiave": "cure-pazienti-cronici.img7",
+      "tipo": "foto",
+      "label": "cure-pazienti-cronici · immagine 7",
+      "pagina": "cure-pazienti-cronici"
+    },
+    {
+      "chiave": "cure-pazienti-cronici.img8",
+      "tipo": "foto",
+      "label": "cure-pazienti-cronici · immagine 8",
+      "pagina": "cure-pazienti-cronici"
+    },
+    {
+      "chiave": "cure-pazienti-cronici.img9",
+      "tipo": "foto",
+      "label": "cure-pazienti-cronici · immagine 9",
+      "pagina": "cure-pazienti-cronici"
+    },
+    {
+      "chiave": "cure-pazienti-cronici.txt1",
+      "tipo": "testo",
+      "label": "cure-pazienti-cronici: Cure Pazienti Cronici",
+      "pagina": "cure-pazienti-cronici"
+    },
+    {
+      "chiave": "cure-pazienti-cronici.txt2",
+      "tipo": "testo",
+      "label": "cure-pazienti-cronici: La gestione dei pazienti cronici di Abbraccio assicura monit",
+      "pagina": "cure-pazienti-cronici"
+    },
+    {
+      "chiave": "cure-pazienti-cronici.txt3",
+      "tipo": "testo",
+      "label": "cure-pazienti-cronici: Attività previste dal nostro servizio di Cure Pazienti Croni",
+      "pagina": "cure-pazienti-cronici"
+    },
+    {
+      "chiave": "cure-pazienti-cronici.txt4",
+      "tipo": "testo",
+      "label": "cure-pazienti-cronici: Scopri tutti i servizi a domicilio",
+      "pagina": "cure-pazienti-cronici"
+    },
+    {
+      "chiave": "cure-pazienti-cronici.txt5",
+      "tipo": "testo",
+      "label": "cure-pazienti-cronici: FAQ — Cure Pazienti Cronici",
+      "pagina": "cure-pazienti-cronici"
+    },
+    {
+      "chiave": "dove-siamo.img1",
+      "tipo": "foto",
+      "label": "dove-siamo: Abbraccio Cure Domiciliari",
+      "pagina": "dove-siamo"
+    },
+    {
+      "chiave": "dove-siamo.txt1",
+      "tipo": "testo",
+      "label": "dove-siamo: Dove siamo",
+      "pagina": "dove-siamo"
+    },
+    {
+      "chiave": "dove-siamo.txt2",
+      "tipo": "testo",
+      "label": "dove-siamo: Sede principale",
+      "pagina": "dove-siamo"
+    },
+    {
+      "chiave": "ecografia-domiciliare.img1",
+      "tipo": "foto",
+      "label": "ecografia-domiciliare: Abbraccio Cure Domiciliari",
+      "pagina": "ecografia-domiciliare"
+    },
+    {
+      "chiave": "ecografia-domiciliare.img10",
+      "tipo": "foto",
+      "label": "ecografia-domiciliare · immagine 10",
+      "pagina": "ecografia-domiciliare"
+    },
+    {
+      "chiave": "ecografia-domiciliare.img11",
+      "tipo": "foto",
+      "label": "ecografia-domiciliare · immagine 11",
+      "pagina": "ecografia-domiciliare"
+    },
+    {
+      "chiave": "ecografia-domiciliare.img2",
+      "tipo": "foto",
+      "label": "ecografia-domiciliare: Ecografia Domiciliare a domicilio",
+      "pagina": "ecografia-domiciliare"
+    },
+    {
+      "chiave": "ecografia-domiciliare.img3",
+      "tipo": "foto",
+      "label": "ecografia-domiciliare · immagine 3",
+      "pagina": "ecografia-domiciliare"
+    },
+    {
+      "chiave": "ecografia-domiciliare.img4",
+      "tipo": "foto",
+      "label": "ecografia-domiciliare · immagine 4",
+      "pagina": "ecografia-domiciliare"
+    },
+    {
+      "chiave": "ecografia-domiciliare.img5",
+      "tipo": "foto",
+      "label": "ecografia-domiciliare · immagine 5",
+      "pagina": "ecografia-domiciliare"
+    },
+    {
+      "chiave": "ecografia-domiciliare.img6",
+      "tipo": "foto",
+      "label": "ecografia-domiciliare · immagine 6",
+      "pagina": "ecografia-domiciliare"
+    },
+    {
+      "chiave": "ecografia-domiciliare.img7",
+      "tipo": "foto",
+      "label": "ecografia-domiciliare · immagine 7",
+      "pagina": "ecografia-domiciliare"
+    },
+    {
+      "chiave": "ecografia-domiciliare.img8",
+      "tipo": "foto",
+      "label": "ecografia-domiciliare · immagine 8",
+      "pagina": "ecografia-domiciliare"
+    },
+    {
+      "chiave": "ecografia-domiciliare.img9",
+      "tipo": "foto",
+      "label": "ecografia-domiciliare · immagine 9",
+      "pagina": "ecografia-domiciliare"
+    },
+    {
+      "chiave": "ecografia-domiciliare.txt1",
+      "tipo": "testo",
+      "label": "ecografia-domiciliare: Ecografia Domiciliare a domicilio",
+      "pagina": "ecografia-domiciliare"
+    },
+    {
+      "chiave": "ecografia-domiciliare.txt2",
+      "tipo": "testo",
+      "label": "ecografia-domiciliare: La Ecografia Domiciliare di Abbraccio è un esame strumentale",
+      "pagina": "ecografia-domiciliare"
+    },
+    {
+      "chiave": "ecografia-domiciliare.txt3",
+      "tipo": "testo",
+      "label": "ecografia-domiciliare: Cosa include l'esame",
+      "pagina": "ecografia-domiciliare"
+    },
+    {
+      "chiave": "ecografia-domiciliare.txt4",
+      "tipo": "testo",
+      "label": "ecografia-domiciliare: Scopri tutti gli esami a domicilio",
+      "pagina": "ecografia-domiciliare"
+    },
+    {
+      "chiave": "ecografia-domiciliare.txt5",
+      "tipo": "testo",
+      "label": "ecografia-domiciliare: FAQ — Ecografia Domiciliare",
+      "pagina": "ecografia-domiciliare"
+    },
+    {
+      "chiave": "emogasanalisi.img1",
+      "tipo": "foto",
+      "label": "emogasanalisi: Abbraccio Cure Domiciliari",
+      "pagina": "emogasanalisi"
+    },
+    {
+      "chiave": "emogasanalisi.img10",
+      "tipo": "foto",
+      "label": "emogasanalisi · immagine 10",
+      "pagina": "emogasanalisi"
+    },
+    {
+      "chiave": "emogasanalisi.img11",
+      "tipo": "foto",
+      "label": "emogasanalisi · immagine 11",
+      "pagina": "emogasanalisi"
+    },
+    {
+      "chiave": "emogasanalisi.img2",
+      "tipo": "foto",
+      "label": "emogasanalisi: Emogasanalisi a domicilio",
+      "pagina": "emogasanalisi"
+    },
+    {
+      "chiave": "emogasanalisi.img3",
+      "tipo": "foto",
+      "label": "emogasanalisi · immagine 3",
+      "pagina": "emogasanalisi"
+    },
+    {
+      "chiave": "emogasanalisi.img4",
+      "tipo": "foto",
+      "label": "emogasanalisi · immagine 4",
+      "pagina": "emogasanalisi"
+    },
+    {
+      "chiave": "emogasanalisi.img5",
+      "tipo": "foto",
+      "label": "emogasanalisi · immagine 5",
+      "pagina": "emogasanalisi"
+    },
+    {
+      "chiave": "emogasanalisi.img6",
+      "tipo": "foto",
+      "label": "emogasanalisi · immagine 6",
+      "pagina": "emogasanalisi"
+    },
+    {
+      "chiave": "emogasanalisi.img7",
+      "tipo": "foto",
+      "label": "emogasanalisi · immagine 7",
+      "pagina": "emogasanalisi"
+    },
+    {
+      "chiave": "emogasanalisi.img8",
+      "tipo": "foto",
+      "label": "emogasanalisi · immagine 8",
+      "pagina": "emogasanalisi"
+    },
+    {
+      "chiave": "emogasanalisi.img9",
+      "tipo": "foto",
+      "label": "emogasanalisi · immagine 9",
+      "pagina": "emogasanalisi"
+    },
+    {
+      "chiave": "emogasanalisi.txt1",
+      "tipo": "testo",
+      "label": "emogasanalisi: Emogasanalisi a domicilio",
+      "pagina": "emogasanalisi"
+    },
+    {
+      "chiave": "emogasanalisi.txt2",
+      "tipo": "testo",
+      "label": "emogasanalisi: La Emogasanalisi di Abbraccio è un esame strumentale a domic",
+      "pagina": "emogasanalisi"
+    },
+    {
+      "chiave": "emogasanalisi.txt3",
+      "tipo": "testo",
+      "label": "emogasanalisi: Cosa include l'esame",
+      "pagina": "emogasanalisi"
+    },
+    {
+      "chiave": "emogasanalisi.txt4",
+      "tipo": "testo",
+      "label": "emogasanalisi: Scopri tutti gli esami a domicilio",
+      "pagina": "emogasanalisi"
+    },
+    {
+      "chiave": "emogasanalisi.txt5",
+      "tipo": "testo",
+      "label": "emogasanalisi: FAQ — Emogasanalisi",
+      "pagina": "emogasanalisi"
+    },
+    {
+      "chiave": "esami-strumentali.img1",
+      "tipo": "foto",
+      "label": "esami-strumentali: Abbraccio Cure Domiciliari",
+      "pagina": "esami-strumentali"
+    },
+    {
+      "chiave": "esami-strumentali.img10",
+      "tipo": "foto",
+      "label": "esami-strumentali · immagine 10",
+      "pagina": "esami-strumentali"
+    },
+    {
+      "chiave": "esami-strumentali.img2",
+      "tipo": "foto",
+      "label": "esami-strumentali · immagine 2",
+      "pagina": "esami-strumentali"
+    },
+    {
+      "chiave": "esami-strumentali.img3",
+      "tipo": "foto",
+      "label": "esami-strumentali · immagine 3",
+      "pagina": "esami-strumentali"
+    },
+    {
+      "chiave": "esami-strumentali.img4",
+      "tipo": "foto",
+      "label": "esami-strumentali · immagine 4",
+      "pagina": "esami-strumentali"
+    },
+    {
+      "chiave": "esami-strumentali.img5",
+      "tipo": "foto",
+      "label": "esami-strumentali · immagine 5",
+      "pagina": "esami-strumentali"
+    },
+    {
+      "chiave": "esami-strumentali.img6",
+      "tipo": "foto",
+      "label": "esami-strumentali · immagine 6",
+      "pagina": "esami-strumentali"
+    },
+    {
+      "chiave": "esami-strumentali.img7",
+      "tipo": "foto",
+      "label": "esami-strumentali · immagine 7",
+      "pagina": "esami-strumentali"
+    },
+    {
+      "chiave": "esami-strumentali.img8",
+      "tipo": "foto",
+      "label": "esami-strumentali · immagine 8",
+      "pagina": "esami-strumentali"
+    },
+    {
+      "chiave": "esami-strumentali.img9",
+      "tipo": "foto",
+      "label": "esami-strumentali · immagine 9",
+      "pagina": "esami-strumentali"
+    },
+    {
+      "chiave": "esami-strumentali.txt1",
+      "tipo": "testo",
+      "label": "esami-strumentali: 9 Esami Strumentali a Domicilio",
+      "pagina": "esami-strumentali"
+    },
+    {
+      "chiave": "esami-strumentali.txt2",
+      "tipo": "testo",
+      "label": "esami-strumentali: FAQ — Panoramica esami",
+      "pagina": "esami-strumentali"
+    },
+    {
+      "chiave": "fisioterapia-a-domicilio.img1",
+      "tipo": "foto",
+      "label": "fisioterapia-a-domicilio: Abbraccio Cure Domiciliari",
+      "pagina": "fisioterapia-a-domicilio"
+    },
+    {
+      "chiave": "fisioterapia-a-domicilio.img10",
+      "tipo": "foto",
+      "label": "fisioterapia-a-domicilio · immagine 10",
+      "pagina": "fisioterapia-a-domicilio"
+    },
+    {
+      "chiave": "fisioterapia-a-domicilio.img2",
+      "tipo": "foto",
+      "label": "fisioterapia-a-domicilio: Fisioterapia a domicilio",
+      "pagina": "fisioterapia-a-domicilio"
+    },
+    {
+      "chiave": "fisioterapia-a-domicilio.img3",
+      "tipo": "foto",
+      "label": "fisioterapia-a-domicilio · immagine 3",
+      "pagina": "fisioterapia-a-domicilio"
+    },
+    {
+      "chiave": "fisioterapia-a-domicilio.img4",
+      "tipo": "foto",
+      "label": "fisioterapia-a-domicilio · immagine 4",
+      "pagina": "fisioterapia-a-domicilio"
+    },
+    {
+      "chiave": "fisioterapia-a-domicilio.img5",
+      "tipo": "foto",
+      "label": "fisioterapia-a-domicilio · immagine 5",
+      "pagina": "fisioterapia-a-domicilio"
+    },
+    {
+      "chiave": "fisioterapia-a-domicilio.img6",
+      "tipo": "foto",
+      "label": "fisioterapia-a-domicilio · immagine 6",
+      "pagina": "fisioterapia-a-domicilio"
+    },
+    {
+      "chiave": "fisioterapia-a-domicilio.img7",
+      "tipo": "foto",
+      "label": "fisioterapia-a-domicilio · immagine 7",
+      "pagina": "fisioterapia-a-domicilio"
+    },
+    {
+      "chiave": "fisioterapia-a-domicilio.img8",
+      "tipo": "foto",
+      "label": "fisioterapia-a-domicilio · immagine 8",
+      "pagina": "fisioterapia-a-domicilio"
+    },
+    {
+      "chiave": "fisioterapia-a-domicilio.img9",
+      "tipo": "foto",
+      "label": "fisioterapia-a-domicilio · immagine 9",
+      "pagina": "fisioterapia-a-domicilio"
+    },
+    {
+      "chiave": "fisioterapia-a-domicilio.txt1",
+      "tipo": "testo",
+      "label": "fisioterapia-a-domicilio: Fisioterapia a domicilio",
+      "pagina": "fisioterapia-a-domicilio"
+    },
+    {
+      "chiave": "fisioterapia-a-domicilio.txt2",
+      "tipo": "testo",
+      "label": "fisioterapia-a-domicilio: La fisioterapia a domicilio di Abbraccio ti permette di prog",
+      "pagina": "fisioterapia-a-domicilio"
+    },
+    {
+      "chiave": "fisioterapia-a-domicilio.txt3",
+      "tipo": "testo",
+      "label": "fisioterapia-a-domicilio: Attività previste dal nostro servizio di Fisioterapia a domi",
+      "pagina": "fisioterapia-a-domicilio"
+    },
+    {
+      "chiave": "fisioterapia-a-domicilio.txt4",
+      "tipo": "testo",
+      "label": "fisioterapia-a-domicilio: Scopri tutti i servizi a domicilio",
+      "pagina": "fisioterapia-a-domicilio"
+    },
+    {
+      "chiave": "fisioterapia-a-domicilio.txt5",
+      "tipo": "testo",
+      "label": "fisioterapia-a-domicilio: FAQ — Fisioterapia",
+      "pagina": "fisioterapia-a-domicilio"
+    },
+    {
+      "chiave": "holter-ecg.img1",
+      "tipo": "foto",
+      "label": "holter-ecg: Abbraccio Cure Domiciliari",
+      "pagina": "holter-ecg"
+    },
+    {
+      "chiave": "holter-ecg.img10",
+      "tipo": "foto",
+      "label": "holter-ecg · immagine 10",
+      "pagina": "holter-ecg"
+    },
+    {
+      "chiave": "holter-ecg.img11",
+      "tipo": "foto",
+      "label": "holter-ecg · immagine 11",
+      "pagina": "holter-ecg"
+    },
+    {
+      "chiave": "holter-ecg.img2",
+      "tipo": "foto",
+      "label": "holter-ecg: Holter ECG a domicilio",
+      "pagina": "holter-ecg"
+    },
+    {
+      "chiave": "holter-ecg.img3",
+      "tipo": "foto",
+      "label": "holter-ecg · immagine 3",
+      "pagina": "holter-ecg"
+    },
+    {
+      "chiave": "holter-ecg.img4",
+      "tipo": "foto",
+      "label": "holter-ecg · immagine 4",
+      "pagina": "holter-ecg"
+    },
+    {
+      "chiave": "holter-ecg.img5",
+      "tipo": "foto",
+      "label": "holter-ecg · immagine 5",
+      "pagina": "holter-ecg"
+    },
+    {
+      "chiave": "holter-ecg.img6",
+      "tipo": "foto",
+      "label": "holter-ecg · immagine 6",
+      "pagina": "holter-ecg"
+    },
+    {
+      "chiave": "holter-ecg.img7",
+      "tipo": "foto",
+      "label": "holter-ecg · immagine 7",
+      "pagina": "holter-ecg"
+    },
+    {
+      "chiave": "holter-ecg.img8",
+      "tipo": "foto",
+      "label": "holter-ecg · immagine 8",
+      "pagina": "holter-ecg"
+    },
+    {
+      "chiave": "holter-ecg.img9",
+      "tipo": "foto",
+      "label": "holter-ecg · immagine 9",
+      "pagina": "holter-ecg"
+    },
+    {
+      "chiave": "holter-ecg.txt1",
+      "tipo": "testo",
+      "label": "holter-ecg: Holter ECG a domicilio",
+      "pagina": "holter-ecg"
+    },
+    {
+      "chiave": "holter-ecg.txt2",
+      "tipo": "testo",
+      "label": "holter-ecg: La Holter ECG di Abbraccio è un esame strumentale a domicili",
+      "pagina": "holter-ecg"
+    },
+    {
+      "chiave": "holter-ecg.txt3",
+      "tipo": "testo",
+      "label": "holter-ecg: Cosa include l'esame",
+      "pagina": "holter-ecg"
+    },
+    {
+      "chiave": "holter-ecg.txt4",
+      "tipo": "testo",
+      "label": "holter-ecg: Scopri tutti gli esami a domicilio",
+      "pagina": "holter-ecg"
+    },
+    {
+      "chiave": "holter-ecg.txt5",
+      "tipo": "testo",
+      "label": "holter-ecg: FAQ — Holter ECG",
+      "pagina": "holter-ecg"
+    },
+    {
+      "chiave": "holter-pressorio.img1",
+      "tipo": "foto",
+      "label": "holter-pressorio: Abbraccio Cure Domiciliari",
+      "pagina": "holter-pressorio"
+    },
+    {
+      "chiave": "holter-pressorio.img10",
+      "tipo": "foto",
+      "label": "holter-pressorio · immagine 10",
+      "pagina": "holter-pressorio"
+    },
+    {
+      "chiave": "holter-pressorio.img11",
+      "tipo": "foto",
+      "label": "holter-pressorio · immagine 11",
+      "pagina": "holter-pressorio"
+    },
+    {
+      "chiave": "holter-pressorio.img2",
+      "tipo": "foto",
+      "label": "holter-pressorio: Holter Pressorio a domicilio",
+      "pagina": "holter-pressorio"
+    },
+    {
+      "chiave": "holter-pressorio.img3",
+      "tipo": "foto",
+      "label": "holter-pressorio · immagine 3",
+      "pagina": "holter-pressorio"
+    },
+    {
+      "chiave": "holter-pressorio.img4",
+      "tipo": "foto",
+      "label": "holter-pressorio · immagine 4",
+      "pagina": "holter-pressorio"
+    },
+    {
+      "chiave": "holter-pressorio.img5",
+      "tipo": "foto",
+      "label": "holter-pressorio · immagine 5",
+      "pagina": "holter-pressorio"
+    },
+    {
+      "chiave": "holter-pressorio.img6",
+      "tipo": "foto",
+      "label": "holter-pressorio · immagine 6",
+      "pagina": "holter-pressorio"
+    },
+    {
+      "chiave": "holter-pressorio.img7",
+      "tipo": "foto",
+      "label": "holter-pressorio · immagine 7",
+      "pagina": "holter-pressorio"
+    },
+    {
+      "chiave": "holter-pressorio.img8",
+      "tipo": "foto",
+      "label": "holter-pressorio · immagine 8",
+      "pagina": "holter-pressorio"
+    },
+    {
+      "chiave": "holter-pressorio.img9",
+      "tipo": "foto",
+      "label": "holter-pressorio · immagine 9",
+      "pagina": "holter-pressorio"
+    },
+    {
+      "chiave": "holter-pressorio.txt1",
+      "tipo": "testo",
+      "label": "holter-pressorio: Holter Pressorio a domicilio",
+      "pagina": "holter-pressorio"
+    },
+    {
+      "chiave": "holter-pressorio.txt2",
+      "tipo": "testo",
+      "label": "holter-pressorio: La Holter Pressorio di Abbraccio è un esame strumentale a do",
+      "pagina": "holter-pressorio"
+    },
+    {
+      "chiave": "holter-pressorio.txt3",
+      "tipo": "testo",
+      "label": "holter-pressorio: Cosa include l'esame",
+      "pagina": "holter-pressorio"
+    },
+    {
+      "chiave": "holter-pressorio.txt4",
+      "tipo": "testo",
+      "label": "holter-pressorio: Scopri tutti gli esami a domicilio",
+      "pagina": "holter-pressorio"
+    },
+    {
+      "chiave": "holter-pressorio.txt5",
+      "tipo": "testo",
+      "label": "holter-pressorio: FAQ — Holter Pressorio",
+      "pagina": "holter-pressorio"
+    },
+    {
+      "chiave": "contatti.titolo",
+      "tipo": "testo",
+      "label": "contatti.titolo",
+      "pagina": "index"
+    },
+    {
+      "chiave": "galleria.clinica",
+      "tipo": "foto",
+      "label": "Approfondimento medicazioni · foto",
+      "pagina": "index"
+    },
+    {
+      "chiave": "galleria.foto1",
+      "tipo": "foto",
+      "label": "Galleria immagini · foto 1",
+      "pagina": "index"
+    },
+    {
+      "chiave": "galleria.foto1.titolo",
+      "tipo": "testo",
+      "label": "Galleria immagini · didascalia foto 1",
+      "pagina": "index"
+    },
+    {
+      "chiave": "galleria.foto2",
+      "tipo": "foto",
+      "label": "Galleria immagini · foto 2",
+      "pagina": "index"
+    },
+    {
+      "chiave": "galleria.foto2.titolo",
+      "tipo": "testo",
+      "label": "Galleria immagini · didascalia foto 2",
+      "pagina": "index"
+    },
+    {
+      "chiave": "galleria.foto3",
+      "tipo": "foto",
+      "label": "Galleria immagini · foto 3",
+      "pagina": "index"
+    },
+    {
+      "chiave": "galleria.foto3.titolo",
+      "tipo": "testo",
+      "label": "Galleria immagini · didascalia foto 3",
+      "pagina": "index"
+    },
+    {
+      "chiave": "galleria.foto4",
+      "tipo": "foto",
+      "label": "Galleria immagini · foto 4",
+      "pagina": "index"
+    },
+    {
+      "chiave": "galleria.foto4.titolo",
+      "tipo": "testo",
+      "label": "Galleria immagini · didascalia foto 4",
+      "pagina": "index"
+    },
+    {
+      "chiave": "galleria.video1",
+      "tipo": "video",
+      "label": "Galleria · video 1 (le scene reali)",
+      "pagina": "index"
+    },
+    {
+      "chiave": "galleria.video1.poster",
+      "tipo": "foto",
+      "label": "Galleria · copertina video 1",
+      "pagina": "index"
+    },
+    {
+      "chiave": "galleria.video1.testo",
+      "tipo": "testo",
+      "label": "Galleria · descrizione video 1",
+      "pagina": "index"
+    },
+    {
+      "chiave": "galleria.video1.titolo",
+      "tipo": "testo",
+      "label": "Galleria · titolo video 1",
+      "pagina": "index"
+    },
+    {
+      "chiave": "index.img1",
+      "tipo": "foto",
+      "label": "index: Abbraccio Cure Domiciliari",
+      "pagina": "index"
+    },
+    {
+      "chiave": "index.img2",
+      "tipo": "foto",
+      "label": "index · immagine 2",
+      "pagina": "index"
+    },
+    {
+      "chiave": "index.img3",
+      "tipo": "foto",
+      "label": "index: Salus Group",
+      "pagina": "index"
+    },
+    {
+      "chiave": "index.img4",
+      "tipo": "foto",
+      "label": "index: Abbraccio",
+      "pagina": "index"
+    },
+    {
+      "chiave": "index.txt1",
+      "tipo": "testo",
+      "label": "index: ABBRACCIO CURE DOMICILIARI · ROMA",
+      "pagina": "index"
+    },
+    {
+      "chiave": "index.txt10",
+      "tipo": "testo",
+      "label": "index: IL TUO BENESSERE, OGNI GIORNO",
+      "pagina": "index"
+    },
+    {
+      "chiave": "index.txt11",
+      "tipo": "testo",
+      "label": "index: SEMPLICE, DALL’INIZIO",
+      "pagina": "index"
+    },
+    {
+      "chiave": "index.txt12",
+      "tipo": "testo",
+      "label": "index: LE PERSONE FANNO LA DIFFERENZA",
+      "pagina": "index"
+    },
+    {
+      "chiave": "index.txt13",
+      "tipo": "testo",
+      "label": "index: CI SIAMO, ASCOLTIAMOCI.",
+      "pagina": "index"
+    },
+    {
+      "chiave": "index.txt2",
+      "tipo": "testo",
+      "label": "index: La cura, dove sei tu.",
+      "pagina": "index"
+    },
+    {
+      "chiave": "index.txt3",
+      "tipo": "testo",
+      "label": "index: Competenza, ascolto e una presenza su cui contare. Infermier",
+      "pagina": "index"
+    },
+    {
+      "chiave": "index.txt4",
+      "tipo": "testo",
+      "label": "index: COSA POSSIAMO FARE PER TE",
+      "pagina": "index"
+    },
+    {
+      "chiave": "index.txt5",
+      "tipo": "testo",
+      "label": "index: PARTIAMO DA TE",
+      "pagina": "index"
+    },
+    {
+      "chiave": "index.txt6",
+      "tipo": "testo",
+      "label": "index: Non sai da dove iniziare? Facciamo il primo passo insieme.",
+      "pagina": "index"
+    },
+    {
+      "chiave": "index.txt7",
+      "tipo": "testo",
+      "label": "index: DENTRO ABBRACCIO",
+      "pagina": "index"
+    },
+    {
+      "chiave": "index.txt8",
+      "tipo": "testo",
+      "label": "index: ABBRACCIO × SALUS GROUP",
+      "pagina": "index"
+    },
+    {
+      "chiave": "index.txt9",
+      "tipo": "testo",
+      "label": "index: Una presenza in più. Una preoccupazione in meno.",
+      "pagina": "index"
+    },
+    {
+      "chiave": "index.vid1",
+      "tipo": "video",
+      "label": "index · video 1",
+      "pagina": "index"
+    },
+    {
+      "chiave": "index.vid2",
+      "tipo": "video",
+      "label": "index · video 2",
+      "pagina": "index"
+    },
+    {
+      "chiave": "index.vid3",
+      "tipo": "video",
+      "label": "index · video 3",
+      "pagina": "index"
+    },
+    {
+      "chiave": "lavora.testo",
+      "tipo": "testo",
+      "label": "lavora.testo",
+      "pagina": "index"
+    },
+    {
+      "chiave": "lavora.titolo",
+      "tipo": "testo",
+      "label": "lavora.titolo",
+      "pagina": "index"
+    },
+    {
+      "chiave": "percorso.titolo",
+      "tipo": "testo",
+      "label": "percorso.titolo",
+      "pagina": "index"
+    },
+    {
+      "chiave": "recensioni.eyebrow",
+      "tipo": "testo",
+      "label": "recensioni.eyebrow",
+      "pagina": "index"
+    },
+    {
+      "chiave": "recensioni.sotto",
+      "tipo": "testo",
+      "label": "recensioni.sotto",
+      "pagina": "index"
+    },
+    {
+      "chiave": "recensioni.titolo",
+      "tipo": "testo",
+      "label": "recensioni.titolo",
+      "pagina": "index"
+    },
+    {
+      "chiave": "servizi.sotto",
+      "tipo": "testo",
+      "label": "servizi.sotto",
+      "pagina": "index"
+    },
+    {
+      "chiave": "servizi.titolo",
+      "tipo": "testo",
+      "label": "servizi.titolo",
+      "pagina": "index"
+    },
+    {
+      "chiave": "shopentry.testo",
+      "tipo": "testo",
+      "label": "shopentry.testo",
+      "pagina": "index"
+    },
+    {
+      "chiave": "shopentry.titolo",
+      "tipo": "testo",
+      "label": "shopentry.titolo",
+      "pagina": "index"
+    },
+    {
+      "chiave": "storie.fotoImg",
+      "tipo": "foto",
+      "label": "storie.fotoImg",
+      "pagina": "index"
+    },
+    {
+      "chiave": "storie.nota",
+      "tipo": "testo",
+      "label": "storie.nota",
+      "pagina": "index"
+    },
+    {
+      "chiave": "storie.sotto",
+      "tipo": "testo",
+      "label": "storie.sotto",
+      "pagina": "index"
+    },
+    {
+      "chiave": "storie.titolo",
+      "tipo": "testo",
+      "label": "storie.titolo",
+      "pagina": "index"
+    },
+    {
+      "chiave": "storie.videoImg",
+      "tipo": "foto",
+      "label": "storie.videoImg",
+      "pagina": "index"
+    },
+    {
+      "chiave": "infermiere-a-domicilio.img1",
+      "tipo": "foto",
+      "label": "infermiere-a-domicilio: Abbraccio Cure Domiciliari",
+      "pagina": "infermiere-a-domicilio"
+    },
+    {
+      "chiave": "infermiere-a-domicilio.img10",
+      "tipo": "foto",
+      "label": "infermiere-a-domicilio · immagine 10",
+      "pagina": "infermiere-a-domicilio"
+    },
+    {
+      "chiave": "infermiere-a-domicilio.img2",
+      "tipo": "foto",
+      "label": "infermiere-a-domicilio: Assistenza Infermieristica a domicilio",
+      "pagina": "infermiere-a-domicilio"
+    },
+    {
+      "chiave": "infermiere-a-domicilio.img3",
+      "tipo": "foto",
+      "label": "infermiere-a-domicilio · immagine 3",
+      "pagina": "infermiere-a-domicilio"
+    },
+    {
+      "chiave": "infermiere-a-domicilio.img4",
+      "tipo": "foto",
+      "label": "infermiere-a-domicilio · immagine 4",
+      "pagina": "infermiere-a-domicilio"
+    },
+    {
+      "chiave": "infermiere-a-domicilio.img5",
+      "tipo": "foto",
+      "label": "infermiere-a-domicilio · immagine 5",
+      "pagina": "infermiere-a-domicilio"
+    },
+    {
+      "chiave": "infermiere-a-domicilio.img6",
+      "tipo": "foto",
+      "label": "infermiere-a-domicilio · immagine 6",
+      "pagina": "infermiere-a-domicilio"
+    },
+    {
+      "chiave": "infermiere-a-domicilio.img7",
+      "tipo": "foto",
+      "label": "infermiere-a-domicilio · immagine 7",
+      "pagina": "infermiere-a-domicilio"
+    },
+    {
+      "chiave": "infermiere-a-domicilio.img8",
+      "tipo": "foto",
+      "label": "infermiere-a-domicilio · immagine 8",
+      "pagina": "infermiere-a-domicilio"
+    },
+    {
+      "chiave": "infermiere-a-domicilio.img9",
+      "tipo": "foto",
+      "label": "infermiere-a-domicilio · immagine 9",
+      "pagina": "infermiere-a-domicilio"
+    },
+    {
+      "chiave": "infermiere-a-domicilio.txt1",
+      "tipo": "testo",
+      "label": "infermiere-a-domicilio: Assistenza Infermieristica a domicilio",
+      "pagina": "infermiere-a-domicilio"
+    },
+    {
+      "chiave": "infermiere-a-domicilio.txt2",
+      "tipo": "testo",
+      "label": "infermiere-a-domicilio: La assistenza infermieristica di Abbraccio garantisce terapi",
+      "pagina": "infermiere-a-domicilio"
+    },
+    {
+      "chiave": "infermiere-a-domicilio.txt3",
+      "tipo": "testo",
+      "label": "infermiere-a-domicilio: Attività previste dal nostro servizio di Assistenza Infermie",
+      "pagina": "infermiere-a-domicilio"
+    },
+    {
+      "chiave": "infermiere-a-domicilio.txt4",
+      "tipo": "testo",
+      "label": "infermiere-a-domicilio: Scopri tutti i servizi a domicilio",
+      "pagina": "infermiere-a-domicilio"
+    },
+    {
+      "chiave": "infermiere-a-domicilio.txt5",
+      "tipo": "testo",
+      "label": "infermiere-a-domicilio: FAQ — Assistenza Infermieristica",
+      "pagina": "infermiere-a-domicilio"
+    },
+    {
+      "chiave": "intermediazione.img1",
+      "tipo": "foto",
+      "label": "intermediazione: Abbraccio Cure Domiciliari",
+      "pagina": "intermediazione"
+    },
+    {
+      "chiave": "intermediazione.img10",
+      "tipo": "foto",
+      "label": "intermediazione · immagine 10",
+      "pagina": "intermediazione"
+    },
+    {
+      "chiave": "intermediazione.img11",
+      "tipo": "foto",
+      "label": "intermediazione · immagine 11",
+      "pagina": "intermediazione"
+    },
+    {
+      "chiave": "intermediazione.img12",
+      "tipo": "foto",
+      "label": "intermediazione · immagine 12",
+      "pagina": "intermediazione"
+    },
+    {
+      "chiave": "intermediazione.img2",
+      "tipo": "foto",
+      "label": "intermediazione: Salus Group - Divisione Datoriale Casimpresa",
+      "pagina": "intermediazione"
+    },
+    {
+      "chiave": "intermediazione.img3",
+      "tipo": "foto",
+      "label": "intermediazione: Intermediazione Badanti e Colf - Abbraccio x Salus Group",
+      "pagina": "intermediazione"
+    },
+    {
+      "chiave": "intermediazione.img4",
+      "tipo": "foto",
+      "label": "intermediazione · immagine 4",
+      "pagina": "intermediazione"
+    },
+    {
+      "chiave": "intermediazione.img5",
+      "tipo": "foto",
+      "label": "intermediazione · immagine 5",
+      "pagina": "intermediazione"
+    },
+    {
+      "chiave": "intermediazione.img6",
+      "tipo": "foto",
+      "label": "intermediazione · immagine 6",
+      "pagina": "intermediazione"
+    },
+    {
+      "chiave": "intermediazione.img7",
+      "tipo": "foto",
+      "label": "intermediazione · immagine 7",
+      "pagina": "intermediazione"
+    },
+    {
+      "chiave": "intermediazione.img8",
+      "tipo": "foto",
+      "label": "intermediazione · immagine 8",
+      "pagina": "intermediazione"
+    },
+    {
+      "chiave": "intermediazione.img9",
+      "tipo": "foto",
+      "label": "intermediazione · immagine 9",
+      "pagina": "intermediazione"
+    },
+    {
+      "chiave": "intermediazione.txt1",
+      "tipo": "testo",
+      "label": "intermediazione: Intermediazione Badanti, Colf e Assistenti Familiari",
+      "pagina": "intermediazione"
+    },
+    {
+      "chiave": "intermediazione.txt2",
+      "tipo": "testo",
+      "label": "intermediazione: Il servizio di intermediazione di Abbraccio ti aiuta a trova",
+      "pagina": "intermediazione"
+    },
+    {
+      "chiave": "intermediazione.txt3",
+      "tipo": "testo",
+      "label": "intermediazione: Cosa comprende il servizio di Intermediazione Badanti e Colf",
+      "pagina": "intermediazione"
+    },
+    {
+      "chiave": "intermediazione.txt4",
+      "tipo": "testo",
+      "label": "intermediazione: Scopri tutti i servizi a domicilio",
+      "pagina": "intermediazione"
+    },
+    {
+      "chiave": "intermediazione.txt5",
+      "tipo": "testo",
+      "label": "intermediazione: FAQ — Intermediazione Badanti e Colf",
+      "pagina": "intermediazione"
+    },
+    {
+      "chiave": "lavora-con-noi.img1",
+      "tipo": "foto",
+      "label": "lavora-con-noi: Abbraccio Cure Domiciliari",
+      "pagina": "lavora-con-noi"
+    },
+    {
+      "chiave": "lavora-con-noi.txt1",
+      "tipo": "testo",
+      "label": "lavora-con-noi: Il prossimo passo, insieme ad Abbraccio.",
+      "pagina": "lavora-con-noi"
+    },
+    {
+      "chiave": "lavora-con-noi.txt2",
+      "tipo": "testo",
+      "label": "lavora-con-noi: Infermieri, OSS, medici, badanti, assistenti familiari e col",
+      "pagina": "lavora-con-noi"
+    },
+    {
+      "chiave": "news.img1",
+      "tipo": "foto",
+      "label": "news: Abbraccio Cure Domiciliari",
+      "pagina": "news"
+    },
+    {
+      "chiave": "news.txt1",
+      "tipo": "testo",
+      "label": "news: News e consigli",
+      "pagina": "news"
+    },
+    {
+      "chiave": "prelievi-ematici.img1",
+      "tipo": "foto",
+      "label": "prelievi-ematici: Abbraccio Cure Domiciliari",
+      "pagina": "prelievi-ematici"
+    },
+    {
+      "chiave": "prelievi-ematici.img10",
+      "tipo": "foto",
+      "label": "prelievi-ematici · immagine 10",
+      "pagina": "prelievi-ematici"
+    },
+    {
+      "chiave": "prelievi-ematici.img11",
+      "tipo": "foto",
+      "label": "prelievi-ematici · immagine 11",
+      "pagina": "prelievi-ematici"
+    },
+    {
+      "chiave": "prelievi-ematici.img2",
+      "tipo": "foto",
+      "label": "prelievi-ematici: Prelievi Ematici a domicilio",
+      "pagina": "prelievi-ematici"
+    },
+    {
+      "chiave": "prelievi-ematici.img3",
+      "tipo": "foto",
+      "label": "prelievi-ematici · immagine 3",
+      "pagina": "prelievi-ematici"
+    },
+    {
+      "chiave": "prelievi-ematici.img4",
+      "tipo": "foto",
+      "label": "prelievi-ematici · immagine 4",
+      "pagina": "prelievi-ematici"
+    },
+    {
+      "chiave": "prelievi-ematici.img5",
+      "tipo": "foto",
+      "label": "prelievi-ematici · immagine 5",
+      "pagina": "prelievi-ematici"
+    },
+    {
+      "chiave": "prelievi-ematici.img6",
+      "tipo": "foto",
+      "label": "prelievi-ematici · immagine 6",
+      "pagina": "prelievi-ematici"
+    },
+    {
+      "chiave": "prelievi-ematici.img7",
+      "tipo": "foto",
+      "label": "prelievi-ematici · immagine 7",
+      "pagina": "prelievi-ematici"
+    },
+    {
+      "chiave": "prelievi-ematici.img8",
+      "tipo": "foto",
+      "label": "prelievi-ematici · immagine 8",
+      "pagina": "prelievi-ematici"
+    },
+    {
+      "chiave": "prelievi-ematici.img9",
+      "tipo": "foto",
+      "label": "prelievi-ematici · immagine 9",
+      "pagina": "prelievi-ematici"
+    },
+    {
+      "chiave": "prelievi-ematici.txt1",
+      "tipo": "testo",
+      "label": "prelievi-ematici: Prelievi Ematici a domicilio",
+      "pagina": "prelievi-ematici"
+    },
+    {
+      "chiave": "prelievi-ematici.txt2",
+      "tipo": "testo",
+      "label": "prelievi-ematici: La Prelievi Ematici di Abbraccio è un esame strumentale a do",
+      "pagina": "prelievi-ematici"
+    },
+    {
+      "chiave": "prelievi-ematici.txt3",
+      "tipo": "testo",
+      "label": "prelievi-ematici: Cosa include l'esame",
+      "pagina": "prelievi-ematici"
+    },
+    {
+      "chiave": "prelievi-ematici.txt4",
+      "tipo": "testo",
+      "label": "prelievi-ematici: Scopri tutti gli esami a domicilio",
+      "pagina": "prelievi-ematici"
+    },
+    {
+      "chiave": "prelievi-ematici.txt5",
+      "tipo": "testo",
+      "label": "prelievi-ematici: FAQ — Prelievi Ematici",
+      "pagina": "prelievi-ematici"
+    },
+    {
+      "chiave": "privacy-candidature.img1",
+      "tipo": "foto",
+      "label": "privacy-candidature: Abbraccio Cure Domiciliari",
+      "pagina": "privacy-candidature"
+    },
+    {
+      "chiave": "privacy-candidature.txt1",
+      "tipo": "testo",
+      "label": "privacy-candidature: Come trattiamo i dati della tua candidatura.",
+      "pagina": "privacy-candidature"
+    },
+    {
+      "chiave": "privacy-candidature.txt2",
+      "tipo": "testo",
+      "label": "privacy-candidature: 1. Titolare del trattamento",
+      "pagina": "privacy-candidature"
+    },
+    {
+      "chiave": "privacy-candidature.txt3",
+      "tipo": "testo",
+      "label": "privacy-candidature: 2. Dati raccolti",
+      "pagina": "privacy-candidature"
+    },
+    {
+      "chiave": "privacy-candidature.txt4",
+      "tipo": "testo",
+      "label": "privacy-candidature: 3. Finalità e base giuridica",
+      "pagina": "privacy-candidature"
+    },
+    {
+      "chiave": "privacy-candidature.txt5",
+      "tipo": "testo",
+      "label": "privacy-candidature: 4. Modalità e conservazione",
+      "pagina": "privacy-candidature"
+    },
+    {
+      "chiave": "privacy-candidature.txt6",
+      "tipo": "testo",
+      "label": "privacy-candidature: 5. Comunicazione a terzi",
+      "pagina": "privacy-candidature"
+    },
+    {
+      "chiave": "privacy-candidature.txt7",
+      "tipo": "testo",
+      "label": "privacy-candidature: 6. I tuoi diritti",
+      "pagina": "privacy-candidature"
+    },
+    {
+      "chiave": "privacy-candidature.txt8",
+      "tipo": "testo",
+      "label": "privacy-candidature: 7. Natura del conferimento",
+      "pagina": "privacy-candidature"
+    },
+    {
+      "chiave": "privacy.img1",
+      "tipo": "foto",
+      "label": "privacy: Abbraccio Cure Domiciliari",
+      "pagina": "privacy"
+    },
+    {
+      "chiave": "privacy.txt1",
+      "tipo": "testo",
+      "label": "privacy: Informativa Privacy",
+      "pagina": "privacy"
+    },
+    {
+      "chiave": "privacy.txt2",
+      "tipo": "testo",
+      "label": "privacy: 1. Titolare del trattamento",
+      "pagina": "privacy"
+    },
+    {
+      "chiave": "privacy.txt3",
+      "tipo": "testo",
+      "label": "privacy: 2. Quali dati raccogliamo",
+      "pagina": "privacy"
+    },
+    {
+      "chiave": "privacy.txt4",
+      "tipo": "testo",
+      "label": "privacy: 3. Perché trattiamo i tuoi dati",
+      "pagina": "privacy"
+    },
+    {
+      "chiave": "privacy.txt5",
+      "tipo": "testo",
+      "label": "privacy: 4. Come e dove vengono trattati",
+      "pagina": "privacy"
+    },
+    {
+      "chiave": "privacy.txt6",
+      "tipo": "testo",
+      "label": "privacy: 5. Per quanto tempo li conserviamo",
+      "pagina": "privacy"
+    },
+    {
+      "chiave": "privacy.txt7",
+      "tipo": "testo",
+      "label": "privacy: 6. A chi possono essere comunicati",
+      "pagina": "privacy"
+    },
+    {
+      "chiave": "privacy.txt8",
+      "tipo": "testo",
+      "label": "privacy: 7. I tuoi diritti",
+      "pagina": "privacy"
+    },
+    {
+      "chiave": "privacy.txt9",
+      "tipo": "testo",
+      "label": "privacy: 8. Cookie",
+      "pagina": "privacy"
+    },
+    {
+      "chiave": "psicologia-a-domicilio.img1",
+      "tipo": "foto",
+      "label": "psicologia-a-domicilio: Abbraccio Cure Domiciliari",
+      "pagina": "psicologia-a-domicilio"
+    },
+    {
+      "chiave": "psicologia-a-domicilio.img10",
+      "tipo": "foto",
+      "label": "psicologia-a-domicilio · immagine 10",
+      "pagina": "psicologia-a-domicilio"
+    },
+    {
+      "chiave": "psicologia-a-domicilio.img2",
+      "tipo": "foto",
+      "label": "psicologia-a-domicilio: Terapia psicologica a domicilio",
+      "pagina": "psicologia-a-domicilio"
+    },
+    {
+      "chiave": "psicologia-a-domicilio.img3",
+      "tipo": "foto",
+      "label": "psicologia-a-domicilio · immagine 3",
+      "pagina": "psicologia-a-domicilio"
+    },
+    {
+      "chiave": "psicologia-a-domicilio.img4",
+      "tipo": "foto",
+      "label": "psicologia-a-domicilio · immagine 4",
+      "pagina": "psicologia-a-domicilio"
+    },
+    {
+      "chiave": "psicologia-a-domicilio.img5",
+      "tipo": "foto",
+      "label": "psicologia-a-domicilio · immagine 5",
+      "pagina": "psicologia-a-domicilio"
+    },
+    {
+      "chiave": "psicologia-a-domicilio.img6",
+      "tipo": "foto",
+      "label": "psicologia-a-domicilio · immagine 6",
+      "pagina": "psicologia-a-domicilio"
+    },
+    {
+      "chiave": "psicologia-a-domicilio.img7",
+      "tipo": "foto",
+      "label": "psicologia-a-domicilio · immagine 7",
+      "pagina": "psicologia-a-domicilio"
+    },
+    {
+      "chiave": "psicologia-a-domicilio.img8",
+      "tipo": "foto",
+      "label": "psicologia-a-domicilio · immagine 8",
+      "pagina": "psicologia-a-domicilio"
+    },
+    {
+      "chiave": "psicologia-a-domicilio.img9",
+      "tipo": "foto",
+      "label": "psicologia-a-domicilio · immagine 9",
+      "pagina": "psicologia-a-domicilio"
+    },
+    {
+      "chiave": "psicologia-a-domicilio.txt1",
+      "tipo": "testo",
+      "label": "psicologia-a-domicilio: Terapia psicologica a domicilio",
+      "pagina": "psicologia-a-domicilio"
+    },
+    {
+      "chiave": "psicologia-a-domicilio.txt2",
+      "tipo": "testo",
+      "label": "psicologia-a-domicilio: La terapia psicologica di Abbraccio offre percorsi di suppor",
+      "pagina": "psicologia-a-domicilio"
+    },
+    {
+      "chiave": "psicologia-a-domicilio.txt3",
+      "tipo": "testo",
+      "label": "psicologia-a-domicilio: Attività previste dal nostro servizio di Terapia psicologica",
+      "pagina": "psicologia-a-domicilio"
+    },
+    {
+      "chiave": "psicologia-a-domicilio.txt4",
+      "tipo": "testo",
+      "label": "psicologia-a-domicilio: Scopri tutti i servizi a domicilio",
+      "pagina": "psicologia-a-domicilio"
+    },
+    {
+      "chiave": "psicologia-a-domicilio.txt5",
+      "tipo": "testo",
+      "label": "psicologia-a-domicilio: FAQ — Terapia psicologica",
+      "pagina": "psicologia-a-domicilio"
+    },
+    {
+      "chiave": "rx-domiciliare.img1",
+      "tipo": "foto",
+      "label": "rx-domiciliare: Abbraccio Cure Domiciliari",
+      "pagina": "rx-domiciliare"
+    },
+    {
+      "chiave": "rx-domiciliare.img10",
+      "tipo": "foto",
+      "label": "rx-domiciliare · immagine 10",
+      "pagina": "rx-domiciliare"
+    },
+    {
+      "chiave": "rx-domiciliare.img11",
+      "tipo": "foto",
+      "label": "rx-domiciliare · immagine 11",
+      "pagina": "rx-domiciliare"
+    },
+    {
+      "chiave": "rx-domiciliare.img2",
+      "tipo": "foto",
+      "label": "rx-domiciliare: RX Domiciliare a domicilio",
+      "pagina": "rx-domiciliare"
+    },
+    {
+      "chiave": "rx-domiciliare.img3",
+      "tipo": "foto",
+      "label": "rx-domiciliare · immagine 3",
+      "pagina": "rx-domiciliare"
+    },
+    {
+      "chiave": "rx-domiciliare.img4",
+      "tipo": "foto",
+      "label": "rx-domiciliare · immagine 4",
+      "pagina": "rx-domiciliare"
+    },
+    {
+      "chiave": "rx-domiciliare.img5",
+      "tipo": "foto",
+      "label": "rx-domiciliare · immagine 5",
+      "pagina": "rx-domiciliare"
+    },
+    {
+      "chiave": "rx-domiciliare.img6",
+      "tipo": "foto",
+      "label": "rx-domiciliare · immagine 6",
+      "pagina": "rx-domiciliare"
+    },
+    {
+      "chiave": "rx-domiciliare.img7",
+      "tipo": "foto",
+      "label": "rx-domiciliare · immagine 7",
+      "pagina": "rx-domiciliare"
+    },
+    {
+      "chiave": "rx-domiciliare.img8",
+      "tipo": "foto",
+      "label": "rx-domiciliare · immagine 8",
+      "pagina": "rx-domiciliare"
+    },
+    {
+      "chiave": "rx-domiciliare.img9",
+      "tipo": "foto",
+      "label": "rx-domiciliare · immagine 9",
+      "pagina": "rx-domiciliare"
+    },
+    {
+      "chiave": "rx-domiciliare.txt1",
+      "tipo": "testo",
+      "label": "rx-domiciliare: RX Domiciliare a domicilio",
+      "pagina": "rx-domiciliare"
+    },
+    {
+      "chiave": "rx-domiciliare.txt2",
+      "tipo": "testo",
+      "label": "rx-domiciliare: La RX Domiciliare di Abbraccio è un esame strumentale a domi",
+      "pagina": "rx-domiciliare"
+    },
+    {
+      "chiave": "rx-domiciliare.txt3",
+      "tipo": "testo",
+      "label": "rx-domiciliare: Cosa include l'esame",
+      "pagina": "rx-domiciliare"
+    },
+    {
+      "chiave": "rx-domiciliare.txt4",
+      "tipo": "testo",
+      "label": "rx-domiciliare: Scopri tutti gli esami a domicilio",
+      "pagina": "rx-domiciliare"
+    },
+    {
+      "chiave": "rx-domiciliare.txt5",
+      "tipo": "testo",
+      "label": "rx-domiciliare: FAQ — RX Domiciliare",
+      "pagina": "rx-domiciliare"
+    },
+    {
+      "chiave": "saturimetria-spirometria.img1",
+      "tipo": "foto",
+      "label": "saturimetria-spirometria: Abbraccio Cure Domiciliari",
+      "pagina": "saturimetria-spirometria"
+    },
+    {
+      "chiave": "saturimetria-spirometria.img10",
+      "tipo": "foto",
+      "label": "saturimetria-spirometria · immagine 10",
+      "pagina": "saturimetria-spirometria"
+    },
+    {
+      "chiave": "saturimetria-spirometria.img11",
+      "tipo": "foto",
+      "label": "saturimetria-spirometria · immagine 11",
+      "pagina": "saturimetria-spirometria"
+    },
+    {
+      "chiave": "saturimetria-spirometria.img2",
+      "tipo": "foto",
+      "label": "saturimetria-spirometria: Saturimetria e Spirometria a domicilio",
+      "pagina": "saturimetria-spirometria"
+    },
+    {
+      "chiave": "saturimetria-spirometria.img3",
+      "tipo": "foto",
+      "label": "saturimetria-spirometria · immagine 3",
+      "pagina": "saturimetria-spirometria"
+    },
+    {
+      "chiave": "saturimetria-spirometria.img4",
+      "tipo": "foto",
+      "label": "saturimetria-spirometria · immagine 4",
+      "pagina": "saturimetria-spirometria"
+    },
+    {
+      "chiave": "saturimetria-spirometria.img5",
+      "tipo": "foto",
+      "label": "saturimetria-spirometria · immagine 5",
+      "pagina": "saturimetria-spirometria"
+    },
+    {
+      "chiave": "saturimetria-spirometria.img6",
+      "tipo": "foto",
+      "label": "saturimetria-spirometria · immagine 6",
+      "pagina": "saturimetria-spirometria"
+    },
+    {
+      "chiave": "saturimetria-spirometria.img7",
+      "tipo": "foto",
+      "label": "saturimetria-spirometria · immagine 7",
+      "pagina": "saturimetria-spirometria"
+    },
+    {
+      "chiave": "saturimetria-spirometria.img8",
+      "tipo": "foto",
+      "label": "saturimetria-spirometria · immagine 8",
+      "pagina": "saturimetria-spirometria"
+    },
+    {
+      "chiave": "saturimetria-spirometria.img9",
+      "tipo": "foto",
+      "label": "saturimetria-spirometria · immagine 9",
+      "pagina": "saturimetria-spirometria"
+    },
+    {
+      "chiave": "saturimetria-spirometria.txt1",
+      "tipo": "testo",
+      "label": "saturimetria-spirometria: Saturimetria e Spirometria a domicilio",
+      "pagina": "saturimetria-spirometria"
+    },
+    {
+      "chiave": "saturimetria-spirometria.txt2",
+      "tipo": "testo",
+      "label": "saturimetria-spirometria: La Saturimetria e Spirometria di Abbraccio è un esame strume",
+      "pagina": "saturimetria-spirometria"
+    },
+    {
+      "chiave": "saturimetria-spirometria.txt3",
+      "tipo": "testo",
+      "label": "saturimetria-spirometria: Cosa include l'esame",
+      "pagina": "saturimetria-spirometria"
+    },
+    {
+      "chiave": "saturimetria-spirometria.txt4",
+      "tipo": "testo",
+      "label": "saturimetria-spirometria: Scopri tutti gli esami a domicilio",
+      "pagina": "saturimetria-spirometria"
+    },
+    {
+      "chiave": "saturimetria-spirometria.txt5",
+      "tipo": "testo",
+      "label": "saturimetria-spirometria: FAQ — Saturimetria e Spirometria",
+      "pagina": "saturimetria-spirometria"
+    },
+    {
+      "chiave": "screening-cardiaci.img1",
+      "tipo": "foto",
+      "label": "screening-cardiaci: Abbraccio Cure Domiciliari",
+      "pagina": "screening-cardiaci"
+    },
+    {
+      "chiave": "screening-cardiaci.img10",
+      "tipo": "foto",
+      "label": "screening-cardiaci · immagine 10",
+      "pagina": "screening-cardiaci"
+    },
+    {
+      "chiave": "screening-cardiaci.img11",
+      "tipo": "foto",
+      "label": "screening-cardiaci · immagine 11",
+      "pagina": "screening-cardiaci"
+    },
+    {
+      "chiave": "screening-cardiaci.img2",
+      "tipo": "foto",
+      "label": "screening-cardiaci: Screening Cardiaci a domicilio",
+      "pagina": "screening-cardiaci"
+    },
+    {
+      "chiave": "screening-cardiaci.img3",
+      "tipo": "foto",
+      "label": "screening-cardiaci · immagine 3",
+      "pagina": "screening-cardiaci"
+    },
+    {
+      "chiave": "screening-cardiaci.img4",
+      "tipo": "foto",
+      "label": "screening-cardiaci · immagine 4",
+      "pagina": "screening-cardiaci"
+    },
+    {
+      "chiave": "screening-cardiaci.img5",
+      "tipo": "foto",
+      "label": "screening-cardiaci · immagine 5",
+      "pagina": "screening-cardiaci"
+    },
+    {
+      "chiave": "screening-cardiaci.img6",
+      "tipo": "foto",
+      "label": "screening-cardiaci · immagine 6",
+      "pagina": "screening-cardiaci"
+    },
+    {
+      "chiave": "screening-cardiaci.img7",
+      "tipo": "foto",
+      "label": "screening-cardiaci · immagine 7",
+      "pagina": "screening-cardiaci"
+    },
+    {
+      "chiave": "screening-cardiaci.img8",
+      "tipo": "foto",
+      "label": "screening-cardiaci · immagine 8",
+      "pagina": "screening-cardiaci"
+    },
+    {
+      "chiave": "screening-cardiaci.img9",
+      "tipo": "foto",
+      "label": "screening-cardiaci · immagine 9",
+      "pagina": "screening-cardiaci"
+    },
+    {
+      "chiave": "screening-cardiaci.txt1",
+      "tipo": "testo",
+      "label": "screening-cardiaci: Screening Cardiaci a domicilio",
+      "pagina": "screening-cardiaci"
+    },
+    {
+      "chiave": "screening-cardiaci.txt2",
+      "tipo": "testo",
+      "label": "screening-cardiaci: La Screening Cardiaci di Abbraccio è un esame strumentale a ",
+      "pagina": "screening-cardiaci"
+    },
+    {
+      "chiave": "screening-cardiaci.txt3",
+      "tipo": "testo",
+      "label": "screening-cardiaci: Cosa include l'esame",
+      "pagina": "screening-cardiaci"
+    },
+    {
+      "chiave": "screening-cardiaci.txt4",
+      "tipo": "testo",
+      "label": "screening-cardiaci: Scopri tutti gli esami a domicilio",
+      "pagina": "screening-cardiaci"
+    },
+    {
+      "chiave": "screening-cardiaci.txt5",
+      "tipo": "testo",
+      "label": "screening-cardiaci: FAQ — Screening Cardiaci",
+      "pagina": "screening-cardiaci"
+    },
+    {
+      "chiave": "servizio-ambulanza.img1",
+      "tipo": "foto",
+      "label": "servizio-ambulanza: Abbraccio Cure Domiciliari",
+      "pagina": "servizio-ambulanza"
+    },
+    {
+      "chiave": "servizio-ambulanza.img10",
+      "tipo": "foto",
+      "label": "servizio-ambulanza · immagine 10",
+      "pagina": "servizio-ambulanza"
+    },
+    {
+      "chiave": "servizio-ambulanza.img2",
+      "tipo": "foto",
+      "label": "servizio-ambulanza: Servizio Ambulanza",
+      "pagina": "servizio-ambulanza"
+    },
+    {
+      "chiave": "servizio-ambulanza.img3",
+      "tipo": "foto",
+      "label": "servizio-ambulanza · immagine 3",
+      "pagina": "servizio-ambulanza"
+    },
+    {
+      "chiave": "servizio-ambulanza.img4",
+      "tipo": "foto",
+      "label": "servizio-ambulanza · immagine 4",
+      "pagina": "servizio-ambulanza"
+    },
+    {
+      "chiave": "servizio-ambulanza.img5",
+      "tipo": "foto",
+      "label": "servizio-ambulanza · immagine 5",
+      "pagina": "servizio-ambulanza"
+    },
+    {
+      "chiave": "servizio-ambulanza.img6",
+      "tipo": "foto",
+      "label": "servizio-ambulanza · immagine 6",
+      "pagina": "servizio-ambulanza"
+    },
+    {
+      "chiave": "servizio-ambulanza.img7",
+      "tipo": "foto",
+      "label": "servizio-ambulanza · immagine 7",
+      "pagina": "servizio-ambulanza"
+    },
+    {
+      "chiave": "servizio-ambulanza.img8",
+      "tipo": "foto",
+      "label": "servizio-ambulanza · immagine 8",
+      "pagina": "servizio-ambulanza"
+    },
+    {
+      "chiave": "servizio-ambulanza.img9",
+      "tipo": "foto",
+      "label": "servizio-ambulanza · immagine 9",
+      "pagina": "servizio-ambulanza"
+    },
+    {
+      "chiave": "servizio-ambulanza.txt1",
+      "tipo": "testo",
+      "label": "servizio-ambulanza: Servizio Ambulanza",
+      "pagina": "servizio-ambulanza"
+    },
+    {
+      "chiave": "servizio-ambulanza.txt2",
+      "tipo": "testo",
+      "label": "servizio-ambulanza: Il servizio ambulanza di Abbraccio offre trasporto sanitario",
+      "pagina": "servizio-ambulanza"
+    },
+    {
+      "chiave": "servizio-ambulanza.txt3",
+      "tipo": "testo",
+      "label": "servizio-ambulanza: Attività previste dal nostro servizio di Servizio Ambulanza:",
+      "pagina": "servizio-ambulanza"
+    },
+    {
+      "chiave": "servizio-ambulanza.txt4",
+      "tipo": "testo",
+      "label": "servizio-ambulanza: Scopri tutti i servizi a domicilio",
+      "pagina": "servizio-ambulanza"
+    },
+    {
+      "chiave": "servizio-ambulanza.txt5",
+      "tipo": "testo",
+      "label": "servizio-ambulanza: FAQ — Servizio Ambulanza",
+      "pagina": "servizio-ambulanza"
+    },
+    {
+      "chiave": "servizi.img1",
+      "tipo": "foto",
+      "label": "servizi: Abbraccio Cure Domiciliari",
+      "pagina": "servizi"
+    },
+    {
+      "chiave": "servizi.txt1",
+      "tipo": "testo",
+      "label": "servizi: IL TARIFFARIO ABBRACCIO",
+      "pagina": "servizi"
+    },
+    {
+      "chiave": "servizi.txt2",
+      "tipo": "testo",
+      "label": "servizi: Prestazioni domiciliari",
+      "pagina": "servizi"
+    },
+    {
+      "chiave": "servizi.txt3",
+      "tipo": "testo",
+      "label": "servizi: Scegli la categoria",
+      "pagina": "servizi"
+    },
+    {
+      "chiave": "servizi.txt4",
+      "tipo": "testo",
+      "label": "servizi: Ti aiutiamo a scegliere.",
+      "pagina": "servizi"
+    },
+    {
+      "chiave": "shop.img1",
+      "tipo": "foto",
+      "label": "shop: Abbraccio Cure Domiciliari",
+      "pagina": "shop"
+    },
+    {
+      "chiave": "shop.txt1",
+      "tipo": "testo",
+      "label": "shop: Il benessere di casa tua, a portata di clic",
+      "pagina": "shop"
+    },
+    {
+      "chiave": "shop.txt2",
+      "tipo": "testo",
+      "label": "shop: Cosa stai cercando?",
+      "pagina": "shop"
+    },
+    {
+      "chiave": "shop.txt3",
+      "tipo": "testo",
+      "label": "shop: Serve una mano a scegliere?",
+      "pagina": "shop"
+    },
+    {
+      "chiave": "telemedicina.img1",
+      "tipo": "foto",
+      "label": "telemedicina: Abbraccio Cure Domiciliari",
+      "pagina": "telemedicina"
+    },
+    {
+      "chiave": "telemedicina.img2",
+      "tipo": "foto",
+      "label": "telemedicina: Telemedicina Abbraccio - Cure a distanza",
+      "pagina": "telemedicina"
+    },
+    {
+      "chiave": "telemedicina.txt1",
+      "tipo": "testo",
+      "label": "telemedicina: Telemedicina — Cure a Distanza",
+      "pagina": "telemedicina"
+    },
+    {
+      "chiave": "telemedicina.txt2",
+      "tipo": "testo",
+      "label": "telemedicina: La tua salute, comodamente a casa tua: il nostro ambulatorio",
+      "pagina": "telemedicina"
+    },
+    {
+      "chiave": "telemedicina.txt3",
+      "tipo": "testo",
+      "label": "telemedicina: Cosa puoi fare con la nostra Telemedicina:",
+      "pagina": "telemedicina"
+    },
+    {
+      "chiave": "telemedicina.txt4",
+      "tipo": "testo",
+      "label": "telemedicina: FAQ — Telemedicina",
+      "pagina": "telemedicina"
+    },
+    {
+      "chiave": "visite-specialistiche.img1",
+      "tipo": "foto",
+      "label": "visite-specialistiche: Abbraccio Cure Domiciliari",
+      "pagina": "visite-specialistiche"
+    },
+    {
+      "chiave": "visite-specialistiche.txt1",
+      "tipo": "testo",
+      "label": "visite-specialistiche: Medici specialisti a domicilio",
+      "pagina": "visite-specialistiche"
+    },
+    {
+      "chiave": "visite-specialistiche.txt2",
+      "tipo": "testo",
+      "label": "visite-specialistiche: FAQ — Visite Specialistiche",
+      "pagina": "visite-specialistiche"
+    }
+  ]
+}

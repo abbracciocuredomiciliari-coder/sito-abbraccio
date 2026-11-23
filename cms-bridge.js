@@ -53,6 +53,18 @@
     // data-cms-img per le <img>, data-cms-bg per sfondi CSS, data-cms-video per <video>.
     const esc = s => String(s || '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
     const items = site && site.items && typeof site.items === 'object' ? site.items : {};
+    // Esposti alle gallerie costruite in JS (app.js): sostituiscono i media di default.
+    window.__cmsItems = items;
+    window.__cmsMedia = (k, fallback) => {
+      const it = items[k];
+      if (!it || blank(String(it.v))) return fallback;
+      const url = it.t === 'video' ? safeURL(it.v, VID_EXT) : it.t === 'foto' ? safeURL(it.v, IMG_EXT) : '';
+      return url || fallback;
+    };
+    window.__cmsText = (k, fallback) => {
+      const it = items[k];
+      return it && it.t === 'testo' && !blank(String(it.v)) ? String(it.v).trim() : fallback;
+    };
     Object.keys(items).forEach(k => {
       const it = items[k]; if (!it || blank(String(it.v))) return;
       if (it.t === 'testo') {
@@ -68,9 +80,9 @@
       } else if (it.t === 'video') {
         const url = safeURL(it.v, VID_EXT); if (!url) return;
         document.querySelectorAll('[data-cms-video="' + k + '"]').forEach(v => {
-          const prev = v.currentSrc || v.src || '';
+          const prev = v.currentSrc || v.src || v.dataset.src || '';
           v.addEventListener('error', () => { if (prev) { v.src = prev; v.load(); } }, { once: true });
-          v.src = url; v.load(); v.play().catch(() => {});
+          v.src = url; v.dataset.src = url; v.load(); v.play().catch(() => {});
         });
       }
     });
